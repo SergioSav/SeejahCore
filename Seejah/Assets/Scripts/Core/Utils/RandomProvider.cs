@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Core.Utils
 {
@@ -14,12 +15,12 @@ namespace Assets.Scripts.Core.Utils
         }
 
         /// <summary>
-        /// Returns random int
+        /// Random int
         /// </summary>
         /// <param name="min"> included</param>
         /// <param name="max"> included</param>
         /// <param name="result"> min - max</param>
-        /// <returns></returns>
+        /// <returns>random int</returns>
         public bool GetRandom(int min, int max, out int result)
         {
             result = min;
@@ -31,11 +32,35 @@ namespace Assets.Scripts.Core.Utils
             return true;
         }
 
+        /// <summary>
+        /// Random item from enum
+        /// </summary>
+        /// <typeparam name="T">Enum</typeparam>
+        /// <param name="result"></param>
+        /// <returns>random item from enum</returns>
         public bool GetRandom<T>(out T result) where T : Enum
         {
             var values = Enum.GetValues(typeof(T));
             var index = _generator.Next(1, values.Length); // 0 - must be 'None' always
             result = (T) values.GetValue(index);
+            return true;
+        }
+
+        /// <summary>
+        /// Random item from list
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="result"></param>
+        /// <returns>random item from list</returns>
+        public bool GetRandom<T>(List<T> list, out T result)
+        {
+            result = default;
+            if (list == null || list.Count == 0)
+                return false;
+
+            var index = _generator.Next(0, list.Count);
+            result = list[index];
             return true;
         }
     }

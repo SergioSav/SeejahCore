@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.Rules;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -15,11 +16,13 @@ namespace Assets.Scripts.Core.Models
 
         private Dictionary<RowColPair, CellModel> _cells;
         private RowColPair _cachedRowColPairForCompare;
+        private readonly GameRules _gameRules;
 
         public List<CellModel> Cells => _cells.Values.ToList();
 
-        public FieldModel()
+        public FieldModel(GameRules gameRules)
         {
+            _gameRules = gameRules;
             _cachedRowColPairForCompare = new RowColPair();
             _cells = new Dictionary<RowColPair, CellModel>();
 
@@ -34,6 +37,8 @@ namespace Assets.Scripts.Core.Models
                 for (int j = 0; j < col; j++)
                 {
                     var cell = new CellModel(i, j);
+                    if (i == _gameRules.RowCount / 2 && j == _gameRules.ColCount / 2)
+                        cell.SetCentral();
                     _cells[cell.RowColPair] = cell;
                 }
             }
@@ -51,6 +56,8 @@ namespace Assets.Scripts.Core.Models
         {
             if (GetCellInPosition(row, col, out var cell))
             {
+                if (cell.IsCentral)
+                    return false;
                 var chip = new ChipModel(team);
                 cell.SetChip(chip);
                 _addChip.SetValueAndForceNotify(cell);

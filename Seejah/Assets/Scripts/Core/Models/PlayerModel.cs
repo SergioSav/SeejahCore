@@ -2,11 +2,13 @@
 {
     public class PlayerModel
     {
-        private int _teamId;
+        private TeamType _teamType;
 
-        public PlayerModel(int teamId)
+        public TeamType TeamType => _teamType;
+
+        public PlayerModel(TeamType teamType)
         {
-            _teamId = teamId;
+            _teamType = teamType;
         }
     }
 }

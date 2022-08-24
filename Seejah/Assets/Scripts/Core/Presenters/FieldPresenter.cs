@@ -69,7 +69,7 @@ namespace Assets.Scripts.Core.Presenters
 
             var pos = new Vector3(cell.RowColPair.Row * CellSize, 0, cell.RowColPair.Col * CellSize);
             var chip = _chipViewFactory.Invoke(chipPrototype, transform);
-            chip.Setup(_matchModel.CurrentTeam);
+            chip.Setup(_matchModel.CurrentPlayer.TeamType);
             chip.UpdatePos(pos);
 
             _matchModel.HandleChipPlace();
@@ -78,11 +78,11 @@ namespace Assets.Scripts.Core.Presenters
         private void Update()
         {
             Vector3 point = default;
-            if (Input.GetMouseButtonUp(0))
+            if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip && Input.GetMouseButtonUp(0))
             {
                 point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
                 var rcp = GetRowColPairByPosition(point);
-                _fieldModel.TryGenerateChip(rcp.Row, rcp.Col, _matchModel.CurrentTeam);
+                _fieldModel.TryGenerateChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.TeamType);
                 Debug.Log($"pos = {point}, rcp = {rcp}");
             }
         }

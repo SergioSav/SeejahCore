@@ -35,7 +35,7 @@ namespace Assets.Scripts.Core.GameStates
 
         private void CreateModels()
         {
-            var players = new List<PlayerModel> { new PlayerModel(1), new PlayerModel(2) };
+            var players = new List<PlayerModel> { new PlayerModel(TeamType.TeamRed), new PlayerModel(TeamType.TeamBlue) };
             _gameModel.AddPlayers(players);
         }
     }

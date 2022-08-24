@@ -17,11 +17,11 @@ namespace Assets.Scripts.Core.Controllers
         {
             _rules = rules;
 
-            _fieldModel = new FieldModel();
+            //_fieldModel = new FieldModel();
             //_fieldModel.AddOnChangeSubscription(OnFieldModelChanged);
             //_fieldModel.AddOnAddSubscription(OnFieldModelAdd);
 
-            _fieldModel.CreateField(_rules.RowCount, _rules.ColCount);
+            //_fieldModel.CreateField(_rules.RowCount, _rules.ColCount);
         }
 
         

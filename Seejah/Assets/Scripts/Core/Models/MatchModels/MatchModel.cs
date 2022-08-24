@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Rules;
-using Assets.Scripts.Core.Utils;
-using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
@@ -9,22 +7,23 @@ namespace Assets.Scripts.Core.Models
     public class MatchModel : DisposableContainer
     {
         private ReactiveProperty<MatchStateType> _currentState;
-        private TeamType _currentTeam;
+        private PlayerModel _currentPlayer;
         private int _placementChipCount;
+        private int _totalChipCount;
 
-        private readonly RandomProvider _randomProvider;
         private readonly GameRules _rules;
+        private readonly GameModel _gameModel;
 
         public IReadOnlyReactiveProperty<MatchStateType> CurrentState => _currentState;
-        public TeamType CurrentTeam => _currentTeam;
+        public PlayerModel CurrentPlayer => _currentPlayer;
 
-        public MatchModel(RandomProvider randomProvider, GameRules rules)
+        public MatchModel(GameRules rules, GameModel gameModel)
         {
-            _randomProvider = randomProvider;
             _rules = rules;
+            _gameModel = gameModel;
 
             _currentState = AddForDispose(new ReactiveProperty<MatchStateType>(MatchStateType.None));
-            DetermineFirstTurnTeam();
+            _currentPlayer = _gameModel.ChooseFirstPlayer();
         }
 
         public void SwitchStateTo(MatchStateType state)
@@ -34,25 +33,17 @@ namespace Assets.Scripts.Core.Models
 
         public void HandleChipPlace()
         {
+            _totalChipCount++;
             _placementChipCount++;
             if (_placementChipCount == _rules.ChipPlacementCount)
             {
-                SetNextTeam();
+                _currentPlayer = _gameModel.NextPlayer();
                 _placementChipCount = 0;
             }
-        }
-
-        private void DetermineFirstTurnTeam()
-        {
-            _randomProvider.GetRandom(out _currentTeam);
-        }
-
-        private void SetNextTeam()
-        {
-            var values = Enum.GetValues(typeof(TeamType));
-            var len = values.Length;
-            var nextIndex = (int)_currentTeam % (len - 1) + 1;
-            _currentTeam = (TeamType)nextIndex;
+            if (_totalChipCount >= _rules.ChipStartCount * _gameModel.PlayerCount)
+            {
+                SwitchStateTo(MatchStateType.ReadyForPlay);
+            }
         }
     }
 }

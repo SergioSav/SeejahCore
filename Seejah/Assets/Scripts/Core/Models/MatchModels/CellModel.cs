@@ -8,6 +8,8 @@
         public RowColPair RowColPair => _rowColPair;
         public ChipModel Chip => _chip;
 
+        public bool IsCentral { get; private set; }
+
         public CellModel(int row, int col)
         {
             _rowColPair = new RowColPair();
@@ -18,6 +20,11 @@
         public void SetChip(ChipModel chip)
         {
             _chip = chip;
+        }
+
+        public void SetCentral()
+        {
+            IsCentral = true;
         }
     }
 }
