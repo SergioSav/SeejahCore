@@ -1,7 +1,7 @@
-using DefaultNamespace;
+using Assets.Scripts.Core.Models;
 using UnityEngine;
 
-public class Chip : MonoBehaviour
+public class ChipView : MonoBehaviour
 {
     public Cell cell;
     public TeamType Team { get; private set; }

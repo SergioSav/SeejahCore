@@ -14,5 +14,10 @@
             _chipPlacementCount = 2;
             _chipStartCount = 12;
         }
+
+        public int RowCount => _fieldRowCount;
+        public int ColCount => _fieldColCount;
+        public int ChipPlacementCount => _chipPlacementCount;
+        public int ChipStartCount => _chipStartCount;
     }
 }

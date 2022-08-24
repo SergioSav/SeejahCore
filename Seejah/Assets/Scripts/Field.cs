@@ -1,6 +1,6 @@
+using Assets.Scripts.Core.Models;
 using System;
 using System.Collections.Generic;
-using DefaultNamespace;
 using UnityEngine;
 
 public class Field : MonoBehaviour
@@ -9,9 +9,9 @@ public class Field : MonoBehaviour
     private const int FieldSize = 5;
     
     [SerializeField] private Cell CellPrototype;
-    [SerializeField] private Chip ChipPrototype;
+    [SerializeField] private ChipView ChipPrototype;
     private Dictionary<(int,int), Cell> _cells;
-    private Chip _selectedChip;
+    private ChipView _selectedChip;
 
     private void Start()
     {
@@ -84,7 +84,7 @@ public class Field : MonoBehaviour
 
     private void CheckNeighbours(Cell cell, TeamType movingTeam)
     {
-        var result = new List<Chip>();
+        var result = new List<ChipView>();
         var variants = new List<(int,int)>
         {
             (-1, -1),
@@ -121,7 +121,7 @@ public class Field : MonoBehaviour
         }
     }
 
-    private void DeleteChip(Chip chip)
+    private void DeleteChip(ChipView chip)
     {
         chip.cell.chip = null;
         Destroy(chip.gameObject);

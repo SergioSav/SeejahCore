@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Assets.Scripts.Core.Models;
+using System;
 
 namespace Assets.Scripts.Core.GameStates
 {
     public class CustomizationState : IUpdatableState
     {
-        private Action<GameState> _switchStateTo;
+        private GameModel _gameModel;
 
-        public CustomizationState(Action<GameState> switchStateTo)
+        public CustomizationState(GameModel gameModel)
         {
-            
-            _switchStateTo = switchStateTo;
+            _gameModel = gameModel;
         }
 
         public void OnEnter()
         {
+            //_gameModel.ChangeGameStateTo(GameState.MainMenu);
             throw new NotImplementedException();
         }
 

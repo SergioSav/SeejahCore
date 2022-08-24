@@ -1,37 +1,38 @@
-﻿using Assets.Scripts.Core.GameStates;
+﻿using Assets.Scripts.Core.Models;
+using Assets.Scripts.Core.Presenters;
+using Assets.Scripts.Core.Rules;
+using Assets.Scripts.Core.Utils;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using VContainer;
+using VContainer.Unity;
 
 namespace Assets.Scripts.Core
 {
-    public class BootScript : MonoBehaviour, IBootView
+    public class BootScript : MonoBehaviour
     {
-        private Game _game;
+        [SerializeField]
+        private GamePresenter gamePresenter;
 
-        void Start()
+        private void Start()
         {
-            _game = new Game();
-
-            var bootState = new BootState(_game, this, _game.SwitchStateTo);
-            _game.RegisterState(GameState.Boot, bootState);
-            _game.SwitchStateTo(GameState.Boot);
+            var coreScope = gameObject.AddComponent<CoreLifetimeScope>();
+            coreScope.CreateChild(InstallDependencies);
 
             DontDestroyOnLoad(this);
         }
 
-        public void Update()
+        private void InstallDependencies(IContainerBuilder builder)
         {
-            _game.Update();
-        }
+            builder.Register<RandomProvider>(Lifetime.Singleton)
+                .WithParameter(DateTime.Now.Millisecond);
 
-        public void SwitchScene()
-        {
-            SceneManager.LoadScene("SampleScene");
-        }
-    }
+            builder.Register<GameRules>(Lifetime.Singleton);// TEMP
+            builder.Register<GameModel>(Lifetime.Singleton);// TEMP
+            builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
+            builder.RegisterComponent(gamePresenter);
 
-    public interface IBootView
-    {
-        void SwitchScene();
+            builder.RegisterEntryPoint<Game>(Lifetime.Singleton);
+        }
     }
 }

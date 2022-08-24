@@ -1,25 +1,37 @@
-﻿using System;
+﻿using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.Models;
+using UniRx;
 
 namespace Assets.Scripts.Core.GameStates
 {
-    public class MainMenuState : IState
+    public class MainMenuState : DisposableContainer, IState
     {
-        private Action<GameState> _switchStateTo;
+        private GameModel _gameModel;
 
-        public MainMenuState(Action<GameState> switchStateTo)
+        public MainMenuState(GameModel gameModel)
         {
-            _switchStateTo = switchStateTo;
+            _gameModel = gameModel;
         }
 
         public void OnEnter()
         {
             UnityEngine.Debug.Log("enter main menu");
-            _switchStateTo.Invoke(GameState.PrepareMatch);
+
+            AddForDispose(_gameModel.NeedStartMatch.Subscribe(OnStartMatch));
+        }
+
+        private void OnStartMatch(bool needStart)
+        {
+            if (needStart)
+            {
+                _gameModel.ChangeGameStateTo(GameState.PrepareMatch);
+            }
         }
 
         public void OnExit()
         {
             UnityEngine.Debug.Log("exit main menu");
+            Dispose();
         }
     }
 }

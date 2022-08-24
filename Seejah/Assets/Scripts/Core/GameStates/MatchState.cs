@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Assets.Scripts.Core.Models;
+using System;
 
 namespace Assets.Scripts.Core.GameStates
 {
     public class MatchState : IUpdatableState
     {
-        private Action<GameState> _switchStateTo;
+        private readonly GameModel _gameModel;
 
-        public MatchState(Action<GameState> switchStateTo)
+        public MatchState(GameModel gameModel)
         {
-            _switchStateTo = switchStateTo;
+            _gameModel = gameModel;
         }
 
         public void OnEnter()
         {
+            //_gameModel.ChangeGameStateTo(GameState.Reward);
             throw new NotImplementedException();
         }
 
