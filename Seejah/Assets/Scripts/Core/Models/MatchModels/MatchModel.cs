@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Rules;
+using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Core.Models
     public class MatchModel : DisposableContainer
     {
         private ReactiveProperty<MatchStateType> _currentState;
-        private PlayerModel _currentPlayer;
+        private ReactiveProperty<PlayerModel> _currentPlayer;
         private int _placementChipCount;
         private int _totalChipCount;
 
@@ -15,7 +16,7 @@ namespace Assets.Scripts.Core.Models
         private readonly GameModel _gameModel;
 
         public IReadOnlyReactiveProperty<MatchStateType> CurrentState => _currentState;
-        public PlayerModel CurrentPlayer => _currentPlayer;
+        public IReadOnlyReactiveProperty<PlayerModel> CurrentPlayer => _currentPlayer;
 
         public MatchModel(GameRules rules, GameModel gameModel)
         {
@@ -23,7 +24,7 @@ namespace Assets.Scripts.Core.Models
             _gameModel = gameModel;
 
             _currentState = AddForDispose(new ReactiveProperty<MatchStateType>(MatchStateType.None));
-            _currentPlayer = _gameModel.ChooseFirstPlayer();
+            _currentPlayer = AddForDispose(new ReactiveProperty<PlayerModel>(_gameModel.ChooseFirstPlayer()));
         }
 
         public void SwitchStateTo(MatchStateType state)
@@ -35,15 +36,35 @@ namespace Assets.Scripts.Core.Models
         {
             _totalChipCount++;
             _placementChipCount++;
+            _currentPlayer.Value.AddChipInGame();
             if (_placementChipCount == _rules.ChipPlacementCount)
             {
-                _currentPlayer = _gameModel.NextPlayer();
+                _currentPlayer.Value = _gameModel.NextPlayer();
                 _placementChipCount = 0;
             }
             if (_totalChipCount >= _rules.ChipStartCount * _gameModel.PlayerCount)
             {
                 SwitchStateTo(MatchStateType.ReadyForPlay);
             }
+        }
+
+        public void HandleEndTurn()
+        {
+            //SwitchStateTo(MatchStateType.WaitNextPlayer);
+            _currentPlayer.Value = _gameModel.NextPlayer();
+            if (TestEndMatchCondition())
+                SwitchStateTo(MatchStateType.EndMatch);
+        }
+
+        private bool TestEndMatchCondition()
+        {
+            var result = false;
+            foreach (var player in _gameModel.Players)
+            {
+                result |= !player.HasEnoughChipInGame();
+            }
+            
+            return result;
         }
     }
 }

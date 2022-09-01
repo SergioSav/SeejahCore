@@ -27,8 +27,10 @@ namespace Assets.Scripts.Core
             builder.Register<RandomProvider>(Lifetime.Singleton)
                 .WithParameter(DateTime.Now.Millisecond);
 
-            builder.Register<GameRules>(Lifetime.Singleton);// TEMP
-            builder.Register<GameModel>(Lifetime.Singleton);// TEMP
+            builder.Register<GameRules>(Lifetime.Singleton);    // TEMP
+            builder.Register<GameModel>(Lifetime.Singleton);    // TEMP
+            builder.Register<FieldModel>(Lifetime.Singleton);   // TEMP
+            builder.Register<MatchModel>(Lifetime.Singleton);   // TEMP
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.RegisterComponent(gamePresenter);
 

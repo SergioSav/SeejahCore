@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using VContainer;
 using UniRx;
 
-namespace Assets.Scripts.Core.HUD.MainMenu
+namespace Assets.Scripts.Core.HUD
 {
     public class MainMenuPresenter : MonoBehPresenter
     {

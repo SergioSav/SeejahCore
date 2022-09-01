@@ -22,6 +22,11 @@
             _chip = chip;
         }
 
+        public void ClearChip()
+        {
+            _chip = null;
+        }
+
         public void SetCentral()
         {
             IsCentral = true;

@@ -1,12 +1,10 @@
-﻿using Assets.Scripts.Core.HUD.MainMenu;
+﻿using Assets.Scripts.Core.HUD;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Views;
-using System;
 using UniRx;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using static UnityEditor.PlayerSettings;
 
 namespace Assets.Scripts.Core.Presenters
 {
@@ -74,9 +72,6 @@ namespace Assets.Scripts.Core.Presenters
     {
         public void Install(IContainerBuilder builder)
         {
-            builder.Register<FieldModel>(Lifetime.Singleton);
-            builder.Register<MatchModel>(Lifetime.Singleton);
-
             builder.RegisterFactory<CellView, Transform, CellView>(container =>
             {
                 return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
@@ -89,6 +84,7 @@ namespace Assets.Scripts.Core.Presenters
             Lifetime.Singleton);
 
             builder.RegisterComponentInHierarchy<FieldPresenter>();
+            builder.RegisterComponentInHierarchy<GameplayUIPresenter>();
         }
     }
 }

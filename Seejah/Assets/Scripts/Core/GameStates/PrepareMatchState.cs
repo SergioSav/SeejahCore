@@ -1,45 +1,36 @@
-﻿using Assets.Scripts.Core.Controllers;
+﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Rules;
+using UniRx;
 
 namespace Assets.Scripts.Core.GameStates
 {
-    public class PrepareMatchState : IUpdatableState
+    public class PrepareMatchState : DisposableContainer, IState
     {
-        private readonly IGame _game;
         private GameModel _gameModel;
-        private readonly GameRules _gameRules;
-        private FieldController _fieldController;
+        private readonly MatchModel _matchModel;
 
-        public PrepareMatchState(IGame game, GameRules gameRules, GameModel gameModel)
+        public PrepareMatchState(GameModel gameModel, MatchModel matchModel)
         {
-            _game = game;
             _gameModel = gameModel;
-            _gameRules = gameRules;
+            _matchModel = matchModel;
         }
 
         public void OnEnter()
         {
             UnityEngine.Debug.Log("enter prepare match");
-            CreateField();
 
-            //_gameModel.ChangeGameStateTo(GameState.Match);
+            AddForDispose(_matchModel.CurrentState.Subscribe(OnMatchModelStateChange));
         }
 
-        private void CreateField()
+        private void OnMatchModelStateChange(MatchStateType state)
         {
-            _fieldController = new FieldController(_gameRules);
-            //_fieldController.SetView(_game.GetFieldView());
+            if (state == MatchStateType.ReadyForPlay)
+                _gameModel.ChangeGameStateTo(GameState.Match);
         }
 
         public void OnExit()
         {
             UnityEngine.Debug.Log("exit prepare match");
-        }
-
-        public void Update()
-        {
-            
         }
     }
 }

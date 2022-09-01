@@ -19,6 +19,7 @@ namespace Assets.Scripts.Core.Presenters
         private Func<CellView, Transform, CellView> _cellViewFactory;
         private Func<ChipView, Transform, ChipView> _chipViewFactory;
         private Dictionary<CellModel, CellView> _cellViews;
+        private Dictionary<CellModel, ChipView> _chipViews;
 
         [SerializeField] private CellView cellPrototype;
         [SerializeField] private ChipView chipPrototype;
@@ -36,12 +37,14 @@ namespace Assets.Scripts.Core.Presenters
             _chipViewFactory = chipViewFactory;
 
             _cellViews = new Dictionary<CellModel, CellView>();
+            _chipViews = new Dictionary<CellModel, ChipView>();
         }
 
         private void Start()
         {
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
             AddForDispose(_fieldModel.AddChip.Subscribe(OnChipAddFor));
+            AddForDispose(_fieldModel.MoveChip.Subscribe(OnChipMove));
 
             _fieldModel.CreateField(_gameRules.RowCount, _gameRules.ColCount);
 
@@ -60,6 +63,22 @@ namespace Assets.Scripts.Core.Presenters
             {
                 GenerateField(cells);
             }
+            if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
+            {
+                UpdateCells(cells);
+            }
+        }
+
+        private void UpdateCells(List<CellModel> cells)
+        {
+            foreach (var cell in cells)
+            {
+                if (cell.Chip == null)
+                {
+                    Destroy(_chipViews[cell].gameObject);
+                    _chipViews[cell] = null;
+                }
+            }
         }
 
         private void OnChipAddFor(CellModel cell)
@@ -69,21 +88,62 @@ namespace Assets.Scripts.Core.Presenters
 
             var pos = new Vector3(cell.RowColPair.Row * CellSize, 0, cell.RowColPair.Col * CellSize);
             var chip = _chipViewFactory.Invoke(chipPrototype, transform);
-            chip.Setup(_matchModel.CurrentPlayer.TeamType);
+            chip.Setup(_matchModel.CurrentPlayer.Value.TeamType);
             chip.UpdatePos(pos);
+            _chipViews[cell] = chip;
 
             _matchModel.HandleChipPlace();
+        }
+
+        private void OnChipMove(CellModel newCell)
+        {
+            if (newCell == null)
+                return;
+
+            var chipView = _chipViews[_fieldModel.SelectedCell];
+            var pos = new Vector3(newCell.RowColPair.Row * CellSize, 0, newCell.RowColPair.Col * CellSize);
+            chipView.UpdatePos(pos);
+            _chipViews[_fieldModel.SelectedCell] = null;
+            _chipViews[newCell] = chipView;
         }
 
         private void Update()
         {
             Vector3 point = default;
-            if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip && Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
             {
-                point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
-                var rcp = GetRowColPairByPosition(point);
-                _fieldModel.TryGenerateChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.TeamType);
-                Debug.Log($"pos = {point}, rcp = {rcp}");
+                RowColPair rcp = default;
+                if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip)
+                {
+                    point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
+                    rcp = GetRowColPairByPosition(point);
+                    _fieldModel.TryGenerateChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
+                    Debug.Log($"pos = {point}, rcp = {rcp}");
+                }
+                else if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
+                {
+                    point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
+                    rcp = GetRowColPairByPosition(point);
+                    if (_fieldModel.SelectedCell != null)
+                    {
+                        var isMoveSuccess = _fieldModel.TryMoveSelectedChip(rcp.Row, rcp.Col);
+                        if (isMoveSuccess)
+                        {
+                            _fieldModel.DetermineOpponentsChipForRemove(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
+                            _fieldModel.PrintFieldForDebug();
+                            _matchModel.HandleEndTurn();
+                        }
+                        else
+                        {
+                            _fieldModel.TrySelectChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
+                        }
+                    }
+                    else
+                    {
+                        _fieldModel.TrySelectChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
+                    }
+                    Debug.Log(point);
+                }
             }
         }
 
