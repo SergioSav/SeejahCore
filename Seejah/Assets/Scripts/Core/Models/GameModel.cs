@@ -60,5 +60,10 @@ namespace Assets.Scripts.Core.Models
         {
             _needStartMatch.Value = true;
         }
+
+        public void EndMatch()
+        {
+            _needStartMatch.Value = false;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.GameStates;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Rules;
 using UniRx;
 using VContainer;
 using VContainer.Unity;
@@ -28,7 +27,6 @@ namespace Assets.Scripts.Core
     public class Game : DisposableContainer, IGame
     {
         private IState _currentState;
-        private GameRules _gameRules;
         private LifetimeScope _coreScope;
         private readonly GameModel _gameModel;
         private LifetimeScope _gameScope;
@@ -98,21 +96,5 @@ namespace Assets.Scripts.Core
             _currentState = state;
             _currentState.OnEnter();
         }
-
-        //public IFieldView GetFieldView()
-        //{
-        //    // TODO: need another impl
-        //    var activeScene = SceneManager.GetActiveScene();
-        //    var gameObjects = activeScene.GetRootGameObjects();
-        //    foreach (var go in gameObjects)
-        //    {
-        //        var view = go.GetComponent<FieldView>();
-        //        if (view != null)
-        //            return view;
-        //    }
-        //    return default;
-        //}
-
-        
     }
 }

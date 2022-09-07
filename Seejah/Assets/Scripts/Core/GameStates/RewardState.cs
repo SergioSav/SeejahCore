@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Core.Models;
-using System;
+﻿using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.Models;
 
 namespace Assets.Scripts.Core.GameStates
 {
-    public class RewardState : IUpdatableState
+    public class RewardState : DisposableContainer, IState
     {
         private readonly GameModel _gameModel;
 
@@ -14,18 +14,15 @@ namespace Assets.Scripts.Core.GameStates
 
         public void OnEnter()
         {
-            //_gameModel.ChangeGameStateTo(GameState.MainMenu);
-            throw new NotImplementedException();
+            UnityEngine.Debug.Log("enter reward");
+            _gameModel.EndMatch();
+            _gameModel.ChangeGameStateTo(GameState.MainMenu);
         }
 
         public void OnExit()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update()
-        {
-            throw new NotImplementedException();
+            UnityEngine.Debug.Log("exit reward");
+            Dispose();
         }
     }
 }

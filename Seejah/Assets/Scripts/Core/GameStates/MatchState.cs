@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.Core.Models;
-using System;
+﻿using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.Models;
+using UniRx;
 
 namespace Assets.Scripts.Core.GameStates
 {
-    public class MatchState : IUpdatableState
+    public class MatchState : DisposableContainer, IState
     {
         private readonly GameModel _gameModel;
         private readonly MatchModel _matchModel;
@@ -16,20 +17,22 @@ namespace Assets.Scripts.Core.GameStates
 
         public void OnEnter()
         {
-            //_gameModel.ChangeGameStateTo(GameState.Reward);
             UnityEngine.Debug.Log("match state entered");
 
             _matchModel.SwitchStateTo(MatchStateType.WaitChipMove);
+            AddForDispose(_matchModel.CurrentState.Subscribe(OnMatchModelStateChange));
+        }
+
+        private void OnMatchModelStateChange(MatchStateType state)
+        {
+            if (state == MatchStateType.EndMatch)
+                _gameModel.ChangeGameStateTo(GameState.Reward);
         }
 
         public void OnExit()
         {
             UnityEngine.Debug.Log("match state exit");
-        }
-
-        public void Update()
-        {
-            
+            Dispose();
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Core.Views;
 using System;
+using System.Transactions;
+using System.Drawing;
+using System.Security.Cryptography;
 
 namespace Assets.Scripts.Core.Presenters
 {
@@ -45,12 +48,53 @@ namespace Assets.Scripts.Core.Presenters
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
             AddForDispose(_fieldModel.AddChip.Subscribe(OnChipAddFor));
             AddForDispose(_fieldModel.MoveChip.Subscribe(OnChipMove));
+            AddForDispose(_fieldModel.RemoveChip.Subscribe(OnChipRemove));
+            AddForDispose(_fieldModel.CellForTurn.Subscribe(OnChooseCellForTurn));
 
             _fieldModel.CreateField(_gameRules.RowCount, _gameRules.ColCount);
 
             _matchModel.SwitchStateTo(MatchStateType.WaitNextPlayer);
             // debug switch, must be after show turn panel
             _matchModel.SwitchStateTo(MatchStateType.WaitPlaceChip);
+        }
+
+        private void OnChooseCellForTurn(CellModel cell)
+        {
+            var currentPlayer = _matchModel.CurrentPlayer.Value;
+            if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip)
+            {
+                _fieldModel.TryGenerateChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
+            }
+            else if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
+            {
+                if (_fieldModel.SelectedCell != null)
+                {
+                    var isMoveSuccess = _fieldModel.TryMoveSelectedChip(cell.RowColPair.Row, cell.RowColPair.Col);
+                    if (isMoveSuccess)
+                    {
+                        var updatingCells = _fieldModel.DetermineOpponentsChipForRemove(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
+                        HandleChipRemove(updatingCells);
+                        _fieldModel.PrintFieldForDebug();
+                        _matchModel.HandleEndTurn();
+                    }
+                    else
+                    {
+                        _fieldModel.TrySelectChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
+                    }
+                }
+                else
+                {
+                    _fieldModel.TrySelectChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
+                }
+            }
+        }
+
+        private void OnChipRemove(CellModel cell)
+        {
+            if (cell == null) return;
+
+            Destroy(_chipViews[cell].gameObject);
+            _chipViews[cell] = null;
         }
 
         private void OnCellsUpdate(List<CellModel> cells)
@@ -62,22 +106,6 @@ namespace Assets.Scripts.Core.Presenters
             if (_cellViews.Count == 0)
             {
                 GenerateField(cells);
-            }
-            if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
-            {
-                UpdateCells(cells);
-            }
-        }
-
-        private void UpdateCells(List<CellModel> cells)
-        {
-            foreach (var cell in cells)
-            {
-                if (cell.Chip == null)
-                {
-                    Destroy(_chipViews[cell].gameObject);
-                    _chipViews[cell] = null;
-                }
             }
         }
 
@@ -109,41 +137,25 @@ namespace Assets.Scripts.Core.Presenters
 
         private void Update()
         {
-            Vector3 point = default;
             if (Input.GetMouseButtonUp(0))
             {
-                RowColPair rcp = default;
-                if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip)
-                {
-                    point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
-                    rcp = GetRowColPairByPosition(point);
-                    _fieldModel.TryGenerateChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
-                    Debug.Log($"pos = {point}, rcp = {rcp}");
-                }
-                else if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
-                {
-                    point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
-                    rcp = GetRowColPairByPosition(point);
-                    if (_fieldModel.SelectedCell != null)
-                    {
-                        var isMoveSuccess = _fieldModel.TryMoveSelectedChip(rcp.Row, rcp.Col);
-                        if (isMoveSuccess)
-                        {
-                            _fieldModel.DetermineOpponentsChipForRemove(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
-                            _fieldModel.PrintFieldForDebug();
-                            _matchModel.HandleEndTurn();
-                        }
-                        else
-                        {
-                            _fieldModel.TrySelectChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
-                        }
-                    }
-                    else
-                    {
-                        _fieldModel.TrySelectChip(rcp.Row, rcp.Col, _matchModel.CurrentPlayer.Value.TeamType);
-                    }
-                    Debug.Log(point);
-                }
+                var currentPlayer = _matchModel.CurrentPlayer.Value;
+                if (!currentPlayer.IsHuman)
+                    return;
+
+                var point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
+                var rcp = GetRowColPairByPosition(point);
+                currentPlayer.SelectCell(rcp);
+                Debug.Log(point);
+            }
+        }
+
+        private void HandleChipRemove(List<CellModel> cells)
+        {
+            foreach (var cell in cells)
+            {
+                _matchModel.HandleRemoveChip(cell.Chip.Team);
+                _fieldModel.HandleRemoveChip(cell);
             }
         }
 

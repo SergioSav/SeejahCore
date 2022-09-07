@@ -26,7 +26,7 @@ namespace Assets.Scripts.Core.Presenters
 
         private void OnGameStateChange(GameState gameState)
         {
-            UnityEngine.Debug.Log($"GamePresenter {gameState}");
+            Debug.Log($"GamePresenter {gameState}");
             switch (gameState)
             {
                 case GameState.None:

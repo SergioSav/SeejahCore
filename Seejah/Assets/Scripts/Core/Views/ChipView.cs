@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ChipView : MonoBehaviour
 {
-    public Cell cell;
     public TeamType Team { get; private set; }
 
     [SerializeField] private MeshRenderer chipMaterial;

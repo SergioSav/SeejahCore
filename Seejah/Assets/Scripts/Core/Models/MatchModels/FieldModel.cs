@@ -11,10 +11,10 @@ namespace Assets.Scripts.Core.Models
     {
         public IReadOnlyReactiveProperty<CellModel> AddChip => _addChip;
         private ReactiveProperty<CellModel> _addChip;
-
         public IReadOnlyReactiveProperty<CellModel> MoveChip => _moveChip;
         private ReactiveProperty<CellModel> _moveChip;
-
+        public IReadOnlyReactiveProperty<CellModel> RemoveChip => _removeChip;
+        private ReactiveProperty<CellModel> _removeChip;
         public IReadOnlyReactiveProperty<List<CellModel>> UpdateCells => _updateCells;
         private ReactiveProperty<List<CellModel>> _updateCells;
 
@@ -26,15 +26,28 @@ namespace Assets.Scripts.Core.Models
 
         public CellModel SelectedCell { get; private set; }
 
+        public IReadOnlyReactiveProperty<CellModel> CellForTurn => _cellForTurn;
+        public ReactiveProperty<CellModel> _cellForTurn;
+
         public FieldModel(GameRules gameRules)
         {
             _gameRules = gameRules;
             _cachedRowColPairForCompare = new RowColPair();
             _cells = new Dictionary<RowColPair, CellModel>();
+            SelectedCell = null;
 
             _addChip = AddForDispose(new ReactiveProperty<CellModel>());
             _moveChip = AddForDispose(new ReactiveProperty<CellModel>());
+            _removeChip = AddForDispose(new ReactiveProperty<CellModel>());
             _updateCells = AddForDispose(new ReactiveProperty<List<CellModel>>());
+            _cellForTurn = AddForDispose(new ReactiveProperty<CellModel>());
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            SelectedCell = null;
         }
 
         public void CreateField(int row, int col)
@@ -85,6 +98,28 @@ namespace Assets.Scripts.Core.Models
             return false;
         }
 
+        public void RegisterMoveTo(RowColPair rcp)
+        {
+            // TODO: add logging
+            TryChooseCellForTurn(rcp.Row, rcp.Col);
+        }
+
+        public bool TryChooseCellForTurn(int row, int col)
+        {
+            if (GetCellInPosition(row, col, out var cell))
+            {
+                _cellForTurn.SetValueAndForceNotify(cell);
+                return true;
+            }
+            return false;
+        }
+
+        public void HandleRemoveChip(CellModel cell)
+        {
+            cell.ClearChip();
+            _removeChip.SetValueAndForceNotify(cell);
+        }
+
         public bool TryMoveSelectedChip(int row, int col)
         {
             if (GetCellInPosition(row, col, out var cell))
@@ -114,7 +149,7 @@ namespace Assets.Scripts.Core.Models
             SelectedCell = null;
         }
 
-        public void DetermineOpponentsChipForRemove(int row, int col, TeamType movingTeam)
+        public List<CellModel> DetermineOpponentsChipForRemove(int row, int col, TeamType movingTeam)
         {
             if (GetCellInPosition(row, col, out var cell))
             {
@@ -140,16 +175,15 @@ namespace Assets.Scripts.Core.Models
                             {
                                 if (otherPlayerCell.Chip != null && otherPlayerCell.Chip.Team == movingTeam)
                                 {
-                                    neighbourCell.ClearChip();
                                     cellsForUpdating.Add(neighbourCell);
                                 }
                             }
                         }
                     }
                 }
-
-                _updateCells.SetValueAndForceNotify(cellsForUpdating);
+                return cellsForUpdating;
             }
+            return null;
         }
 
         public void PrintFieldForDebug()

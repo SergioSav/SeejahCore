@@ -24,13 +24,14 @@ namespace Assets.Scripts.Core.GameStates
 
         private void OnMatchModelStateChange(MatchStateType state)
         {
-            if (state == MatchStateType.ReadyForPlay)
+            if (state == MatchStateType.ReadyForBattle)
                 _gameModel.ChangeGameStateTo(GameState.Match);
         }
 
         public void OnExit()
         {
             UnityEngine.Debug.Log("exit prepare match");
+            Dispose();
         }
     }
 }

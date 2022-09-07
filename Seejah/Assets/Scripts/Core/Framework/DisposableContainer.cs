@@ -18,7 +18,7 @@ namespace Assets.Scripts.Core.Framework
             return disposableObject;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _disposables.Dispose();
             _disposables = null;
