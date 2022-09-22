@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Framework;
-using Assets.Scripts.Core.Rules;
+using Assets.Scripts.Core.Utils;
+using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 
@@ -7,100 +8,103 @@ namespace Assets.Scripts.Core.Models
 {
     public class MatchModel : DisposableContainer
     {
+        private readonly RandomProvider _random;
+        private List<IPlayerModel> _players;
+        private IPlayerModel _activePlayer;
         private ReactiveProperty<MatchStateType> _currentState;
-        private ReactiveProperty<PlayerModel> _currentPlayer;
-        private int _placementChipCount;
+        private Subject<Unit> _waitNextTurn;
 
-        private readonly GameRules _rules;
-        private readonly GameModel _gameModel;
-
+        public Subject<Unit> WaitNextTurn => _waitNextTurn;
         public IReadOnlyReactiveProperty<MatchStateType> CurrentState => _currentState;
-        public IReadOnlyReactiveProperty<PlayerModel> CurrentPlayer => _currentPlayer;
 
-        public MatchModel(GameRules rules, GameModel gameModel)
+        public IPlayerModel ActivePlayer => _activePlayer;
+
+        public MatchModel(RandomProvider random)
         {
-            _rules = rules;
-            _gameModel = gameModel;
+            _random = random;
 
             _currentState = AddForDispose(new ReactiveProperty<MatchStateType>(MatchStateType.None));
-            _currentPlayer = AddForDispose(new ReactiveProperty<PlayerModel>(_gameModel.ChooseFirstPlayer()));
+            _waitNextTurn = AddForDispose(new Subject<Unit>());
         }
 
-        public void SwitchStateTo(MatchStateType state)
+        public void AddPlayers(List<IPlayerModel> players)
         {
-            UnityEngine.Debug.Log($"Match state: {state}");
-            _currentState.Value = state;
-
-            switch (state)
-            {
-                case MatchStateType.None:
-                    break;
-                case MatchStateType.WaitPlaceChip:
-                    _currentPlayer.Value.MakeTurn();
-                    break;
-                case MatchStateType.WaitNextPlayer:
-                    break;
-                case MatchStateType.ReadyForBattle:
-                    break;
-                case MatchStateType.WaitChipMove:
-                    _currentPlayer.Value.MakeTurn();
-                    break;
-                case MatchStateType.WaitNextTurn:
-                    break;
-                case MatchStateType.EndMatch:
-                    break;
-            }
+            _players = players;
         }
 
-        public void HandleChipPlace()
+        public IPlayerModel ChooseFirstPlayer()
         {
-            _placementChipCount++;
-            _currentPlayer.Value.AddChipInGame();
-            if (_placementChipCount == _rules.ChipPlacementCount)
-            {
-                _currentPlayer.Value = _gameModel.NextPlayer();
-                SwitchStateTo(MatchStateType.WaitNextPlayer);
-                _placementChipCount = 0;
-                SwitchStateTo(MatchStateType.WaitPlaceChip);
-            }
-            else
-            {
-                _currentPlayer.Value.MakeTurn();
-            }
+            _random.GetRandom(_players, out var player);
+            _activePlayer = player;
+            return player;
+        }
 
-            if (_currentState.Value == MatchStateType.WaitPlaceChip && _gameModel.Players.All(p => p.ReadyForBattle))
-            {
-                SwitchStateTo(MatchStateType.ReadyForBattle);
-            }
+        public IPlayerModel ChooseNextPlayer()
+        {
+            var index = _players.IndexOf(_activePlayer);
+            var nextIndex = (index + 1) % _players.Count;
+            _activePlayer = _players[nextIndex];
+            return _players[nextIndex];
         }
 
         public void HandleRemoveChip(TeamType team)
         {
-            foreach (var player in _gameModel.Players)
+            foreach (var player in _players)
             {
                 if (player.TeamType == team)
                     player.RemoveInGameChip();
             }
         }
 
-        public void HandleEndTurn()
-        {
-            SwitchStateTo(MatchStateType.WaitNextPlayer);
-            _currentPlayer.Value = _gameModel.NextPlayer();
-            SwitchStateTo(MatchStateType.WaitChipMove);
-            if (TestEndMatchCondition())
-                SwitchStateTo(MatchStateType.EndMatch);
-        }
-
         private bool TestEndMatchCondition()
         {
             var result = false;
-            foreach (var player in _gameModel.Players)
-            {
+            foreach (var player in _players)
                 result |= !player.HasEnoughChipInGame();
-            }
-            
+
             return result;
+        }
+
+        private void SwitchStateTo(MatchStateType state)
+        {
+            UnityEngine.Debug.Log($"Match state: {state}");
+            _currentState.Value = state;
+        }
+
+        public void SetLoading()
+        {
+            SwitchStateTo(MatchStateType.Loading);
+        }
+
+        public void SetReady()
+        {
+            SwitchStateTo(MatchStateType.Ready);
+        }
+
+        public void StartPlacement()
+        {
+            SwitchStateTo(MatchStateType.PhasePlacement);
+            _waitNextTurn.OnNext(Unit.Default);
+        }
+
+        public void StartBattle()
+        {
+            SwitchStateTo(MatchStateType.PhaseBattle);
+            _waitNextTurn.OnNext(Unit.Default);
+        }
+
+        public void HandleEndTurn()
+        {
+            if (_currentState.Value == MatchStateType.PhasePlacement && _players.All(p => p.ReadyForBattle))
+                SwitchStateTo(MatchStateType.PlacementDone);
+            if (_currentState.Value == MatchStateType.PhaseBattle && TestEndMatchCondition())
+                SwitchStateTo(MatchStateType.BattleEnd);
+            _waitNextTurn.OnNext(Unit.Default);
+        }
+
+        public override void Dispose()
+        {
+            // reset data
         }
     }
 }

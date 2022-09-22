@@ -2,6 +2,8 @@
 {
     public interface ILogic
     {
-        CellModel GetCellForMove();
+        CellModel CellForMove();
+        CellModel CellForSelect();
+        void Reset();
     }
 }

@@ -1,41 +1,59 @@
-﻿using Assets.Scripts.Core.Rules;
+﻿using Assets.Scripts.Core.Commands;
+using Assets.Scripts.Core.Rules;
 
 namespace Assets.Scripts.Core.Models
 {
     public class PlayerModel : IPlayerModel
     {
-        private readonly TeamType _teamType;
         private readonly GameRules _gameRules;
-        private readonly IBrain _brain;
+        private readonly ISelectCellCommand _selectCellCommand;
+        private TeamType _teamType;
+        private IBrain _brain;
 
         private int _chipsInGame;
-        private FieldModel _fieldModel;
         private bool _readyForGame;
+        private bool _isTurnComplete;
 
         public TeamType TeamType => _teamType;
         public bool IsHuman => _brain.IsHuman;
         public bool ReadyForBattle => _readyForGame;
 
-        public PlayerModel(TeamType teamType, GameRules gameRules, IBrain brain, FieldModel fieldModel)
+        public PlayerModel(GameRules gameRules, ISelectCellCommand selectCellCommand)
+        {
+            _gameRules = gameRules;
+            _selectCellCommand = selectCellCommand;
+        }
+
+        public void Setup(TeamType teamType, IBrain brain)
         {
             _teamType = teamType;
-            _gameRules = gameRules;
             _brain = brain;
-            _fieldModel = fieldModel;
         }
 
         public void MakeTurn()
         {
-            if (!_brain.IsHuman)
+            _isTurnComplete = false;
+            if (_brain is IAIBrain aiBrain)
             {
-                if (_brain.TryGetCellForMove(out var cell))
+                aiBrain.ResetLogic();
+                if (aiBrain.TryGetCellForSelect(out var cell))
+                    SelectCell(cell.RowColPair);
+                if (aiBrain.TryGetCellForMove(out cell))
                     SelectCell(cell.RowColPair);
             }
         }
 
+        public void EndTurn()
+        {
+            _isTurnComplete = true;
+        }
+
         public void SelectCell(RowColPair rcp)
         {
-            _fieldModel.RegisterMoveTo(rcp);
+            if (_isTurnComplete) 
+                return;
+
+            _selectCellCommand.Execute(rcp);
         }
 
         public void AddChipInGame()
@@ -43,7 +61,8 @@ namespace Assets.Scripts.Core.Models
             _chipsInGame++;
             if (_chipsInGame == _gameRules.ChipStartCount)
             {
-                _brain.SwitchToBattle();
+                if (_brain is IAIBrain aiBrain)
+                    aiBrain.SwitchToBattle();
                 _readyForGame = true;
             }
         }
@@ -57,18 +76,5 @@ namespace Assets.Scripts.Core.Models
         {
             return _chipsInGame >= _gameRules.MinimalChipCountInGame;
         }
-    }
-
-    public interface IPlayerModel
-    {
-        TeamType TeamType { get; }
-        bool IsHuman { get; }
-        bool ReadyForBattle { get; }
-
-        void AddChipInGame();
-        void RemoveInGameChip();
-        bool HasEnoughChipInGame();
-        void MakeTurn();
-        void SelectCell(RowColPair rcp);
     }
 }

@@ -15,7 +15,7 @@ namespace Assets.Scripts.Core.Models.AILogic
             _random = random;
         }
 
-        public CellModel GetCellForMove()
+        public CellModel CellForMove()
         {
             var availableCells = _fieldModel.Cells
                 .Where(c => !c.IsCentral && c.Chip == null)
@@ -23,6 +23,15 @@ namespace Assets.Scripts.Core.Models.AILogic
             if (_random.GetRandom(availableCells, out var cell))
                 return cell;
             return default;
+        }
+
+        public CellModel CellForSelect()
+        {
+            return default;
+        }
+
+        public void Reset()
+        {
         }
     }
 }

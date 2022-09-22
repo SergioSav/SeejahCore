@@ -1,6 +1,5 @@
-﻿using Assets.Scripts.Core.HUD;
-using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Views;
+﻿using Assets.Scripts.Core.Models;
+using Assets.Scripts.Core.SceneInstallers;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -34,6 +33,7 @@ namespace Assets.Scripts.Core.Presenters
                 case GameState.Boot:
                     break;
                 case GameState.Loading:
+                    _parentScope.CreateChild(new LoadingInstaller());
                     break;
                 case GameState.MainMenu:
                     SwitchScene("Menu", new MainMenuExtrasInstaller());
@@ -60,31 +60,11 @@ namespace Assets.Scripts.Core.Presenters
         }
     }
 
-    public class MainMenuExtrasInstaller : IInstaller
+    internal class LoadingInstaller : IInstaller
     {
         public void Install(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<MainMenuPresenter>();
-        }
-    }
-
-    public class GameplayExtrasInstaller : IInstaller
-    {
-        public void Install(IContainerBuilder builder)
-        {
-            builder.RegisterFactory<CellView, Transform, CellView>(container =>
-            {
-                return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
-            },
-            Lifetime.Singleton);
-            builder.RegisterFactory<ChipView, Transform, ChipView>(container =>
-            {
-                return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
-            },
-            Lifetime.Singleton);
-
-            builder.RegisterComponentInHierarchy<FieldPresenter>();
-            builder.RegisterComponentInHierarchy<GameplayUIPresenter>();
+            
         }
     }
 }

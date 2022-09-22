@@ -12,7 +12,6 @@ namespace Assets.Scripts.Core.Views
         [SerializeField] private CellView CellPrototype;
         [SerializeField] private ChipView ChipPrototype;
 
-        private ChipView _selectedChip;
         private Action<int, int> _onFieldCellSelect;
         private List<CellModel> _cells;
         private Dictionary<CellModel, CellView> _cellViews;
@@ -24,10 +23,9 @@ namespace Assets.Scripts.Core.Views
 
         public void Update()
         {
-            Vector3 point = default;
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonUp(0))
             {
-                point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
+                var point = GetNormalizedPosition(GetFieldPoint(Input.mousePosition));
                 var rcp = GetRowColPairByPosition(point);
                 _onFieldCellSelect(rcp.Row, rcp.Col);
                 Debug.Log($"pos = {point}, rcp = {rcp}");

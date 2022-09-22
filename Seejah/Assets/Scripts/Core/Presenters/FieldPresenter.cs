@@ -1,14 +1,10 @@
 ﻿using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Rules;
-using VContainer;
-using UniRx;
-using System.Collections.Generic;
-using UnityEngine;
 using Assets.Scripts.Core.Views;
 using System;
-using System.Transactions;
-using System.Drawing;
-using System.Security.Cryptography;
+using System.Collections.Generic;
+using UniRx;
+using UnityEngine;
+using VContainer;
 
 namespace Assets.Scripts.Core.Presenters
 {
@@ -16,7 +12,6 @@ namespace Assets.Scripts.Core.Presenters
     {
         private const int CellSize = 1;
 
-        private GameRules _gameRules;
         private FieldModel _fieldModel;
         private MatchModel _matchModel;
         private Func<CellView, Transform, CellView> _cellViewFactory;
@@ -28,12 +23,11 @@ namespace Assets.Scripts.Core.Presenters
         [SerializeField] private ChipView chipPrototype;
 
         [Inject]
-        public void Construct(GameRules gameRules, FieldModel fieldModel, MatchModel matchModel, 
+        public void Construct(FieldModel fieldModel, MatchModel matchModel, 
             Func<CellView, Transform, CellView> cellViewFactory,
             Func<ChipView, Transform, ChipView> chipViewFactory
             )
         {
-            _gameRules = gameRules;
             _fieldModel = fieldModel;
             _matchModel = matchModel;
             _cellViewFactory = cellViewFactory;
@@ -49,44 +43,6 @@ namespace Assets.Scripts.Core.Presenters
             AddForDispose(_fieldModel.AddChip.Subscribe(OnChipAddFor));
             AddForDispose(_fieldModel.MoveChip.Subscribe(OnChipMove));
             AddForDispose(_fieldModel.RemoveChip.Subscribe(OnChipRemove));
-            AddForDispose(_fieldModel.CellForTurn.Subscribe(OnChooseCellForTurn));
-
-            _fieldModel.CreateField(_gameRules.RowCount, _gameRules.ColCount);
-
-            _matchModel.SwitchStateTo(MatchStateType.WaitNextPlayer);
-            // debug switch, must be after show turn panel
-            _matchModel.SwitchStateTo(MatchStateType.WaitPlaceChip);
-        }
-
-        private void OnChooseCellForTurn(CellModel cell)
-        {
-            var currentPlayer = _matchModel.CurrentPlayer.Value;
-            if (_matchModel.CurrentState.Value == MatchStateType.WaitPlaceChip)
-            {
-                _fieldModel.TryGenerateChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
-            }
-            else if (_matchModel.CurrentState.Value == MatchStateType.WaitChipMove)
-            {
-                if (_fieldModel.SelectedCell != null)
-                {
-                    var isMoveSuccess = _fieldModel.TryMoveSelectedChip(cell.RowColPair.Row, cell.RowColPair.Col);
-                    if (isMoveSuccess)
-                    {
-                        var updatingCells = _fieldModel.DetermineOpponentsChipForRemove(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
-                        HandleChipRemove(updatingCells);
-                        _fieldModel.PrintFieldForDebug();
-                        _matchModel.HandleEndTurn();
-                    }
-                    else
-                    {
-                        _fieldModel.TrySelectChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
-                    }
-                }
-                else
-                {
-                    _fieldModel.TrySelectChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
-                }
-            }
         }
 
         private void OnChipRemove(CellModel cell)
@@ -116,11 +72,9 @@ namespace Assets.Scripts.Core.Presenters
 
             var pos = new Vector3(cell.RowColPair.Row * CellSize, 0, cell.RowColPair.Col * CellSize);
             var chip = _chipViewFactory.Invoke(chipPrototype, transform);
-            chip.Setup(_matchModel.CurrentPlayer.Value.TeamType);
+            chip.Setup(_matchModel.ActivePlayer.TeamType);
             chip.UpdatePos(pos);
             _chipViews[cell] = chip;
-
-            _matchModel.HandleChipPlace();
         }
 
         private void OnChipMove(CellModel newCell)
@@ -139,7 +93,7 @@ namespace Assets.Scripts.Core.Presenters
         {
             if (Input.GetMouseButtonUp(0))
             {
-                var currentPlayer = _matchModel.CurrentPlayer.Value;
+                var currentPlayer = _matchModel.ActivePlayer;
                 if (!currentPlayer.IsHuman)
                     return;
 
@@ -147,15 +101,6 @@ namespace Assets.Scripts.Core.Presenters
                 var rcp = GetRowColPairByPosition(point);
                 currentPlayer.SelectCell(rcp);
                 Debug.Log(point);
-            }
-        }
-
-        private void HandleChipRemove(List<CellModel> cells)
-        {
-            foreach (var cell in cells)
-            {
-                _matchModel.HandleRemoveChip(cell.Chip.Team);
-                _fieldModel.HandleRemoveChip(cell);
             }
         }
 

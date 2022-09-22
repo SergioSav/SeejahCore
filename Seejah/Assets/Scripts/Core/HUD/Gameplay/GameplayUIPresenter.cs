@@ -21,12 +21,12 @@ namespace Assets.Scripts.Core.HUD
 
         private void Start()
         {
-            AddForDispose(_matchModel.CurrentPlayer.Subscribe(OnPlayerChange));
+            AddForDispose(_matchModel.WaitNextTurn.Subscribe(_ => OnWaitNextTurn()));
         }
 
-        private void OnPlayerChange(PlayerModel player)
+        private void OnWaitNextTurn()
         {
-            textCurrentTeam.text = player.TeamType.ToString();
+            textCurrentTeam.text = _matchModel.ActivePlayer.TeamType.ToString();
         }
     }
 }

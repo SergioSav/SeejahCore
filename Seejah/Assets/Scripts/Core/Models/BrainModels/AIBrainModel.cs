@@ -1,20 +1,21 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Models.AILogic;
+using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Utils;
 
 namespace Assets.Scripts.Core.Models
 {
-    public class AIBrainModel : DisposableContainer, IBrain
+    public class AIBrainModel : DisposableContainer, IAIBrain
     {
         private readonly ILogic _placementLogic;
         private readonly ILogic _battleLogic;
 
         private ILogic _logic;
 
-        public AIBrainModel(FieldModel fieldModel, RandomProvider random, TeamType teamType)
+        public AIBrainModel(GameRules gameRules, FieldModel fieldModel, RandomProvider random, TeamType teamType)
         {
             _placementLogic = new AIPlacementLogic(fieldModel, random);
-            _battleLogic = new AIBattleLogic(fieldModel, random, teamType);
+            _battleLogic = new AIBattleLogic(gameRules, fieldModel, random, teamType);
             Reset();
         }
 
@@ -23,6 +24,11 @@ namespace Assets.Scripts.Core.Models
         public void Reset()
         {
             SwitchToPlacement();
+        }
+
+        public void ResetLogic()
+        {
+            _logic.Reset();
         }
 
         public void SwitchToBattle()
@@ -35,9 +41,15 @@ namespace Assets.Scripts.Core.Models
             _logic = _placementLogic;
         }
 
+        public bool TryGetCellForSelect(out CellModel resultCell)
+        {
+            resultCell = _logic.CellForSelect();
+            return resultCell != default;
+        }
+
         public bool TryGetCellForMove(out CellModel resultCell)
         {
-            resultCell = _logic.GetCellForMove();
+            resultCell = _logic.CellForMove();
             return resultCell != default;
         }
     }

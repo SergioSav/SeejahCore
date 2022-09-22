@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.Core.Commands;
+﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Models;
 
 namespace Assets.Scripts.Core.GameStates
 {
-    public class BootState : IState
+    public class BootState : DisposableContainer, IState
     {
         private readonly GameModel _gameModel;
 
@@ -22,6 +22,7 @@ namespace Assets.Scripts.Core.GameStates
         public void OnExit()
         {
             UnityEngine.Debug.Log("exit boot");
+            Dispose();
         }
     }
 }

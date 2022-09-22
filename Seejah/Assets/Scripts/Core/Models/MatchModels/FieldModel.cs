@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Rules;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -26,9 +25,6 @@ namespace Assets.Scripts.Core.Models
 
         public CellModel SelectedCell { get; private set; }
 
-        public IReadOnlyReactiveProperty<CellModel> CellForTurn => _cellForTurn;
-        public ReactiveProperty<CellModel> _cellForTurn;
-
         public FieldModel(GameRules gameRules)
         {
             _gameRules = gameRules;
@@ -40,7 +36,6 @@ namespace Assets.Scripts.Core.Models
             _moveChip = AddForDispose(new ReactiveProperty<CellModel>());
             _removeChip = AddForDispose(new ReactiveProperty<CellModel>());
             _updateCells = AddForDispose(new ReactiveProperty<List<CellModel>>());
-            _cellForTurn = AddForDispose(new ReactiveProperty<CellModel>());
         }
 
         public override void Dispose()
@@ -98,22 +93,6 @@ namespace Assets.Scripts.Core.Models
             return false;
         }
 
-        public void RegisterMoveTo(RowColPair rcp)
-        {
-            // TODO: add logging
-            TryChooseCellForTurn(rcp.Row, rcp.Col);
-        }
-
-        public bool TryChooseCellForTurn(int row, int col)
-        {
-            if (GetCellInPosition(row, col, out var cell))
-            {
-                _cellForTurn.SetValueAndForceNotify(cell);
-                return true;
-            }
-            return false;
-        }
-
         public void HandleRemoveChip(CellModel cell)
         {
             cell.ClearChip();
@@ -141,31 +120,13 @@ namespace Assets.Scripts.Core.Models
             return false;
         }
 
-        private void MakeMoveTo(CellModel targetCell)
-        {
-            targetCell.SetChip(SelectedCell.Chip);
-            _moveChip.SetValueAndForceNotify(targetCell);
-            SelectedCell.ClearChip();
-            SelectedCell = null;
-        }
-
         public List<CellModel> DetermineOpponentsChipForRemove(int row, int col, TeamType movingTeam)
         {
             if (GetCellInPosition(row, col, out var cell))
             {
                 var cellsForUpdating = new List<CellModel>();
-                var variants = new List<(int, int)>
-                    {
-                        (-1, -1),
-                        (-1, 0),
-                        (-1,1),
-                        (0,-1),
-                        (0,1),
-                        (1,-1),
-                        (1,0),
-                        (1,1)
-                    };
-                foreach (var shifts in variants)
+                
+                foreach (var shifts in _gameRules.MoveVariants)
                 {
                     if (GetCellInPosition(cell.RowColPair.Row + shifts.Item1, cell.RowColPair.Col + shifts.Item2, out var neighbourCell))
                     {
@@ -202,6 +163,14 @@ namespace Assets.Scripts.Core.Models
                     stroke = "";
                 }
             }
+        }
+
+        private void MakeMoveTo(CellModel targetCell)
+        {
+            targetCell.SetChip(SelectedCell.Chip);
+            _moveChip.SetValueAndForceNotify(targetCell);
+            SelectedCell.ClearChip();
+            SelectedCell = null;
         }
     }
 }
