@@ -4,25 +4,31 @@ namespace Assets.Scripts.Core.Utils
 {
     public class TimeServiceEvent
     {
-        private int _startTimestamp;
+        private long _startTimestamp;
         private int _duration;
 
-        private bool _prot;
+        //public Guid UniqId { get; private set; }
+
+        private bool _needRemove;
 
         public Action OnDone { get; set; }
         public Action OnProgress { get; set; }
 
-        public TimeServiceEvent(int startTimestamp, int duration)
+        public TimeServiceEvent(long startTimestamp, int duration)
         {
             _startTimestamp = startTimestamp;
             _duration = duration;
+
+            //UniqId = Guid.NewGuid(); // for debug
         }
 
         public bool HasProgressObserver => OnProgress != null;
 
-        public int ElapsedTime(int nowTimestamp) => nowTimestamp - _startTimestamp;
+        public long ElapsedTime(long nowTimestamp) => nowTimestamp - _startTimestamp;
 
-        public bool IsComplete(int nowTimestamp) => nowTimestamp >= _startTimestamp + _duration;
+        public bool IsComplete(long nowTimestamp) => nowTimestamp >= _startTimestamp + _duration;
+
+        public bool NeedRemove => _needRemove;
 
         public void ProcessProgress()
         {
@@ -31,10 +37,9 @@ namespace Assets.Scripts.Core.Utils
 
         public void ProcessDone()
         {
-            if (_prot) return;
+            if (_needRemove) return;
             OnDone?.Invoke();
-            UnityEngine.Debug.Log($"ONDON! {_startTimestamp}-{_duration}");
-            _prot = true;
+            _needRemove = true;
         }
     }
 }

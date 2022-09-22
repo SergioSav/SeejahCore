@@ -44,18 +44,17 @@ namespace Assets.Scripts.Core.Utils
         {
             _events.AddRange(_newEvents);
             _newEvents.Clear();
-            var now = Now;
             foreach (var evt in _events)
             {
                 if (evt.HasProgressObserver)
                     evt.ProcessProgress();
-                if (evt.IsComplete(now))
+                if (evt.IsComplete(Now))
                     evt.ProcessDone();
             }
-            _events.RemoveAll(evt => evt.IsComplete(now));
+            _events.RemoveAll(evt => evt.NeedRemove);
         }
 
-        private int Now => DateTimeOffset.Now.Second;
+        private long Now => DateTimeOffset.Now.ToUnixTimeSeconds();
 
         public override void Dispose()
         {

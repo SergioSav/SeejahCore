@@ -148,33 +148,29 @@ namespace Assets.Scripts.Core
                 {
                     _placementChipCount = 0;
                     _matchModel.ActivePlayer.EndTurn();
-                    _matchModel.ChooseNextPlayer();
-                    _matchModel.HandleEndTurn();
-                    //_timeService.Wait(2)
-                    //    .Then(() =>
-                    //    {
-                    //        _matchModel.ChooseNextPlayer();
-                    //        _matchModel.HandleEndTurn();
-                    //    });
+                    _timeService.Wait(2)
+                        .Then(() =>
+                        {
+                            _matchModel.ChooseNextPlayer();
+                            _matchModel.HandleEndTurn();
+                        });
                 }
                 else
                 {
-                    //_timeService.WaitRandom(1, 3)
-                    //    .Then(_matchModel.ActivePlayer.MakeTurn);
-                    _matchModel.ActivePlayer.MakeTurn();
+                    _timeService.WaitRandom(1, 3)
+                        .Then(_matchModel.ActivePlayer.MakeTurn);
+                    // TODO: ignore for human
                 }
             }
             else if (_matchModel.CurrentState.Value == MatchStateType.PhaseBattle)
             {
                 _matchModel.ActivePlayer.EndTurn();
-                _matchModel.ChooseNextPlayer();
-                _matchModel.HandleEndTurn();
-                //_timeService.Wait(1)
-                //    .Then(() =>
-                //    {
-                //        _matchModel.ChooseNextPlayer();
-                //        _matchModel.HandleEndTurn();
-                //    });
+                _timeService.Wait(1)
+                    .Then(() =>
+                    {
+                        _matchModel.ChooseNextPlayer();
+                        _matchModel.HandleEndTurn();
+                    });
             }
         }
     }

@@ -25,7 +25,7 @@ namespace Assets.Scripts.Core
         private void InstallDependencies(IContainerBuilder builder)
         {
             builder.Register<RandomProvider>(Lifetime.Singleton)
-                .WithParameter(DateTime.Now.Millisecond);
+                .WithParameter((int)DateTimeOffset.Now.ToUnixTimeSeconds());
             builder.RegisterEntryPoint<TimeService>(Lifetime.Singleton);
 
             builder.Register<GameRules>(Lifetime.Singleton);    // TEMP
