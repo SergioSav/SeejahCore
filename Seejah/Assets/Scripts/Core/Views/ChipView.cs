@@ -1,4 +1,5 @@
 using Assets.Scripts.Core.Models;
+using DG.Tweening;
 using UnityEngine;
 
 public class ChipView : MonoBehaviour
@@ -6,6 +7,7 @@ public class ChipView : MonoBehaviour
     public TeamType Team { get; private set; }
 
     [SerializeField] private MeshRenderer chipMaterial;
+    private Tweener _removeTween;
 
     public void Setup(TeamType team)
     {
@@ -20,6 +22,18 @@ public class ChipView : MonoBehaviour
 
     public void UpdatePos(Vector3 pos)
     {
-        transform.position = pos;
+        transform.DOMove(pos, 0.2f);
+    }
+
+    public void RemoveFromBoard()
+    {
+        var t = 0.5f;
+        _removeTween = transform.DOMoveY(2, t-0.1f);
+        Destroy(gameObject, t);
+    }
+
+    private void OnDestroy()
+    {
+        _removeTween.Kill();
     }
 }

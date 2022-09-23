@@ -569,6 +569,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1950635329}
     m_Modifications:
+    - target: {fileID: 2495995957278191274, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4322444008666646172, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -657,13 +661,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUIView
       objectReference: {fileID: 0}
-    - target: {fileID: 4322444008774194456, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}
-      propertyPath: m_fontSize
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 4322444008774194456, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 24
+    - target: {fileID: 4404871868743148644, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0838e07d8e6debf47b2e54e781ad6a2e, type: 3}

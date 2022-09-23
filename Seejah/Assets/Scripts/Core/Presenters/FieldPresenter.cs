@@ -49,7 +49,8 @@ namespace Assets.Scripts.Core.Presenters
         {
             if (cell == null) return;
 
-            Destroy(_chipViews[cell].gameObject);
+            //Destroy(_chipViews[cell].gameObject);
+            _chipViews[cell].RemoveFromBoard();
             _chipViews[cell] = null;
         }
 
