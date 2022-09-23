@@ -5,6 +5,7 @@ using Assets.Scripts.Core.Utils;
 using System;
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace Assets.Scripts.Core
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Core
     {
         private readonly ITimeService _timeService;
         private readonly GameRules _gameRules;
+        private readonly GameModel _gameModel;
         private readonly MatchModel _matchModel;
         private readonly Func<TeamType, IBrain, IPlayerModel> _playerFactory;
         private readonly FieldModel _fieldModel;
@@ -25,11 +27,12 @@ namespace Assets.Scripts.Core
 
         private int _placementChipCount;
 
-        public Match(ITimeService timeService, GameRules gameRules, MatchModel matchModel, FieldModel fieldModel, RandomProvider random,
+        public Match(ITimeService timeService, GameRules gameRules, GameModel gameModel, MatchModel matchModel, FieldModel fieldModel, RandomProvider random,
             Func<TeamType, IBrain, IPlayerModel> playerFactory)
         {
             _timeService = timeService;
             _gameRules = gameRules;
+            _gameModel = gameModel;
             _matchModel = matchModel;
             _fieldModel = fieldModel;
             _random = random;
@@ -107,8 +110,18 @@ namespace Assets.Scripts.Core
                 case MatchStateType.PhaseBattle:
                     break;
                 case MatchStateType.BattleEnd:
+                    ProcessBattleEnd();
                     break;
             }
+        }
+
+        private void ProcessBattleEnd()
+        {
+            // get winner here
+            //_matchModel.Dispose();
+            //_fieldModel.Dispose();
+            _timeService.Wait(1)
+                .Then(() => _gameModel.ChangeGameStateTo(GameState.Reward)); // TODO:
         }
 
         private void OnWaitNextTurn()
