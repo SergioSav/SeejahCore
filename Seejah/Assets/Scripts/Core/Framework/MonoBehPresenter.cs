@@ -13,10 +13,10 @@ namespace Assets.Scripts.Core.Presenters
             _disposables = new CompositeDisposable();
         }
 
-        private void OnDisable()
-        {
-            Dispose();
-        }
+        //private void OnDisable() // TODO: need manual dispose
+        //{
+        //    Dispose();
+        //}
 
         public T AddForDispose<T>(T disposableObject) where T: IDisposable
         {

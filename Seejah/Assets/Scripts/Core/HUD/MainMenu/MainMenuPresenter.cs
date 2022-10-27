@@ -12,6 +12,7 @@ namespace Assets.Scripts.Core.HUD
     {
         [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private Button buttonStart;
+        [SerializeField] private Button buttonCustomize;
 
         private GameModel _gameModel;
 
@@ -26,6 +27,10 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(buttonStart
                 .OnClickAsObservable()
                 .Subscribe(_ => _gameModel.StartMatch()));
+
+            AddForDispose(buttonCustomize
+                .OnClickAsObservable()
+                .Subscribe(_ => _gameModel.StartCusomization()));
         }
     }
 }

@@ -1,13 +1,23 @@
 using Assets.Scripts.Core.Models;
+using Assets.Scripts.Core.Models.MatchModels;
 using DG.Tweening;
 using UnityEngine;
+using VContainer;
 
 public class ChipView : MonoBehaviour
 {
-    public TeamType Team { get; private set; }
+    private const float OutBoardScaleMultiplier = 0.4f;
 
     [SerializeField] private MeshRenderer chipMaterial;
     private Tweener _removeTween;
+    private MatchOptions _matchOptions;
+    public TeamType Team { get; private set; }
+
+    [Inject]
+    public void Construct(MatchOptions matchOptions)
+    {
+        _matchOptions = matchOptions;
+    }
 
     public void Setup(TeamType team)
     {
@@ -17,12 +27,31 @@ public class ChipView : MonoBehaviour
 
     private void UpdateView()
     {
-        chipMaterial.material.color = Team == TeamType.TeamRed ? Color.red : Color.blue;
+        chipMaterial.material.color = Team == TeamType.FirstTeam ? _matchOptions.FirstTeamColor : _matchOptions.SecondTeamColor;
     }
 
     public void UpdatePos(Vector3 pos)
     {
         transform.DOMove(pos, 0.2f);
+    }
+
+    public void PlaceOutBoard(Vector3 pos)
+    {
+        transform.localScale *= OutBoardScaleMultiplier;
+        UpdatePos(pos * OutBoardScaleMultiplier);
+    }
+
+    public void PlaceOnBoard(Vector3 pos)
+    {
+        transform.localScale /= OutBoardScaleMultiplier;
+        UpdatePos(pos);
+    }
+
+    public void Attack(Vector3 pos)
+    {
+        transform
+            .DOMove(transform.position - (transform.position - pos) * 0.3f, 0.2f)
+            .SetLoops(2, LoopType.Yoyo);
     }
 
     public void RemoveFromBoard()

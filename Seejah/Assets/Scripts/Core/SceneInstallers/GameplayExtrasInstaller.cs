@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Core.Commands;
+using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.HUD;
 using Assets.Scripts.Core.Models;
+using Assets.Scripts.Core.Models.MatchModels;
 using Assets.Scripts.Core.Presenters;
 using Assets.Scripts.Core.Views;
 using UnityEngine;
@@ -13,6 +15,7 @@ namespace Assets.Scripts.Core.SceneInstallers
     {
         public void Install(IContainerBuilder builder)
         {
+            builder.Register<MatchOptions>(Lifetime.Singleton); // TODO: setup in menu
             builder.Register<FieldModel>(Lifetime.Singleton);
             builder.Register<MatchModel>(Lifetime.Singleton);
 

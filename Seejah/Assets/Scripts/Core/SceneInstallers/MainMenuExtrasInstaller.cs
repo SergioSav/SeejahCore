@@ -9,6 +9,7 @@ namespace Assets.Scripts.Core.SceneInstallers
         public void Install(IContainerBuilder builder)
         {
             builder.RegisterComponentInHierarchy<MainMenuPresenter>();
+            builder.RegisterComponentInHierarchy<CustomizationMenuPresenter>();
         }
     }
 }

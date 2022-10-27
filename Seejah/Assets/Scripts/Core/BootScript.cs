@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Core.Models;
+﻿using Assets.Scripts.Core.Controllers;
+using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
-using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Utils;
 using System;
 using UnityEngine;
@@ -28,12 +28,10 @@ namespace Assets.Scripts.Core
                 .WithParameter((int)DateTimeOffset.Now.ToUnixTimeSeconds());
             builder.RegisterEntryPoint<TimeService>(Lifetime.Singleton);
 
-            builder.Register<GameRules>(Lifetime.Singleton);    // TEMP
-            builder.Register<GameModel>(Lifetime.Singleton);    // TEMP
-
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.RegisterComponent(gamePresenter);
 
+            builder.Register<GameModel>(Lifetime.Singleton);
             builder.RegisterEntryPoint<Game>(Lifetime.Singleton);
         }
     }

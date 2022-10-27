@@ -1,25 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Core.Data;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Core.Rules
 {
     public class GameRules
     {
-        private int _fieldRowCount;
-        private int _fieldColCount;
-        private int _chipPlacementCount;
-        private int _chipStartCount;
-        private int _chipMoveDistance;
-        private int _minimalChipCountInGame;
-        private List<(int, int)> _moveVariants;
+        private readonly GameRulesData _data;
+        private readonly List<(int, int)> _moveVariants;
 
-        public GameRules()
+        public GameRules(GameRulesData data)
         {
-            _fieldRowCount = 5;
-            _fieldColCount = 5;
-            _chipPlacementCount = 2;
-            _chipStartCount = 12;
-            _chipMoveDistance = 1;
-            _minimalChipCountInGame = 2;
+            _data = data;
             _moveVariants = new List<(int, int)>
                     {
                         (-1, -1),
@@ -33,13 +24,13 @@ namespace Assets.Scripts.Core.Rules
                     };
         }
 
-        public int RowCount => _fieldRowCount;
-        public int ColCount => _fieldColCount;
-        public int ChipPlacementCount => _chipPlacementCount;
-        public int ChipStartCount => _chipStartCount;
-        public int ChipMoveDistance => _chipMoveDistance;
+        public int RowCount => _data.FieldRowCount;
+        public int ColCount => _data.FieldColCount;
+        public int ChipPlacementCount => _data.ChipPlacementCount;
+        public int ChipStartCount => _data.ChipStartCount;
+        public int ChipMoveDistance => _data.ChipMoveDistance;
 
-        public int MinimalChipCountInGame => _minimalChipCountInGame;
+        public int MinimalChipCountInGame => _data.MinimalChipCountInGame;
 
         public List<(int, int)> MoveVariants => _moveVariants;
     }

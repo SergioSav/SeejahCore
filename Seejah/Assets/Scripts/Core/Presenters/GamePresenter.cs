@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core.Models;
+﻿using Assets.Scripts.Core.Controllers;
+using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.SceneInstallers;
 using UniRx;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Core.Presenters
         private LifetimeScope _parentScope;
         private GameModel _gameModel;
         private ISceneLoader _sceneLoader;
+        private LifetimeScope _loadedScope;
 
         [Inject]
         public void Construct(GameModel gameModel, ISceneLoader sceneLoader, LifetimeScope parentScope)
@@ -33,13 +35,13 @@ namespace Assets.Scripts.Core.Presenters
                 case GameState.Boot:
                     break;
                 case GameState.Loading:
-                    _parentScope.CreateChild(new LoadingInstaller());
+                    _loadedScope = _parentScope.CreateChild(new LoadingInstaller());
                     break;
                 case GameState.MainMenu:
-                    SwitchScene("Menu", new MainMenuExtrasInstaller());
+                    SwitchScene("Menu", new MainMenuExtrasInstaller(), _loadedScope);
                     break;
                 case GameState.PrepareMatch:
-                    SwitchScene("Gameplay", new GameplayExtrasInstaller());
+                    SwitchScene("Gameplay", new GameplayExtrasInstaller(), _loadedScope);
                     break;
                 case GameState.Match:
                     break;
@@ -54,17 +56,9 @@ namespace Assets.Scripts.Core.Presenters
             }
         }
 
-        private void SwitchScene(string sceneName, IInstaller extraInstaller)
+        private void SwitchScene(string sceneName, IInstaller extraInstaller, LifetimeScope scope)
         {
-            StartCoroutine(_sceneLoader.LoadScene(sceneName, extraInstaller));
-        }
-    }
-
-    internal class LoadingInstaller : IInstaller
-    {
-        public void Install(IContainerBuilder builder)
-        {
-            
+            StartCoroutine(_sceneLoader.LoadScene(sceneName, extraInstaller, scope));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Rules;
+using Assets.Scripts.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -12,29 +13,32 @@ namespace Assets.Scripts.Core.Models
         private ReactiveProperty<CellModel> _addChip;
         public IReadOnlyReactiveProperty<CellModel> MoveChip => _moveChip;
         private ReactiveProperty<CellModel> _moveChip;
-        public IReadOnlyReactiveProperty<CellModel> RemoveChip => _removeChip;
-        private ReactiveProperty<CellModel> _removeChip;
+        public IReadOnlyReactiveProperty<AttackThreesome> AttackChip => _attackChip;
+        private ReactiveProperty<AttackThreesome> _attackChip;
         public IReadOnlyReactiveProperty<List<CellModel>> UpdateCells => _updateCells;
         private ReactiveProperty<List<CellModel>> _updateCells;
 
         private Dictionary<RowColPair, CellModel> _cells;
         private RowColPair _cachedRowColPairForCompare;
+        private ITimeService _timeService;
         private readonly GameRules _gameRules;
 
         public List<CellModel> Cells => _cells.Values.ToList();
 
         public CellModel SelectedCell { get; private set; }
+        public int ChipCountForOnePlayer => _gameRules.ChipStartCount;
 
-        public FieldModel(GameRules gameRules)
+        public FieldModel(GameRules gameRules, ITimeService timeService)
         {
             _gameRules = gameRules;
+            _timeService = timeService;
             _cachedRowColPairForCompare = new RowColPair();
             _cells = new Dictionary<RowColPair, CellModel>();
             SelectedCell = null;
 
             _addChip = AddForDispose(new ReactiveProperty<CellModel>());
             _moveChip = AddForDispose(new ReactiveProperty<CellModel>());
-            _removeChip = AddForDispose(new ReactiveProperty<CellModel>());
+            _attackChip = AddForDispose(new ReactiveProperty<AttackThreesome>());
             _updateCells = AddForDispose(new ReactiveProperty<List<CellModel>>());
         }
 
@@ -93,12 +97,6 @@ namespace Assets.Scripts.Core.Models
             return false;
         }
 
-        public void HandleRemoveChip(CellModel cell)
-        {
-            cell.ClearChip();
-            _removeChip.SetValueAndForceNotify(cell);
-        }
-
         public bool TryMoveSelectedChip(int row, int col)
         {
             if (GetCellInPosition(row, col, out var cell))
@@ -120,12 +118,12 @@ namespace Assets.Scripts.Core.Models
             return false;
         }
 
-        public List<CellModel> DetermineOpponentsChipForRemove(int row, int col, TeamType movingTeam)
+        public List<AttackThreesome> DetermineAttackThreesome(int row, int col, TeamType movingTeam)
         {
             if (GetCellInPosition(row, col, out var cell))
             {
-                var cellsForUpdating = new List<CellModel>();
-                
+                var cellsForUpdating = new List<AttackThreesome>();
+
                 foreach (var shifts in _gameRules.MoveVariants)
                 {
                     if (GetCellInPosition(cell.RowColPair.Row + shifts.Item1, cell.RowColPair.Col + shifts.Item2, out var neighbourCell))
@@ -136,7 +134,8 @@ namespace Assets.Scripts.Core.Models
                             {
                                 if (otherPlayerCell.Chip != null && otherPlayerCell.Chip.Team == movingTeam)
                                 {
-                                    cellsForUpdating.Add(neighbourCell);
+                                    var threesome = new AttackThreesome { FirstAttacker = cell, SecondAttacker = otherPlayerCell, Victim = neighbourCell };
+                                    cellsForUpdating.Add(threesome);
                                 }
                             }
                         }
@@ -171,6 +170,16 @@ namespace Assets.Scripts.Core.Models
             _moveChip.SetValueAndForceNotify(targetCell);
             SelectedCell.ClearChip();
             SelectedCell = null;
+        }
+
+        public void HandleChipAttack(List<AttackThreesome> attackingCells)
+        {
+            for (var i = 0; i < attackingCells.Count; i++)
+            {
+                AttackThreesome threesome = attackingCells[i];
+                threesome.Victim.ClearChip();
+                _timeService.Wait(i).Then(() => _attackChip.SetValueAndForceNotify(threesome));
+            }
         }
     }
 }

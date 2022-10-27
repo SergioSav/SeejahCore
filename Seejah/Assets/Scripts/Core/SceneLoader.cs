@@ -6,21 +6,14 @@ namespace Assets.Scripts.Core
 {
     public interface ISceneLoader
     {
-        IEnumerator LoadScene(string sceneName, IInstaller installer);
+        IEnumerator LoadScene(string sceneName, IInstaller installer, LifetimeScope scope);
     }
 
     public class SceneLoader : ISceneLoader
     {
-        private readonly LifetimeScope _parentScope;
-
-        public SceneLoader(LifetimeScope parentScope)
+        public IEnumerator LoadScene(string sceneName, IInstaller installer, LifetimeScope scope)
         {
-            _parentScope = parentScope;
-        }
-
-        public IEnumerator LoadScene(string sceneName, IInstaller installer)
-        {
-            using (LifetimeScope.EnqueueParent(_parentScope))
+            using (LifetimeScope.EnqueueParent(scope))
             using (LifetimeScope.Enqueue(installer))
             {
                 var asyncLoad = SceneManager.LoadSceneAsync(sceneName);

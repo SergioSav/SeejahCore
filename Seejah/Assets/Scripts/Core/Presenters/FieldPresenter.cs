@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core.Models;
+﻿using Assets.Scripts.Core.Data.Services;
+using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Views;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,27 @@ namespace Assets.Scripts.Core.Presenters
         private MatchModel _matchModel;
         private Func<CellView, Transform, CellView> _cellViewFactory;
         private Func<ChipView, Transform, ChipView> _chipViewFactory;
+        private IPrefabPrototypeSupplier _prototypeSupplier;
         private Dictionary<CellModel, CellView> _cellViews;
         private Dictionary<CellModel, ChipView> _chipViews;
 
         [SerializeField] private CellView cellPrototype;
-        [SerializeField] private ChipView chipPrototype;
+        private int _chipId; // TODO: temp, receive from MatchOptions
+        private Stack<ChipView> _firstTeamChips;
+        private Stack<ChipView> _secondTeamChips;
 
         [Inject]
         public void Construct(FieldModel fieldModel, MatchModel matchModel, 
             Func<CellView, Transform, CellView> cellViewFactory,
-            Func<ChipView, Transform, ChipView> chipViewFactory
+            Func<ChipView, Transform, ChipView> chipViewFactory,
+            IPrefabPrototypeSupplier prototypeSupplier
             )
         {
             _fieldModel = fieldModel;
             _matchModel = matchModel;
             _cellViewFactory = cellViewFactory;
             _chipViewFactory = chipViewFactory;
+            _prototypeSupplier = prototypeSupplier;
 
             _cellViews = new Dictionary<CellModel, CellView>();
             _chipViews = new Dictionary<CellModel, ChipView>();
@@ -39,19 +45,52 @@ namespace Assets.Scripts.Core.Presenters
 
         private void Start()
         {
+            _chipId = 1;
+
+            GenerateChips();
+
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
             AddForDispose(_fieldModel.AddChip.Subscribe(OnChipAddFor));
             AddForDispose(_fieldModel.MoveChip.Subscribe(OnChipMove));
-            AddForDispose(_fieldModel.RemoveChip.Subscribe(OnChipRemove));
+            AddForDispose(_fieldModel.AttackChip.Subscribe(OnChipAttack));
         }
 
-        private void OnChipRemove(CellModel cell)
+        private void GenerateChips()
         {
-            if (cell == null) return;
+            _firstTeamChips = GenerateChipsForTeam(TeamType.FirstTeam);
+            _secondTeamChips = GenerateChipsForTeam(TeamType.SecondTeam);
+        }
 
-            //Destroy(_chipViews[cell].gameObject);
-            _chipViews[cell].RemoveFromBoard();
-            _chipViews[cell] = null;
+        private Stack<ChipView> GenerateChipsForTeam(TeamType team)
+        {
+            var resultList = new Stack<ChipView>();
+            for (int i = 0; i < _fieldModel.ChipCountForOnePlayer; i++)
+            {
+                var prototype = _prototypeSupplier.GetPrototype<ChipView>(_chipId);
+                var chip = _chipViewFactory.Invoke(prototype, transform);
+                chip.Setup(team);
+                var pos = new Vector3(-(int)team, 0, i);
+                chip.PlaceOutBoard(pos);
+                resultList.Push(chip);
+            }
+            return resultList;
+        }
+
+        private void OnChipAttack(AttackThreesome threesome)
+        {
+            if (threesome == null) return;
+            ShowChipAttack(threesome);
+        }
+
+        private void ShowChipAttack(AttackThreesome threesome)
+        {
+            var firstAttacker = _chipViews[threesome.FirstAttacker];
+            var secondAttacker = _chipViews[threesome.SecondAttacker];
+            var victim = _chipViews[threesome.Victim];
+            firstAttacker.Attack(victim.transform.position);
+            secondAttacker.Attack(victim.transform.position);
+            victim.RemoveFromBoard();
+            _chipViews[threesome.Victim] = null;
         }
 
         private void OnCellsUpdate(List<CellModel> cells)
@@ -72,9 +111,8 @@ namespace Assets.Scripts.Core.Presenters
                 return;
 
             var pos = new Vector3(cell.RowColPair.Row * CellSize, 0, cell.RowColPair.Col * CellSize);
-            var chip = _chipViewFactory.Invoke(chipPrototype, transform);
-            chip.Setup(_matchModel.ActivePlayer.TeamType);
-            chip.UpdatePos(pos);
+            var chip = _matchModel.ActivePlayer.TeamType == TeamType.FirstTeam ? _firstTeamChips.Pop() : _secondTeamChips.Pop();
+            chip.PlaceOnBoard(pos);
             _chipViews[cell] = chip;
         }
 

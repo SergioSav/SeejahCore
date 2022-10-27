@@ -3,7 +3,7 @@
     public enum TeamType
     {
         None = 0,
-        TeamRed = 1,
-        TeamBlue = 2
+        FirstTeam = 1,
+        SecondTeam = 2
     }
 }
