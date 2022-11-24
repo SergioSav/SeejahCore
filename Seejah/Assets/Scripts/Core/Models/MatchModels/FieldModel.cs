@@ -148,7 +148,7 @@ namespace Assets.Scripts.Core.Models
 
         public void PrintFieldForDebug()
         {
-            var counter = 5;
+            var counter = _gameRules.RowCount;
             var stroke = "";
             foreach (var kvp in _cells)
             {
@@ -158,7 +158,7 @@ namespace Assets.Scripts.Core.Models
                 if (counter == 0)
                 {
                     UnityEngine.Debug.Log($" {stroke}");
-                    counter = 5;
+                    counter = _gameRules.RowCount;
                     stroke = "";
                 }
             }

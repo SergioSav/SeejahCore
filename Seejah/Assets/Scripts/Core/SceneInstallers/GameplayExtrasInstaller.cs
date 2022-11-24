@@ -15,7 +15,6 @@ namespace Assets.Scripts.Core.SceneInstallers
     {
         public void Install(IContainerBuilder builder)
         {
-            builder.Register<MatchOptions>(Lifetime.Singleton); // TODO: setup in menu
             builder.Register<FieldModel>(Lifetime.Singleton);
             builder.Register<MatchModel>(Lifetime.Singleton);
 
@@ -45,6 +44,7 @@ namespace Assets.Scripts.Core.SceneInstallers
 
             builder.RegisterComponentInHierarchy<FieldPresenter>();
             builder.RegisterComponentInHierarchy<GameplayUIPresenter>();
+            builder.RegisterComponentInHierarchy<EndGameWindowPresenter>();
 
             builder.RegisterEntryPoint<Match>(Lifetime.Singleton);
         }

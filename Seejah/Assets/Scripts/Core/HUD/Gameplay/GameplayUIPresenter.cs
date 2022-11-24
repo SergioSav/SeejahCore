@@ -81,9 +81,8 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnWaitNextTurn()
         {
-            var team = _matchModel.ActivePlayer.TeamType.ToString();
-            textCurrentTeam.text = team;
-            ShowBanner($"{team}! Your turn!");
+            if (_matchModel.IsUserTurn)
+                ShowBanner($"Your turn!");
         }
 
         private void OnDestroy()

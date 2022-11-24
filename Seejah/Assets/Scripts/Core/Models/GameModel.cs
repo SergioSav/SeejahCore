@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.Framework;
+using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
@@ -7,6 +8,9 @@ namespace Assets.Scripts.Core.Models
     public class GameModel : DisposableContainer
     {
         private ReactiveProperty<GameState> _currentState;
+        private IPlayerModel _currentWinner;
+
+        public IPlayerModel LastWinner => _currentWinner;
 
         public GameModel()
         {
@@ -26,6 +30,11 @@ namespace Assets.Scripts.Core.Models
             ChangeGameStateTo(GameState.PrepareMatch);
         }
 
+        public void EndMatch()
+        {
+            ChangeGameStateTo(GameState.MainMenu);
+        }
+
         public void StartCusomization()
         {
             ChangeGameStateTo(GameState.Customization);
@@ -34,6 +43,11 @@ namespace Assets.Scripts.Core.Models
         public void EndCustomization()
         {
             ChangeGameStateTo(GameState.MainMenu);
+        }
+
+        public void SetWinner(IPlayerModel winner)
+        {
+            _currentWinner = winner;
         }
     }
 }

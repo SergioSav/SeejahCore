@@ -22,12 +22,11 @@ namespace Assets.Scripts.Core.Presenters
         private Dictionary<CellModel, ChipView> _chipViews;
 
         [SerializeField] private CellView cellPrototype;
-        private int _chipId; // TODO: temp, receive from MatchOptions
         private Stack<ChipView> _firstTeamChips;
         private Stack<ChipView> _secondTeamChips;
 
         [Inject]
-        public void Construct(FieldModel fieldModel, MatchModel matchModel, 
+        public void Construct(FieldModel fieldModel, MatchModel matchModel,
             Func<CellView, Transform, CellView> cellViewFactory,
             Func<ChipView, Transform, ChipView> chipViewFactory,
             IPrefabPrototypeSupplier prototypeSupplier
@@ -45,8 +44,6 @@ namespace Assets.Scripts.Core.Presenters
 
         private void Start()
         {
-            _chipId = 1;
-
             GenerateChips();
 
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
@@ -66,7 +63,7 @@ namespace Assets.Scripts.Core.Presenters
             var resultList = new Stack<ChipView>();
             for (int i = 0; i < _fieldModel.ChipCountForOnePlayer; i++)
             {
-                var prototype = _prototypeSupplier.GetPrototype<ChipView>(_chipId);
+                var prototype = _prototypeSupplier.GetPrototype<ChipView>(_matchModel.Options.ChipId);
                 var chip = _chipViewFactory.Invoke(prototype, transform);
                 chip.Setup(team);
                 var pos = new Vector3(-(int)team, 0, i);

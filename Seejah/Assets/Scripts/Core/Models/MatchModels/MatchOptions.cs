@@ -10,5 +10,6 @@ namespace Assets.Scripts.Core.Models.MatchModels
         public int ChipId = 1;
         public int BoardId = 1;
         public int BackgroundId = 1;
+
     }
 }

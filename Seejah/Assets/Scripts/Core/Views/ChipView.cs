@@ -14,9 +14,9 @@ public class ChipView : MonoBehaviour
     public TeamType Team { get; private set; }
 
     [Inject]
-    public void Construct(MatchOptions matchOptions)
+    public void Construct(MatchModel matchModel)
     {
-        _matchOptions = matchOptions;
+        _matchOptions = matchModel.Options;
     }
 
     public void Setup(TeamType team)

@@ -16,10 +16,20 @@ MonoBehaviour:
   - Id: 1
     Name: Cube chip
     Description: main chip for game
-    AssetName: Chip_1
+    AssetName: Chip_2
     Type: 2
   - Id: 2
     Name: Cylinder chip
     Description: additional chip
-    AssetName: Chip_2
+    AssetName: Chip_1
     Type: 2
+  - Id: 3
+    Name: Round Chip
+    Description: roundChip image
+    AssetName: roundChip
+    Type: 1
+  - Id: 4
+    Name: Square Chip
+    Description: squareChip image
+    AssetName: squareChip
+    Type: 1

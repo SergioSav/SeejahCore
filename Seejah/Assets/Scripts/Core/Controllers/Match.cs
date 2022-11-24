@@ -17,6 +17,7 @@ namespace Assets.Scripts.Core.Controllers
 
     public class Match : DisposableContainer, IMatch
     {
+        private readonly UserModel _userModel;
         private readonly ITimeService _timeService;
         private readonly GameRules _gameRules;
         private readonly GameModel _gameModel;
@@ -27,9 +28,11 @@ namespace Assets.Scripts.Core.Controllers
 
         private int _placementChipCount;
 
-        public Match(ITimeService timeService, GameRules gameRules, GameModel gameModel, MatchModel matchModel, FieldModel fieldModel, RandomProvider random,
+        public Match(UserModel userModel, ITimeService timeService, GameRules gameRules, GameModel gameModel,
+            MatchModel matchModel, FieldModel fieldModel, RandomProvider random, 
             Func<TeamType, IBrain, IPlayerModel> playerFactory)
         {
+            _userModel = userModel;
             _timeService = timeService;
             _gameRules = gameRules;
             _gameModel = gameModel;
@@ -41,6 +44,7 @@ namespace Assets.Scripts.Core.Controllers
 
         public void Start()
         {
+            _userModel.SetTeam(TeamType.FirstTeam);
             var player1 = _playerFactory.Invoke(TeamType.FirstTeam, new HumanBrainModel());
             var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
 
@@ -78,7 +82,7 @@ namespace Assets.Scripts.Core.Controllers
                                 var attackingCells = _fieldModel.DetermineAttackThreesome(rcp.Row, rcp.Col, currentPlayer.TeamType);
                                 HandleChipAttack(attackingCells);
                                 //_fieldModel.PrintFieldForDebug();
-                                HandleEndTurn();
+                                HandleEndTurn(attackingCells.Count);
                             });
                     }
                     else
@@ -121,11 +125,18 @@ namespace Assets.Scripts.Core.Controllers
 
         private void ProcessBattleEnd()
         {
-            // get winner here
+            var winner = _matchModel.GetWinner();
             //_matchModel.Dispose();
             //_fieldModel.Dispose();
             _timeService.Wait(1)
-                .Then(() => _gameModel.ChangeGameStateTo(GameState.Reward)); // TODO:
+                .Then(() => {
+                    _gameModel.SetWinner(winner);
+                    if (winner.TeamType == _userModel.TeamType)
+                        _userModel.ProcessWin();
+                    else
+                        _userModel.ProcessLose();
+                    _gameModel.ChangeGameStateTo(GameState.Reward);
+                }); // TODO:
         }
 
         private void OnWaitNextTurn()
@@ -155,7 +166,7 @@ namespace Assets.Scripts.Core.Controllers
             _fieldModel.HandleChipAttack(attackingCells);
         }
 
-        private void HandleEndTurn()
+        private void HandleEndTurn(int timeout = 1)
         {
             if (_matchModel.CurrentState.Value == MatchStateType.PhasePlacement)
             {
@@ -165,7 +176,7 @@ namespace Assets.Scripts.Core.Controllers
                 {
                     _placementChipCount = 0;
                     _matchModel.ActivePlayer.EndTurn();
-                    _timeService.Wait(2)
+                    _timeService.Wait(timeout)
                         .Then(() =>
                         {
                             _matchModel.ChooseNextPlayer();
@@ -174,7 +185,7 @@ namespace Assets.Scripts.Core.Controllers
                 }
                 else
                 {
-                    _timeService.WaitRandom(1, 3)
+                    _timeService.WaitRandom(timeout, timeout + 2)
                         .Then(_matchModel.ActivePlayer.MakeTurn);
                     // TODO: ignore for human
                 }
@@ -182,7 +193,7 @@ namespace Assets.Scripts.Core.Controllers
             else if (_matchModel.CurrentState.Value == MatchStateType.PhaseBattle)
             {
                 _matchModel.ActivePlayer.EndTurn();
-                _timeService.Wait(1)
+                _timeService.Wait(timeout)
                     .Then(() =>
                     {
                         _matchModel.ChooseNextPlayer();

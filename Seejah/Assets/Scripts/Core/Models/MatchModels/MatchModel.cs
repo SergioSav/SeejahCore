@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.Models.MatchModels;
 using Assets.Scripts.Core.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace Assets.Scripts.Core.Models
     public class MatchModel : DisposableContainer
     {
         private readonly RandomProvider _random;
+        private readonly UserModel _userModel;
+        private readonly MatchOptions _options;
+
         private List<IPlayerModel> _players;
         private IPlayerModel _activePlayer;
         private ReactiveProperty<MatchStateType> _currentState;
@@ -18,10 +22,17 @@ namespace Assets.Scripts.Core.Models
         public IReadOnlyReactiveProperty<MatchStateType> CurrentState => _currentState;
 
         public IPlayerModel ActivePlayer => _activePlayer;
+        public MatchOptions Options => _options;
+        public bool IsUserTurn => _activePlayer.TeamType == _userModel.TeamType;
 
-        public MatchModel(RandomProvider random)
+        public MatchModel(RandomProvider random, UserModel userModel)
         {
             _random = random;
+            _userModel = userModel;
+            _options = new MatchOptions
+            {
+                ChipId = userModel.SelectedChipId
+            };
 
             _currentState = AddForDispose(new ReactiveProperty<MatchStateType>(MatchStateType.None));
             _waitNextTurn = AddForDispose(new Subject<Unit>());
@@ -63,6 +74,18 @@ namespace Assets.Scripts.Core.Models
                 result |= !player.HasEnoughChipInGame();
 
             return result;
+        }
+
+        public IPlayerModel GetWinner()
+        {
+            foreach (var player in _players)
+            {
+                if (player.HasEnoughChipInGame())
+                {
+                    return player;
+                }
+            }
+            return default;
         }
 
         private void SwitchStateTo(MatchStateType state)

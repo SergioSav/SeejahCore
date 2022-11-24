@@ -52,7 +52,7 @@ namespace Assets.Scripts.Core.Controllers
                     // NOP
                     break;
                 case GameState.Reward:
-                    _gameModel.ChangeGameStateTo(GameState.MainMenu);
+                    // NOP
                     break;
                 case GameState.Settings:
                     break;
