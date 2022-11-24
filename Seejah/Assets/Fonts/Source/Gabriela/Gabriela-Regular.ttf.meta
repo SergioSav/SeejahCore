@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 3998d571daef6454d939ab412332ff19
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Gabriela
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4dc42deba67bcb5499131eeb793eea3b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
