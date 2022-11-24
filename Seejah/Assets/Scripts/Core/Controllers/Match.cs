@@ -46,7 +46,8 @@ namespace Assets.Scripts.Core.Controllers
         {
             _userModel.SetTeam(TeamType.FirstTeam);
             var player1 = _playerFactory.Invoke(TeamType.FirstTeam, new HumanBrainModel());
-            var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
+            var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIUltimateBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
+            //var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
 
             _matchModel.AddPlayers(new List<IPlayerModel> { player1, player2 });
             _matchModel.ChooseFirstPlayer();
