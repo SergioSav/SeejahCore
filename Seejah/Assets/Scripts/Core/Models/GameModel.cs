@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.Framework;
-using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
@@ -9,8 +8,12 @@ namespace Assets.Scripts.Core.Models
     {
         private ReactiveProperty<GameState> _currentState;
         private IPlayerModel _currentWinner;
+        private bool _isRandomPlacementPhase;
+        private bool _needUseUltimateAI;
 
         public IPlayerModel LastWinner => _currentWinner;
+        public bool IsRandomPlacementPhase => _isRandomPlacementPhase;
+        public bool NeedUseUltimateAI => _needUseUltimateAI;
 
         public GameModel()
         {
@@ -30,8 +33,23 @@ namespace Assets.Scripts.Core.Models
             ChangeGameStateTo(GameState.PrepareMatch);
         }
 
+        public void StartMatchWithRandomPlacement()
+        {
+            _isRandomPlacementPhase = true;
+            StartMatch();
+        }
+
+        public void StartMatchWithUltimateAI()
+        {
+            _isRandomPlacementPhase = true; // TEMP
+            _needUseUltimateAI = true;
+            StartMatch();
+        }
+
         public void EndMatch()
         {
+            _isRandomPlacementPhase = false;
+            _needUseUltimateAI = false;
             ChangeGameStateTo(GameState.MainMenu);
         }
 

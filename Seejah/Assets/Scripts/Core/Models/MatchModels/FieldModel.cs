@@ -17,6 +17,8 @@ namespace Assets.Scripts.Core.Models
         private ReactiveProperty<AttackThreesome> _attackChip;
         public IReadOnlyReactiveProperty<List<CellModel>> UpdateCells => _updateCells;
         private ReactiveProperty<List<CellModel>> _updateCells;
+        public IReadOnlyReactiveProperty<CellModel> SelectCell => _selectCell;
+        private ReactiveProperty<CellModel> _selectCell;
 
         private Dictionary<RowColPair, CellModel> _cells;
         private RowColPair _cachedRowColPairForCompare;
@@ -25,7 +27,8 @@ namespace Assets.Scripts.Core.Models
 
         public List<CellModel> Cells => _cells.Values.ToList();
 
-        public CellModel SelectedCell { get; private set; }
+        public CellModel SelectedCell => _selectCell.Value;
+
         public int ChipCountForOnePlayer => _gameRules.ChipStartCount;
 
         public FieldModel(GameRules gameRules, ITimeService timeService)
@@ -34,19 +37,18 @@ namespace Assets.Scripts.Core.Models
             _timeService = timeService;
             _cachedRowColPairForCompare = new RowColPair();
             _cells = new Dictionary<RowColPair, CellModel>();
-            SelectedCell = null;
 
             _addChip = AddForDispose(new ReactiveProperty<CellModel>());
             _moveChip = AddForDispose(new ReactiveProperty<CellModel>());
             _attackChip = AddForDispose(new ReactiveProperty<AttackThreesome>());
             _updateCells = AddForDispose(new ReactiveProperty<List<CellModel>>());
+            _selectCell = AddForDispose(new ReactiveProperty<CellModel>());
         }
 
         public override void Dispose()
         {
+            _selectCell.Value = null;
             base.Dispose();
-
-            SelectedCell = null;
         }
 
         public void CreateField(int row, int col)
@@ -91,7 +93,7 @@ namespace Assets.Scripts.Core.Models
             {
                 if (cell.Chip == null || cell.Chip.Team != team)
                     return false;
-                SelectedCell = cell;
+                _selectCell.Value = cell;
                 return true;
             }
             return false;
@@ -169,7 +171,7 @@ namespace Assets.Scripts.Core.Models
             targetCell.SetChip(SelectedCell.Chip);
             _moveChip.SetValueAndForceNotify(targetCell);
             SelectedCell.ClearChip();
-            SelectedCell = null;
+            _selectCell.Value = null;
         }
 
         public void HandleChipAttack(List<AttackThreesome> attackingCells)

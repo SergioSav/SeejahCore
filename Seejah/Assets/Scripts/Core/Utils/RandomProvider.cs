@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Assets.Scripts.Core.Utils
 {
@@ -61,6 +62,27 @@ namespace Assets.Scripts.Core.Utils
 
             var index = _generator.Next(0, list.Count);
             result = list[index];
+            return true;
+        }
+
+        /// <summary>
+        /// Random item from IEnumerable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="result"></param>
+        /// <returns>random item from IEnumerable</returns>
+        public bool GetRandom<T>(IEnumerable<T> list, out T result)
+        {
+            result = default;
+            if (list == null)
+                return false;
+            var listLength = list.Count();
+            if (listLength == 0) 
+                return false;
+
+            var index = _generator.Next(0, listLength);
+            result = list.ElementAt(index);
             return true;
         }
     }

@@ -22,6 +22,7 @@ namespace Assets.Scripts.Core.Presenters
         private Dictionary<CellModel, ChipView> _chipViews;
 
         [SerializeField] private CellView cellPrototype;
+        [SerializeField] private SelectionCellView selectionCell;
         private Stack<ChipView> _firstTeamChips;
         private Stack<ChipView> _secondTeamChips;
 
@@ -47,6 +48,7 @@ namespace Assets.Scripts.Core.Presenters
             GenerateChips();
 
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
+            AddForDispose(_fieldModel.SelectCell.Subscribe(OnCellSelect));
             AddForDispose(_fieldModel.AddChip.Subscribe(OnChipAddFor));
             AddForDispose(_fieldModel.MoveChip.Subscribe(OnChipMove));
             AddForDispose(_fieldModel.AttackChip.Subscribe(OnChipAttack));
@@ -123,6 +125,19 @@ namespace Assets.Scripts.Core.Presenters
             chipView.UpdatePos(pos);
             _chipViews[_fieldModel.SelectedCell] = null;
             _chipViews[newCell] = chipView;
+        }
+
+        private void OnCellSelect(CellModel cell)
+        {
+            if (cell != null)
+            {
+                var cellView = _cellViews[cell];
+                selectionCell.ShowFor(cellView);
+            }
+            else
+            {
+                selectionCell.Hide();
+            }
         }
 
         private void Update()

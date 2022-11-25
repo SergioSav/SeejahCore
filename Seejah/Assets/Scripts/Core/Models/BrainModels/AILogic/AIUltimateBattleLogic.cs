@@ -17,6 +17,7 @@ namespace Assets.Scripts.Core.Models.AILogic
 
         public AIUltimateBattleLogic(GameRules gameRules, FieldModel fieldModel, RandomProvider random, TeamType teamType)
         {
+            UnityEngine.Debug.Log("- = ULTIMATE = -");
             _gameRules = gameRules;
             _fieldModel = fieldModel;
             _random = random;
@@ -31,7 +32,7 @@ namespace Assets.Scripts.Core.Models.AILogic
 
         public CellModel CellForSelect()
         {
-            DefineCells();
+            MakeDecision();
             return _selectedCell;
         }
 
@@ -40,69 +41,68 @@ namespace Assets.Scripts.Core.Models.AILogic
             return _cellForMove;
         }
 
-        private void DefineCells()
+        private void DefineCells(AIMoveLogicData data)
+        {
+            _selectedCell = data.PossibleMoveFromCells.Random(_random);
+            _cellForMove = data.TargetCell;
+            UnityEngine.Debug.Log($"DECISION: {data}");
+        }
+
+        private void MakeDecision()
         {
             var moveVariants = GetMoveVariants();
 
-            var cellsWithPossibleMoveFromCells = moveVariants
-                .Where(v => v.PossibleMoveFromCells.Count > 0)
-                .ToList();
-            var decisionWithPossibleAttack = cellsWithPossibleMoveFromCells
+            var variantsWithPossibleMoveFromCells = moveVariants
+                .Where(v => v.PossibleMoveFromCells.Count > 0);
+            LogVariants("PossibleMove", variantsWithPossibleMoveFromCells);
+
+            var variantsWithPossibleAttack = variantsWithPossibleMoveFromCells
                 .Where(v => v.PossibleAttackCount > 0)
-                .OrderByDescending(v => v.PossibleAttackCount)
-                .FirstOrDefault();
-            if (decisionWithPossibleAttack != default)
+                .OrderByDescending(v => v.PossibleAttackCount);
+            LogVariants("PossibleAttack", variantsWithPossibleAttack);
+            var variant = variantsWithPossibleAttack.FirstOrDefault();
+
+            if (variant != default)
             {
-                if (decisionWithPossibleAttack.PossibleMoveFromCells.Count > 1)
-                {
-                    if (_random.GetRandom(decisionWithPossibleAttack.PossibleMoveFromCells, out var selectedCell))
-                        _selectedCell = selectedCell;
-                }
-                else
-                {
-                    _selectedCell = decisionWithPossibleAttack.PossibleMoveFromCells.FirstOrDefault();
-                }
-                _cellForMove = decisionWithPossibleAttack.TargetCell;
+                DefineCells(variant);
             }
             else
             {
-                var variantsWithoutThreat = cellsWithPossibleMoveFromCells
+                var variantsWithoutThreat = variantsWithPossibleMoveFromCells
                     .Where(v => v.PossibleThreatCount == 0)
                     .ToList();
-                if (variantsWithoutThreat.Count > 0)
+                if (_random.GetRandom(variantsWithoutThreat, out variant))
                 {
-                    if (_random.GetRandom(variantsWithoutThreat, out var variant))
-                    {
-                        if (variant.PossibleMoveFromCells.Count > 1)
-                        {
-                            if (_random.GetRandom(variant.PossibleMoveFromCells, out var selectedCell))
-                                _selectedCell = selectedCell;
-                        }
-                        else
-                        {
-                            _selectedCell = variant.PossibleMoveFromCells.FirstOrDefault();
-                        }
-                        _cellForMove = variant.TargetCell;
-                    }
+                    DefineCells(variant);
                 }
                 else
                 {
-                    if (_random.GetRandom(cellsWithPossibleMoveFromCells, out var variant))
+                    var variantsWithThreat = variantsWithPossibleMoveFromCells
+                        .OrderBy(v => v.PossibleThreatCount);
+                    LogVariants("PossibleThreat", variantsWithThreat);
+                    variant = variantsWithThreat.FirstOrDefault();
+
+                    if (variant != default)
                     {
-                        if (variant.PossibleMoveFromCells.Count > 1)
-                        {
-                            if (_random.GetRandom(variant.PossibleMoveFromCells, out var selectedCell))
-                                _selectedCell = selectedCell;
-                        }
-                        else
-                        {
-                            _selectedCell = variant.PossibleMoveFromCells.FirstOrDefault();
-                        }
-                        _cellForMove = variant.TargetCell;
+                        DefineCells(variant);
+                    }
+                    else
+                    {
+                        variant = variantsWithPossibleMoveFromCells.Random(_random);
+                        DefineCells(variant);
                     }
                 }
             }
-            
+        }
+
+        private void LogVariants(string logName, IEnumerable<AIMoveLogicData> list)
+        {
+            var log = logName + "\n";
+            foreach (var item in list)
+            {
+                log += item + "\n";
+            }
+            UnityEngine.Debug.Log(log);
         }
 
         private List<AIMoveLogicData> GetMoveVariants()
@@ -132,13 +132,6 @@ namespace Assets.Scripts.Core.Models.AILogic
             return moveVariants;
         }
 
-        private bool GetCellWithShift(CellModel cell, (int, int) shift, out CellModel resultCell, int shiftMultiplier = 1)
-        {
-            var shiftedRow = cell.RowColPair.Row + shift.Item1 * shiftMultiplier;
-            var shiftedCol = cell.RowColPair.Col + shift.Item2 * shiftMultiplier;
-            return _fieldModel.GetCellInPosition(shiftedRow, shiftedCol, out resultCell);
-        }
-
         private void CalculatePossibleAttackThreatCounts(CellModel cell, AIMoveLogicData data)
         {
             var attackCount = 0;
@@ -155,16 +148,49 @@ namespace Assets.Scripts.Core.Models.AILogic
                             {
                                 attackCount++;
                             }
-                            else
-                            {
-                                threatCount++; // TODO: not ultimate variant
-                            }
                         }
+                        threatCount += GetThreatCountFor(cell, shifts);
                     }
                 }
             }
             data.PossibleAttackCount = attackCount;
             data.PossibleThreatCount = threatCount;
+        }
+
+        private int GetThreatCountFor(CellModel cellMoveFrom, (int,int) shift)
+        {
+            var result = 0;
+
+            result += GetEnemyNeighboursFor(cellMoveFrom);
+
+            if (GetCellWithShift(cellMoveFrom, shift, out var neighbourCell, -1))
+            {
+                if (neighbourCell.Chip == null)
+                    result += GetEnemyNeighboursFor(neighbourCell);
+            }
+
+            return result;
+        }
+
+        private int GetEnemyNeighboursFor(CellModel cell)
+        {
+            var result = 0;
+            foreach (var shifts in _gameRules.MoveVariants)
+            {
+                if (GetCellWithShift(cell, shifts, out var possibleEnemyCell))
+                {
+                    if (possibleEnemyCell.Chip != null && possibleEnemyCell.Chip.Team != _currentTeam)
+                        result++;
+                }
+            }
+            return result;
+        }
+
+        private bool GetCellWithShift(CellModel cell, (int, int) shift, out CellModel resultCell, int shiftMultiplier = 1)
+        {
+            var shiftedRow = cell.RowColPair.Row + shift.Item1 * shiftMultiplier;
+            var shiftedCol = cell.RowColPair.Col + shift.Item2 * shiftMultiplier;
+            return _fieldModel.GetCellInPosition(shiftedRow, shiftedCol, out resultCell);
         }
     }
 
@@ -174,5 +200,11 @@ namespace Assets.Scripts.Core.Models.AILogic
         public List<CellModel> PossibleMoveFromCells;
         public int PossibleAttackCount;
         public int PossibleThreatCount;
+
+        public override string ToString()
+        {
+            var possibleMoveFrom = string.Join("|", PossibleMoveFromCells);
+            return $"{TargetCell} <-- {possibleMoveFrom}. A: {PossibleAttackCount}, T:{PossibleThreatCount}";
+        }
     }
 }

@@ -2,9 +2,9 @@
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Utils;
-using Assets.Scripts.Core.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using VContainer.Unity;
 
@@ -46,8 +46,11 @@ namespace Assets.Scripts.Core.Controllers
         {
             _userModel.SetTeam(TeamType.FirstTeam);
             var player1 = _playerFactory.Invoke(TeamType.FirstTeam, new HumanBrainModel());
-            var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIUltimateBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
-            //var player2 = _playerFactory.Invoke(TeamType.SecondTeam, new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam));
+
+            IAIBrain AIBrain = new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
+            if (_gameModel.NeedUseUltimateAI)
+                AIBrain = new AIUltimateBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
+            var player2 = _playerFactory.Invoke(TeamType.SecondTeam, AIBrain);
 
             _matchModel.AddPlayers(new List<IPlayerModel> { player1, player2 });
             _matchModel.ChooseFirstPlayer();
@@ -150,7 +153,22 @@ namespace Assets.Scripts.Core.Controllers
 
         private void PlacementPhaseHandle()
         {
-            _matchModel.ActivePlayer.MakeTurn();
+            if (_gameModel.IsRandomPlacementPhase)
+                RandomPlacement();
+            else
+                _matchModel.ActivePlayer.MakeTurn();
+        }
+
+        private void RandomPlacement()
+        {
+            for (int i = 0; i < _gameRules.ChipStartCount; i++)
+            {
+                var availableCells = _fieldModel.Cells
+                    .Where(c => !c.IsCentral && c.Chip == null)
+                    .ToList();
+                if (_random.GetRandom(availableCells, out var cell))
+                    SelectCell(cell.RowColPair);
+            }
         }
 
         private void BattlePhaseHandle()

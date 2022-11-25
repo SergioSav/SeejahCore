@@ -31,5 +31,10 @@
         {
             IsCentral = true;
         }
+
+        public override string ToString()
+        {
+            return _rowColPair.ToString();
+        }
     }
 }

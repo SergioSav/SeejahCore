@@ -12,6 +12,8 @@ namespace Assets.Scripts.Core.HUD
     {
         [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private Button buttonStart;
+        [SerializeField] private Button buttonStartWithRandomPlacement;
+        [SerializeField] private Button buttonStartWithUltimateAI;
         [SerializeField] private Button buttonCustomize;
 
         private GameModel _gameModel;
@@ -27,6 +29,14 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(buttonStart
                 .OnClickAsObservable()
                 .Subscribe(_ => _gameModel.StartMatch()));
+
+            AddForDispose(buttonStartWithUltimateAI
+                .OnClickAsObservable()
+                .Subscribe(_ => _gameModel.StartMatchWithUltimateAI()));
+
+            AddForDispose(buttonStartWithRandomPlacement
+                .OnClickAsObservable()
+                .Subscribe(_ => _gameModel.StartMatchWithRandomPlacement()));
 
             AddForDispose(buttonCustomize
                 .OnClickAsObservable()
