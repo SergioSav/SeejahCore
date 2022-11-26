@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core.Data.Services;
+﻿using Assets.Scripts.Core.Data;
+using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
 using VContainer;
@@ -25,6 +26,8 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.Register<IDataSerializer, UnityJsonDataSerializer>(Lifetime.Singleton);
             builder.Register<ISaveService, SaveService>(Lifetime.Singleton);
             builder.Register<UserModel>(Lifetime.Singleton);
+
+            builder.Register<GameSettings>(Lifetime.Singleton).AsImplementedInterfaces();
         }
     }
 }

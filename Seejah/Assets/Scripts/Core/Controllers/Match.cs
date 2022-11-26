@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core.Framework;
+﻿using Assets.Scripts.Core.Data;
+using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Utils;
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Core.Controllers
         private readonly ITimeService _timeService;
         private readonly GameRules _gameRules;
         private readonly GameModel _gameModel;
+        private readonly IGameSettings _gameSettings;
         private readonly MatchModel _matchModel;
         private readonly Func<TeamType, IBrain, IPlayerModel> _playerFactory;
         private readonly FieldModel _fieldModel;
@@ -28,7 +30,7 @@ namespace Assets.Scripts.Core.Controllers
 
         private int _placementChipCount;
 
-        public Match(UserModel userModel, ITimeService timeService, GameRules gameRules, GameModel gameModel,
+        public Match(UserModel userModel, ITimeService timeService, GameRules gameRules, GameModel gameModel, IGameSettings gameSettings,
             MatchModel matchModel, FieldModel fieldModel, RandomProvider random, 
             Func<TeamType, IBrain, IPlayerModel> playerFactory)
         {
@@ -36,6 +38,7 @@ namespace Assets.Scripts.Core.Controllers
             _timeService = timeService;
             _gameRules = gameRules;
             _gameModel = gameModel;
+            _gameSettings = gameSettings;
             _matchModel = matchModel;
             _fieldModel = fieldModel;
             _random = random;
@@ -48,7 +51,7 @@ namespace Assets.Scripts.Core.Controllers
             var player1 = _playerFactory.Invoke(TeamType.FirstTeam, new HumanBrainModel());
 
             IAIBrain AIBrain = new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
-            if (_gameModel.NeedUseUltimateAI)
+            if (_gameSettings.NeedUseUltimateAI)
                 AIBrain = new AIUltimateBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
             var player2 = _playerFactory.Invoke(TeamType.SecondTeam, AIBrain);
 
@@ -114,12 +117,14 @@ namespace Assets.Scripts.Core.Controllers
                         .Then(_matchModel.StartPlacement);
                     break;
                 case MatchStateType.PhasePlacement:
+                    PlacementPhaseHandle();
                     break;
                 case MatchStateType.PlacementDone:
                     _timeService.Wait(1)
                         .Then(_matchModel.StartBattle);
                     break;
                 case MatchStateType.PhaseBattle:
+                    BattlePhaseHandle();
                     break;
                 case MatchStateType.BattleEnd:
                     ProcessBattleEnd();
@@ -153,7 +158,7 @@ namespace Assets.Scripts.Core.Controllers
 
         private void PlacementPhaseHandle()
         {
-            if (_gameModel.IsRandomPlacementPhase)
+            if (_gameSettings.IsRandomPlacementPhase)
                 RandomPlacement();
             else
                 _matchModel.ActivePlayer.MakeTurn();
@@ -161,14 +166,22 @@ namespace Assets.Scripts.Core.Controllers
 
         private void RandomPlacement()
         {
+            var currentPlayer = _matchModel.ActivePlayer;
             for (int i = 0; i < _gameRules.ChipStartCount; i++)
             {
                 var availableCells = _fieldModel.Cells
                     .Where(c => !c.IsCentral && c.Chip == null)
                     .ToList();
                 if (_random.GetRandom(availableCells, out var cell))
-                    SelectCell(cell.RowColPair);
+                {
+                    _fieldModel.TryGenerateChip(cell.RowColPair.Row, cell.RowColPair.Col, currentPlayer.TeamType);
+                    _matchModel.ActivePlayer.AddChipInGame();
+                }
             }
+
+            _matchModel.ActivePlayer.EndTurn();
+            _matchModel.ChooseNextPlayer();
+            _matchModel.HandleEndTurn();
         }
 
         private void BattlePhaseHandle()

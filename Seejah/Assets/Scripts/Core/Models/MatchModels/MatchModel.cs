@@ -29,6 +29,7 @@ namespace Assets.Scripts.Core.Models
         {
             _random = random;
             _userModel = userModel;
+
             _options = new MatchOptions
             {
                 ChipId = userModel.SelectedChipId
@@ -107,22 +108,21 @@ namespace Assets.Scripts.Core.Models
         public void StartPlacement()
         {
             SwitchStateTo(MatchStateType.PhasePlacement);
-            _waitNextTurn.OnNext(Unit.Default);
         }
 
         public void StartBattle()
         {
             SwitchStateTo(MatchStateType.PhaseBattle);
-            _waitNextTurn.OnNext(Unit.Default);
         }
 
         public void HandleEndTurn()
         {
             if (_currentState.Value == MatchStateType.PhasePlacement && _players.All(p => p.ReadyForBattle))
                 SwitchStateTo(MatchStateType.PlacementDone);
-            if (_currentState.Value == MatchStateType.PhaseBattle && TestEndMatchCondition())
+            else if (_currentState.Value == MatchStateType.PhaseBattle && TestEndMatchCondition())
                 SwitchStateTo(MatchStateType.BattleEnd);
-            _waitNextTurn.OnNext(Unit.Default);
+            else
+                _waitNextTurn.OnNext(Unit.Default);
         }
 
         public override void Dispose()

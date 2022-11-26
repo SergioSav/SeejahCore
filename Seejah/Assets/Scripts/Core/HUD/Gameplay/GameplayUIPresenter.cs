@@ -75,14 +75,13 @@ namespace Assets.Scripts.Core.HUD
         {
             infoBanner.gameObject.SetActive(true);
             textInfoBanner.text = info;
-
             _bannerSequence.Restart();
         }
 
         private void OnWaitNextTurn()
         {
             if (_matchModel.IsUserTurn)
-                ShowBanner($"Your turn!");
+                ShowBanner("Your turn!");
         }
 
         private void OnDestroy()

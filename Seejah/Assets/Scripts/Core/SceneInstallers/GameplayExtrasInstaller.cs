@@ -2,7 +2,6 @@
 using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.HUD;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Models.MatchModels;
 using Assets.Scripts.Core.Presenters;
 using Assets.Scripts.Core.Views;
 using UnityEngine;
