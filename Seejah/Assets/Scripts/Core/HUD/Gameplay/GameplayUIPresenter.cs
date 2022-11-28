@@ -82,6 +82,8 @@ namespace Assets.Scripts.Core.HUD
         {
             if (_matchModel.IsUserTurn)
                 ShowBanner("Your turn!");
+
+            textCurrentTeam.text = _matchModel.IsUserTurn ? "Now your turn" : "Opponent turns";
         }
 
         private void OnDestroy()
