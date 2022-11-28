@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.Framework;
+using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
@@ -40,6 +41,16 @@ namespace Assets.Scripts.Core.Models
         }
 
         public void EndCustomization()
+        {
+            ChangeGameStateTo(GameState.MainMenu);
+        }
+
+        public void OpenSettings()
+        {
+            ChangeGameStateTo(GameState.Settings);
+        }
+
+        public void CloseSettings()
         {
             ChangeGameStateTo(GameState.MainMenu);
         }

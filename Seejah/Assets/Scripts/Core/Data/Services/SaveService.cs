@@ -6,13 +6,14 @@ namespace Assets.Scripts.Core.Data.Services
     {
         UserSaveState Load();
         void Save(UserSaveState newSave);
+        void Save(GameSettingsSaveState settingsSave);
     }
 
     public class SaveService : ISaveService
     {
         private const string SAVE_NAME = "USS";
 
-        private UserSaveState _saveState;
+        private UserSaveState _currentSaveState;
         private IDataSerializer _dataSerializer;
 
         public SaveService(IDataSerializer dataSerializer)
@@ -22,21 +23,38 @@ namespace Assets.Scripts.Core.Data.Services
 
         public UserSaveState Load()
         {
+            if (_currentSaveState != null)
+                return _currentSaveState;
+
             var savedString = PlayerPrefs.GetString(SAVE_NAME);
             if (savedString != null)
             {
-                _saveState = _dataSerializer.DeserializeTo<UserSaveState>(savedString);
+                _currentSaveState = _dataSerializer.DeserializeTo<UserSaveState>(savedString);
             }
-            return _saveState;
+            return _currentSaveState;
         }
 
         public void Save(UserSaveState newSave)
         {
-            if (_saveState == newSave)
+            if (_currentSaveState == newSave)
                 return;
 
-            _saveState = newSave;
-            var saveString = _dataSerializer.SerializeFrom(_saveState);
+            InternalSave(newSave);
+        }
+
+        public void Save(GameSettingsSaveState settingsSave)
+        {
+            if (_currentSaveState == null)
+                return;
+
+            _currentSaveState.GameSettingsSave = settingsSave;
+            InternalSave(_currentSaveState);
+        }
+
+        private void InternalSave(UserSaveState newSave)
+        {
+            _currentSaveState = newSave;
+            var saveString = _dataSerializer.SerializeFrom(_currentSaveState);
             PlayerPrefs.SetString(SAVE_NAME, saveString);
             PlayerPrefs.Save();
         }

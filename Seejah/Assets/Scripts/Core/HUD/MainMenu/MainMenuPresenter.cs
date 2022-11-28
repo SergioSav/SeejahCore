@@ -1,11 +1,10 @@
 ﻿using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using UniRx;
-using Assets.Scripts.Core.Data;
 
 namespace Assets.Scripts.Core.HUD
 {
@@ -13,18 +12,15 @@ namespace Assets.Scripts.Core.HUD
     {
         [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private Button buttonStart;
-        [SerializeField] private Button buttonStartWithRandomPlacement;
-        [SerializeField] private Button buttonStartWithUltimateAI;
         [SerializeField] private Button buttonCustomize;
+        [SerializeField] private Button buttonSettings;
 
         private GameModel _gameModel;
-        private IGameSettingsSetup _gameSettings;
 
         [Inject]
-        public void Construct(GameModel gameModel, IGameSettingsSetup gameSettings)
+        public void Construct(GameModel gameModel)
         {
             _gameModel = gameModel;
-            _gameSettings = gameSettings;
         }
 
         private void Start()
@@ -33,21 +29,9 @@ namespace Assets.Scripts.Core.HUD
                 .OnClickAsObservable()
                 .Subscribe(_ => _gameModel.StartMatch()));
 
-            AddForDispose(buttonStartWithUltimateAI
+            AddForDispose(buttonSettings
                 .OnClickAsObservable()
-                .Subscribe(_ =>
-                {
-                    _gameSettings.SetUsingUltimateAI(true);
-                    _gameModel.StartMatch();
-                }));
-
-            AddForDispose(buttonStartWithRandomPlacement
-                .OnClickAsObservable()
-                .Subscribe(_ =>
-                {
-                    _gameSettings.SetRandomPlacementPhase(true);
-                    _gameModel.StartMatch();
-                }));
+                .Subscribe(_ => _gameModel.OpenSettings()));
 
             AddForDispose(buttonCustomize
                 .OnClickAsObservable()

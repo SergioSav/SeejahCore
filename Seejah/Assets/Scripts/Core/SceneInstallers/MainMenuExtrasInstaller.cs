@@ -19,6 +19,7 @@ namespace Assets.Scripts.Core.SceneInstallers
 
             builder.RegisterComponentInHierarchy<MainMenuPresenter>();
             builder.RegisterComponentInHierarchy<CustomizationMenuPresenter>();
+            builder.RegisterComponentInHierarchy<SettingsMenuPresenter>();
         }
     }
 }

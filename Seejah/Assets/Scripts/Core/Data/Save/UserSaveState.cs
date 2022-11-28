@@ -12,5 +12,6 @@ namespace Assets.Scripts.Core.Data.Services
         public int LoseCount;
         public int LoseStreak;
         public int SelectedChipId;
+        public GameSettingsSaveState GameSettingsSave;
     }
 }
