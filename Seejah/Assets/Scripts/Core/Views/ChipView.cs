@@ -53,12 +53,17 @@ public class ChipView : MonoBehaviour
 
     public void SetInfiniteRotate()
     {
-        transform.parent.transform.DOLocalRotate(new Vector3(0, 360, 0), 2f, RotateMode.FastBeyond360).SetLoops(-1).SetEase(Ease.Linear);
+        transform.parent.transform
+            .DOLocalRotate(new Vector3(0, 360, 0), 2f, RotateMode.FastBeyond360)
+            .SetLoops(-1)
+            .SetEase(Ease.Linear)
+            .SetLink(gameObject);
     }
 
     public void UpdatePos(Vector3 pos)
     {
-        transform.DOMove(pos, 0.2f);
+        transform.DOMove(pos, 0.2f)
+            .SetLink(gameObject);
     }
 
     public void PlaceOutBoard(Vector3 pos)
@@ -82,13 +87,14 @@ public class ChipView : MonoBehaviour
     {
         transform
             .DOMove(transform.position - (transform.position - pos) * 0.3f, 0.2f)
-            .SetLoops(2, LoopType.Yoyo);
+            .SetLoops(2, LoopType.Yoyo)
+            .SetLink(gameObject);
     }
 
     public void RemoveFromBoard()
     {
         var t = 0.5f;
-        _removeTween = transform.DOMoveY(2, t-0.1f);
+        _removeTween = transform.DOMoveY(2, t - 0.1f);
         _removeTween.onComplete += () => {
             chip.SetActive(false);
             deadFX.SetActive(true);
