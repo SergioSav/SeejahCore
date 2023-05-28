@@ -46,7 +46,7 @@ namespace Assets.Scripts.Core.Controllers
                     // NOP
                     break;
                 case GameState.PrepareMatch:
-                    _gameModel.ChangeGameStateTo(GameState.Match);
+                    //_gameModel.ChangeGameStateTo(GameState.Match);
                     break;
                 case GameState.Match:
                     // NOP

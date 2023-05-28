@@ -20,6 +20,8 @@ namespace Assets.Scripts.Core.Models
         public IReadOnlyReactiveProperty<CellModel> SelectCell => _selectCell;
         private ReactiveProperty<CellModel> _selectCell;
 
+        public Subject<Unit> StartMatch { get; private set; }
+
         private Dictionary<RowColPair, CellModel> _cells;
         private RowColPair _cachedRowColPairForCompare;
         private ITimeService _timeService;
@@ -31,7 +33,7 @@ namespace Assets.Scripts.Core.Models
 
         public int ChipCountForOnePlayer => _gameRules.ChipStartCount;
 
-        public FieldModel(GameRules gameRules, ITimeService timeService)
+        public FieldModel(GameModel gameModel, GameRules gameRules, ITimeService timeService)
         {
             _gameRules = gameRules;
             _timeService = timeService;
@@ -43,6 +45,13 @@ namespace Assets.Scripts.Core.Models
             _attackChip = AddForDispose(new ReactiveProperty<AttackThreesome>());
             _updateCells = AddForDispose(new ReactiveProperty<List<CellModel>>());
             _selectCell = AddForDispose(new ReactiveProperty<CellModel>());
+            StartMatch = AddForDispose(new Subject<Unit>());
+
+            AddForDispose(gameModel.CurrentGameState.Subscribe(state =>
+            {
+                if (state == Controllers.GameState.Match)
+                    StartMatch.OnNext(Unit.Default);
+            }));
         }
 
         public override void Dispose()

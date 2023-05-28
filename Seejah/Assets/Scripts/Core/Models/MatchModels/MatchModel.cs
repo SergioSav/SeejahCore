@@ -25,6 +25,8 @@ namespace Assets.Scripts.Core.Models
         public MatchOptions Options => _options;
         public bool IsUserTurn => _activePlayer.TeamType == _userModel.TeamType;
 
+        public bool CanInteract => _currentState.Value == MatchStateType.PhasePlacement || _currentState.Value == MatchStateType.PhaseBattle;
+
         public MatchModel(RandomProvider random, UserModel userModel)
         {
             _random = random;
@@ -32,7 +34,10 @@ namespace Assets.Scripts.Core.Models
 
             _options = new MatchOptions
             {
-                ChipId = userModel.SelectedChipId
+                ChipColorId = userModel.SelectedChipColorId,
+                ChipId = userModel.SelectedChipId,
+                BoardId = userModel.SelectedBoardId,
+                FloorId = userModel.SelectedFloorId
             };
 
             _currentState = AddForDispose(new ReactiveProperty<MatchStateType>(MatchStateType.None));

@@ -12,6 +12,9 @@ namespace Assets.Scripts.Core.Data.Services
         public int LoseCount;
         public int LoseStreak;
         public int SelectedChipId;
+        public int SelectedChipColorId;
+        public int SelectedBoardId;
+        public int SelectedFloorId;
         public GameSettingsSaveState GameSettingsSave;
     }
 }

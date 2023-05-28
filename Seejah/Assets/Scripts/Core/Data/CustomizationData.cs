@@ -5,10 +5,12 @@ namespace Assets.Scripts.Core.Data
     [Serializable]
     public class CustomizationData
     {
-        public int Id;
         public string Name;
+        public int Id;
+        public CustomizationType Type;
         public string Description;
         public int ImageId;
-        public PriceData PriceId;
+        public int PrefabId;
+        public PriceData Price;
     }
 }

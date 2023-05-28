@@ -1,19 +1,16 @@
-﻿using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Presenters;
-using TMPro;
+﻿using Assets.Scripts.Core.Controllers;
+using Assets.Scripts.Core.Data;
+using Assets.Scripts.Core.HUD.Elements;
+using Assets.Scripts.Core.Models;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using UniRx;
-using Assets.Scripts.Core.Data;
-using Assets.Scripts.Core.Controllers;
 
 namespace Assets.Scripts.Core.HUD
 {
-    public class SettingsMenuPresenter : MonoBehPresenter
+    public class SettingsMenuPresenter : BaseWindowPresenter
     {
-        [SerializeField] private TextMeshProUGUI textTitle;
-        [SerializeField] private Button buttonClose;
         [SerializeField] private Button buttonSave;
         [SerializeField] private Toggle toggleUltimateAI;
         [SerializeField] private Toggle toggleRandomPlacement;
@@ -40,10 +37,10 @@ namespace Assets.Scripts.Core.HUD
 
         private void Start()
         {
+            Title = "Game Settings";
+            CloseAction = _gameModel.CloseSettings;
+
             AddForDispose(_gameModel.CurrentGameState.Subscribe(OnStateChange));
-            AddForDispose(buttonClose
-                .OnClickAsObservable()
-                .Subscribe(_ => _gameModel.CloseSettings()));
 
             AddForDispose(buttonSave
                 .OnClickAsObservable()

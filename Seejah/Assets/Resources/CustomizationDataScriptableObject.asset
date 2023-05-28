@@ -13,17 +13,201 @@ MonoBehaviour:
   m_Name: CustomizationDataScriptableObject
   m_EditorClassIdentifier: 
   CustomizationDataList:
-  - Id: 1
-    Name: Round chips
-    Description: Round chips
-    ImageId: 3
-    PriceId:
+  - Name: Cone chips
+    Id: 1
+    Type: 1
+    Description: Cone chips
+    ImageId: 6
+    PrefabId: 1
+    Price:
       Currency: 0
       Value: 0
-  - Id: 2
-    Name: Square chips
-    Description: Square chips
-    ImageId: 4
-    PriceId:
+  - Name: Cylinder chips
+    Id: 2
+    Type: 1
+    Description: Cylinder chips
+    ImageId: 7
+    PrefabId: 2
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: Cube chips
+    Id: 3
+    Type: 1
+    Description: Cube chips
+    ImageId: 8
+    PrefabId: 3
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: Stone chips
+    Id: 4
+    Type: 1
+    Description: Stone chips
+    ImageId: 9
+    PrefabId: 4
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: Tall Cylinder chips
+    Id: 5
+    Type: 1
+    Description: Tall Cylinder chips
+    ImageId: 10
+    PrefabId: 5
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BlackWhite
+    Id: 6
+    Type: 2
+    Description: Classic black and white board
+    ImageId: 11
+    PrefabId: 40
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: RedBlue
+    Id: 7
+    Type: 2
+    Description: Grey stone board
+    ImageId: 12
+    PrefabId: 41
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: PinkYellow
+    Id: 8
+    Type: 2
+    Description: PinkYellow
+    ImageId: 13
+    PrefabId: 42
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: OrangeGreen
+    Id: 9
+    Type: 2
+    Description: OrangeGreen
+    ImageId: 14
+    PrefabId: 43
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: GreenViolet
+    Id: 10
+    Type: 2
+    Description: GreenViolet
+    ImageId: 15
+    PrefabId: 44
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardW
+    Id: 11
+    Type: 3
+    Description: BoardW
+    ImageId: 20
+    PrefabId: 32
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardGM
+    Id: 12
+    Type: 3
+    Description: BoardGM
+    ImageId: 21
+    PrefabId: 33
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardLM
+    Id: 13
+    Type: 3
+    Description: BoardLM
+    ImageId: 22
+    PrefabId: 34
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardRM
+    Id: 14
+    Type: 3
+    Description: BoardRM
+    ImageId: 23
+    PrefabId: 35
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardG2M
+    Id: 15
+    Type: 3
+    Description: BoardG2M
+    ImageId: 24
+    PrefabId: 36
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardWM
+    Id: 16
+    Type: 3
+    Description: BoardWM
+    ImageId: 25
+    PrefabId: 37
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardTM
+    Id: 17
+    Type: 3
+    Description: BoardTM
+    ImageId: 26
+    PrefabId: 38
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: BoardYBM
+    Id: 18
+    Type: 3
+    Description: BoardYBM
+    ImageId: 27
+    PrefabId: 39
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: FloorSand
+    Id: 19
+    Type: 4
+    Description: FloorSand
+    ImageId: 16
+    PrefabId: 28
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: FloorConcrete
+    Id: 20
+    Type: 4
+    Description: FloorConcrete
+    ImageId: 17
+    PrefabId: 29
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: FloorGrass
+    Id: 21
+    Type: 4
+    Description: FloorGrass
+    ImageId: 18
+    PrefabId: 30
+    Price:
+      Currency: 0
+      Value: 0
+  - Name: FloorTile
+    Id: 22
+    Type: 4
+    Description: FloorTile
+    ImageId: 19
+    PrefabId: 31
+    Price:
       Currency: 0
       Value: 0

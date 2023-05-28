@@ -47,13 +47,20 @@ namespace Assets.Scripts.Core.Controllers
 
         public void Start()
         {
-            _userModel.SetTeam(TeamType.FirstTeam);
-            var player1 = _playerFactory.Invoke(TeamType.FirstTeam, new HumanBrainModel());
+            AddForDispose(_gameModel.CurrentGameState.Subscribe(state => OnGameStateChange(state)));
+        }
 
-            IAIBrain AIBrain = new AIBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
+        private void OnGameStateChange(GameState state)
+        {
+            if (state != GameState.Match)
+                return;
+
+            var player1 = _playerFactory.Invoke(_userModel.TeamType, new HumanBrainModel());
+
+            IAIBrain AIBrain = new AIBrainModel(_gameRules, _fieldModel, _random, _userModel.OpponentTeamType);
             if (_gameSettings.NeedUseUltimateAI)
-                AIBrain = new AIUltimateBrainModel(_gameRules, _fieldModel, _random, TeamType.SecondTeam);
-            var player2 = _playerFactory.Invoke(TeamType.SecondTeam, AIBrain);
+                AIBrain = new AIUltimateBrainModel(_gameRules, _fieldModel, _random, _userModel.OpponentTeamType);
+            var player2 = _playerFactory.Invoke(_userModel.OpponentTeamType, AIBrain);
 
             _matchModel.AddPlayers(new List<IPlayerModel> { player1, player2 });
             _matchModel.ChooseFirstPlayer();
@@ -65,7 +72,6 @@ namespace Assets.Scripts.Core.Controllers
 
             _matchModel.SetLoading();
         }
-
 
         public void SelectCell(RowColPair rcp)
         {

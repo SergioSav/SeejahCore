@@ -11,12 +11,16 @@ namespace Assets.Scripts.Core.Models
 
         private TeamType _teamType;
         public TeamType TeamType => _teamType;
+        public TeamType OpponentTeamType => _teamType == TeamType.FirstTeam ? TeamType.SecondTeam : TeamType.FirstTeam;
 
         public int WinCount { get; private set; }
         public int WinStreak { get; private set; }
         public int LoseCount { get; private set; }
         public int LoseStreak { get; private set; }
         public int SelectedChipId { get; private set; }
+        public int SelectedChipColorId { get; private set; }
+        public int SelectedBoardId { get; private set; }
+        public int SelectedFloorId { get; private set; }
 
         public UserModel(ISaveService saveService)
         {
@@ -41,6 +45,9 @@ namespace Assets.Scripts.Core.Models
             LoseCount = state.LoseCount;
             LoseStreak = state.LoseStreak;
             SelectedChipId = state.SelectedChipId;
+            SelectedChipColorId = state.SelectedChipColorId;
+            SelectedBoardId = state.SelectedBoardId;
+            SelectedFloorId = state.SelectedFloorId;
         }
 
         private void TryGenerateNewUser()
@@ -48,6 +55,9 @@ namespace Assets.Scripts.Core.Models
             Name = "unknown";
             Id = 999;
             SelectedChipId = 1;
+            SelectedChipColorId = 1;
+            SelectedBoardId = 1;
+            SelectedFloorId = 1;
         }
 
         private void TrySaveState()
@@ -60,7 +70,10 @@ namespace Assets.Scripts.Core.Models
                 WinStreak = WinStreak,
                 LoseCount = LoseCount,
                 LoseStreak = LoseStreak,
-                SelectedChipId = SelectedChipId
+                SelectedChipId = SelectedChipId,
+                SelectedChipColorId = SelectedChipColorId,
+                SelectedBoardId = SelectedBoardId,
+                SelectedFloorId = SelectedFloorId
             };
             _saveService.Save(state);
         }
@@ -91,6 +104,24 @@ namespace Assets.Scripts.Core.Models
         public void ProcessChipSelection(int id)
         {
             SelectedChipId = id;
+            TrySaveState();
+        }
+
+        public void ProcessChipColorSelection(int id)
+        {
+            SelectedChipColorId = id;
+            TrySaveState();
+        }
+
+        public void ProcessBoardSelection(int id)
+        {
+            SelectedBoardId = id;
+            TrySaveState();
+        }
+
+        public void ProcessFloorSelection(int id)
+        {
+            SelectedFloorId = id;
             TrySaveState();
         }
     }

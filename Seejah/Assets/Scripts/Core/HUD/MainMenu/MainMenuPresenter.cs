@@ -27,7 +27,7 @@ namespace Assets.Scripts.Core.HUD
         {
             AddForDispose(buttonStart
                 .OnClickAsObservable()
-                .Subscribe(_ => _gameModel.StartMatch()));
+                .Subscribe(_ => _gameModel.StartPrepareMatch()));
 
             AddForDispose(buttonSettings
                 .OnClickAsObservable()

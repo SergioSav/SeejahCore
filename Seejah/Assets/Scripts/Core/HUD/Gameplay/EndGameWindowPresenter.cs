@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Core.Controllers;
+using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Presenters;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -9,11 +9,11 @@ using VContainer;
 
 namespace Assets.Scripts.Core.HUD
 {
-    public class EndGameWindowPresenter : MonoBehPresenter
+    public class EndGameWindowPresenter : BaseWindowPresenter
     {
-        [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private TextMeshProUGUI textGameResult;
-        [SerializeField] private Button buttonClose;
+        [SerializeField] private TextMeshProUGUI textButtonApply;
+        [SerializeField] private Button buttonApply;
 
         private GameModel _gameModel;
         private UserModel _userModel;
@@ -30,15 +30,19 @@ namespace Assets.Scripts.Core.HUD
             gameObject.SetActive(state == GameState.Reward);
             if (state == GameState.Reward)
             {
-                textGameResult.text = "You " + (_gameModel.LastWinner.TeamType == _userModel.TeamType ? "WIN!" : "lose...");
+                var isWin = _gameModel.LastWinner.TeamType == _userModel.TeamType;
+                textGameResult.text = "You " + (isWin ? "WIN!" : "lose...");
+                textButtonApply.text = isWin ? "Confirm" : "Return to menu";
+                Title = isWin ? "Congratulation!" : "Match is over";
             }
         }
 
         private void Start()
         {
+            CloseAction = _gameModel.EndMatch;
+
             AddForDispose(_gameModel.CurrentGameState.Subscribe(OnStateChange));
-            AddForDispose(buttonClose
-                .OnClickAsObservable()
+            AddForDispose(buttonApply.OnClickAsObservable()
                 .Subscribe(_ => _gameModel.EndMatch()));
         }
     }

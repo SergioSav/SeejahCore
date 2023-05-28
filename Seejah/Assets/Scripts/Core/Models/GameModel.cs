@@ -25,9 +25,14 @@ namespace Assets.Scripts.Core.Models
             _currentState.Value = gameState;
         }
 
-        public void StartMatch()
+        public void StartPrepareMatch()
         {
             ChangeGameStateTo(GameState.PrepareMatch);
+        }
+
+        public void StartMatch()
+        {
+            ChangeGameStateTo(GameState.Match);
         }
 
         public void EndMatch()

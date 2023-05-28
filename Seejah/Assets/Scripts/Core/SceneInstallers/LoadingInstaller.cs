@@ -16,6 +16,8 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.Register(c => c.Resolve<ConfigsStorage>().VisualDataList, Lifetime.Singleton);
             builder.Register<IPrefabPrototypeSupplier, PrefabPrototypeSupplier>(Lifetime.Singleton);
             builder.Register<ISpriteSupplier, SpriteSupplier>(Lifetime.Singleton);
+            builder.Register<IMaterialSupplier, MaterialSupplier>(Lifetime.Singleton);
+            builder.Register<IConfigSupplier, ConfigSupplier>(Lifetime.Singleton);
 
             builder.Register(c => c.Resolve<ConfigsStorage>().GameRulesData, Lifetime.Singleton);
             builder.Register<GameRules>(Lifetime.Singleton);

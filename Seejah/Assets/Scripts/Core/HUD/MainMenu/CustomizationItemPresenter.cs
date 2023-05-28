@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Core.Commands;
-using Assets.Scripts.Core.Data;
+﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Presenters;
+using System;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
@@ -19,21 +19,20 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private GameObject selectionFrame;
 
         private CustomizationData _data;
+        private Action<int> _onSelect;
         private ISpriteSupplier _spriteSupplier;
-        private ISelectCustomizationItemCommand _selectCommand;
         private bool _isSelected;
 
         [Inject]
-
-        public void Construct(ISpriteSupplier spriteSupplier, ISelectCustomizationItemCommand selectCommand)
+        public void Construct(ISpriteSupplier spriteSupplier)
         {
             _spriteSupplier = spriteSupplier;
-            _selectCommand = selectCommand;
         }
 
-        public void SetData(CustomizationData data)
+        public void Setup(CustomizationData data, Action<int> onSelect)
         {
             _data = data;
+            _onSelect = onSelect;
         }
 
         public void Start()
@@ -43,7 +42,7 @@ namespace Assets.Scripts.Core.HUD
             UpdateSelectionFrame();
 
             AddForDispose(selectionArea.OnPointerClickAsObservable()
-                .Subscribe(_ => _selectCommand.Execute(_data.Id)));
+                .Subscribe(_ => _onSelect?.Invoke(_data.Id)));
         }
 
         public void SetSelected(int id)

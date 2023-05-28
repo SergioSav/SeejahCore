@@ -43,6 +43,7 @@ namespace Assets.Scripts.Core.SceneInstallers
 
             builder.RegisterComponentInHierarchy<FieldPresenter>();
             builder.RegisterComponentInHierarchy<GameplayUIPresenter>();
+            builder.RegisterComponentInHierarchy<TeamSelectWindowPresenter>();
             builder.RegisterComponentInHierarchy<EndGameWindowPresenter>();
 
             builder.RegisterEntryPoint<Match>(Lifetime.Singleton);
