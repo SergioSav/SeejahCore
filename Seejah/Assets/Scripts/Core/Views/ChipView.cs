@@ -11,6 +11,7 @@ public class ChipView : MonoBehaviour
     public static float PlacementPhaseScale = 0.4f;
 
     [SerializeField] private MeshRenderer chipMaterial;
+    [SerializeField] private Material chipSelection;
     [SerializeField] private GameObject deadFX;
     [SerializeField] private GameObject chip;
 
@@ -18,6 +19,7 @@ public class ChipView : MonoBehaviour
     private RandomProvider _random;
     private Color _colorTeam1;
     private Color _colorTeam2;
+    private Material _defaultMaterial;
 
     public TeamType Team { get; private set; }
 
@@ -34,11 +36,19 @@ public class ChipView : MonoBehaviour
     {
         Team = team;
         UpdateView();
+        _defaultMaterial = chipMaterial.material;
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        chipSelection.color = chipMaterial.material.color;
+        chipMaterial.material = isSelected ? chipSelection : _defaultMaterial;
     }
 
     private void UpdateView()
     {
-        chipMaterial.material.color = Team == TeamType.FirstTeam ? _colorTeam1 : _colorTeam2;
+        var color = Team == TeamType.FirstTeam ? _colorTeam1 : _colorTeam2;
+        chipMaterial.material.color = color;
     }
 
     public void SetInfiniteRotate()

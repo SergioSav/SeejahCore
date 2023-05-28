@@ -25,7 +25,6 @@ namespace Assets.Scripts.Core.Presenters
         private Dictionary<CellModel, ChipView> _chipViews;
 
         [SerializeField] private CellView cellPrototype;
-        [SerializeField] private SelectionCellView selectionCell;
         [SerializeField] private GameObject board;
         [SerializeField] private Renderer boardRenderer;
         [SerializeField] private Renderer floorRenderer;
@@ -36,6 +35,7 @@ namespace Assets.Scripts.Core.Presenters
         private Queue<ChipView> _firstTeamChips;
         private Queue<ChipView> _secondTeamChips;
         private List<ChipView> _selectionChips;
+        private ChipView _selectedChip;
 
         [Inject]
         public void Construct(FieldModel fieldModel, MatchModel matchModel, GameRules gameRules,
@@ -188,14 +188,15 @@ namespace Assets.Scripts.Core.Presenters
 
         private void OnCellSelect(CellModel cell)
         {
+            if (_selectedChip)
+            {
+                _selectedChip.SetSelected(false);
+                _selectedChip = null;
+            }
             if (cell != null)
             {
-                var cellView = _cellViews[cell];
-                selectionCell.ShowFor(cellView);
-            }
-            else
-            {
-                selectionCell.Hide();
+                _selectedChip = _chipViews[cell];
+                _selectedChip.SetSelected(true);
             }
         }
 

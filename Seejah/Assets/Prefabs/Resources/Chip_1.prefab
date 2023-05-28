@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chipMaterial: {fileID: 1694293673436903712}
+  chipSelection: {fileID: 2100000, guid: e8f51a7f2a52beb42b977d51d2871ad3, type: 2}
   deadFX: {fileID: 3491094242337329793}
   chip: {fileID: 901752842305034485}
 --- !u!1001 &18791475479799204
