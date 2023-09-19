@@ -13,223 +13,253 @@ MonoBehaviour:
   m_Name: VisualDataScriptableObject
   m_EditorClassIdentifier: 
   VisualDataList:
-  - Id: 1
-    Name: Cone
+  - Name: Cone
+    Id: 1
     Description: main chip for game
     AssetName: Chip_1
     Type: 2
-  - Id: 2
-    Name: Cube
+  - Name: Cube
+    Id: 2
     Description: Cube
     AssetName: Chip_2
     Type: 2
-  - Id: 3
-    Name: Cylinder
+  - Name: Cylinder
+    Id: 3
     Description: Cylinder
     AssetName: Chip_3
     Type: 2
-  - Id: 4
-    Name: Stone
+  - Name: Stone
+    Id: 4
     Description: Stone
     AssetName: Chip_4
     Type: 2
-  - Id: 5
-    Name: TallCylinder
+  - Name: TallCylinder
+    Id: 5
     Description: TallCylinder
     AssetName: Chip_5
     Type: 2
-  - Id: 6
-    Name: Cone Chip
+  - Name: Cone Chip
+    Id: 6
     Description: Cone Chip image
     AssetName: simple_cone
     Type: 1
-  - Id: 7
-    Name: Cube Chip
+  - Name: Cube Chip
+    Id: 7
     Description: Cube Chip image
     AssetName: simple_cube
     Type: 1
-  - Id: 8
-    Name: Cone Chip
+  - Name: Cone Chip
+    Id: 8
     Description: Cone Chip image
     AssetName: simple_cylinder
     Type: 1
-  - Id: 9
-    Name: Stone Chip
+  - Name: Stone Chip
+    Id: 9
     Description: Stone Chip image
     AssetName: simple_stone
     Type: 1
-  - Id: 10
-    Name: Tall Cylinder Chip
+  - Name: Tall Cylinder Chip
+    Id: 10
     Description: Tall Cylinder Chip image
     AssetName: tall_cylinder
     Type: 1
-  - Id: 11
-    Name: Black and white
+  - Name: Black and white
+    Id: 11
     Description: Black and white
     AssetName: chip_color_bw
     Type: 1
-  - Id: 12
-    Name: Red and blue
+  - Name: Red and blue
+    Id: 12
     Description: Red and blue
     AssetName: chip_color_rb
     Type: 1
-  - Id: 13
-    Name: Pink and yellow
+  - Name: Pink and yellow
+    Id: 13
     Description: Pink and yellow
     AssetName: chip_color_py
     Type: 1
-  - Id: 14
-    Name: Orange and light green
+  - Name: Orange and light green
+    Id: 14
     Description: Orange and light green
     AssetName: chip_color_og
     Type: 1
-  - Id: 15
-    Name: Green and violet
+  - Name: Green and violet
+    Id: 15
     Description: Green and violet
     AssetName: chip_color_gv
     Type: 1
-  - Id: 16
-    Name: Sand floor
+  - Name: Sand floor
+    Id: 16
     Description: Sand floor
     AssetName: floor_sand
     Type: 1
-  - Id: 17
-    Name: Concrete floor
+  - Name: Concrete floor
+    Id: 17
     Description: Concrete floor
     AssetName: floor_concrete
     Type: 1
-  - Id: 18
-    Name: Grass floor
+  - Name: Grass floor
+    Id: 18
     Description: Grass floor
     AssetName: floor_grass
     Type: 1
-  - Id: 19
-    Name: Tile floor
+  - Name: Tile floor
+    Id: 19
     Description: Tile floor
     AssetName: floor_tile
     Type: 1
-  - Id: 20
-    Name: Wooden board
+  - Name: Wooden board
+    Id: 20
     Description: Wooden board
     AssetName: board_wood
     Type: 1
-  - Id: 21
-    Name: Green marble board
+  - Name: Green marble board
+    Id: 21
     Description: Green marble board
     AssetName: board_green_marble
     Type: 1
-  - Id: 22
-    Name: Light marble board
+  - Name: Light marble board
+    Id: 22
     Description: Light marble board
     AssetName: board_light_marble
     Type: 1
-  - Id: 23
-    Name: Red marble board
+  - Name: Red marble board
+    Id: 23
     Description: Red marble board
     AssetName: board_red_marble
     Type: 1
-  - Id: 24
-    Name: Green 2 marble board
+  - Name: Green 2 marble board
+    Id: 24
     Description: Green 2 marble board
     AssetName: board_green2_marble
     Type: 1
-  - Id: 25
-    Name: White marble board
+  - Name: White marble board
+    Id: 25
     Description: White marble board
     AssetName: board_white_marble
     Type: 1
-  - Id: 26
-    Name: Turquoise marble board
+  - Name: Turquoise marble board
+    Id: 26
     Description: Turquoise marble board
     AssetName: board_turquoise_marble
     Type: 1
-  - Id: 27
-    Name: Yellow black marble board
+  - Name: Yellow black marble board
+    Id: 27
     Description: Yellow black marble board
     AssetName: board_yb_marble
     Type: 1
-  - Id: 28
-    Name: Sand mat
+  - Name: Sand mat
+    Id: 28
     Description: Sand mat
     AssetName: sand_floor
     Type: 3
-  - Id: 29
-    Name: Concrete mat
+  - Name: Concrete mat
+    Id: 29
     Description: Concrete mat
     AssetName: concrete_floor
     Type: 3
-  - Id: 30
-    Name: Grass mat
+  - Name: Grass mat
+    Id: 30
     Description: Grass mat
     AssetName: grass_floor
     Type: 3
-  - Id: 31
-    Name: Tile mat
+  - Name: Tile mat
+    Id: 31
     Description: Tile mat
     AssetName: tile_floor
     Type: 3
-  - Id: 32
-    Name: Wooden mat
+  - Name: Wooden mat
+    Id: 32
     Description: Wooden mat
     AssetName: board_wooden
     Type: 3
-  - Id: 33
-    Name: Green marble mat
+  - Name: Green marble mat
+    Id: 33
     Description: Green marble mat
     AssetName: board_green_marble
     Type: 3
-  - Id: 34
-    Name: Light marble mat
+  - Name: Light marble mat
+    Id: 34
     Description: Light marble mat
     AssetName: board_light_marble
     Type: 3
-  - Id: 35
-    Name: Red marble mat
+  - Name: Red marble mat
+    Id: 35
     Description: Red marble mat
     AssetName: board_red_marble
     Type: 3
-  - Id: 36
-    Name: Green2 marble mat
+  - Name: Green2 marble mat
+    Id: 36
     Description: Green2 marble mat
     AssetName: board_green2_marble
     Type: 3
-  - Id: 37
-    Name: White marble mat
+  - Name: White marble mat
+    Id: 37
     Description: White marble mat
     AssetName: board_white_marble
     Type: 3
-  - Id: 38
-    Name: TRQ marble mat
+  - Name: TRQ marble mat
+    Id: 38
     Description: TRQ marble mat
     AssetName: board_turquoise_marble
     Type: 3
-  - Id: 39
-    Name: YellowBlack marble mat
+  - Name: YellowBlack marble mat
+    Id: 39
     Description: YellowBlack marble mat
     AssetName: board_yb_marble
     Type: 3
-  - Id: 40
-    Name: BW Color config
+  - Name: BW Color config
+    Id: 40
     Description: BW Color config
     AssetName: ColorConfigBlackWhite
     Type: 4
-  - Id: 41
-    Name: RB Color config
+  - Name: RB Color config
+    Id: 41
     Description: RB Color config
     AssetName: ColorConfigRedBlue
     Type: 4
-  - Id: 42
-    Name: PY Color config
+  - Name: PY Color config
+    Id: 42
     Description: PY Color config
     AssetName: ColorConfigPinkYellow
     Type: 4
-  - Id: 43
-    Name: OG Color config
+  - Name: OG Color config
+    Id: 43
     Description: OG Color config
     AssetName: ColorConfigOrangeLGreen
     Type: 4
-  - Id: 44
-    Name: GV Color config
+  - Name: GV Color config
+    Id: 44
     Description: GV Color config
     AssetName: ColorConfigGreenViolet
     Type: 4
+  - Name: Tutorial1
+    Id: 45
+    Description: Tutorial1
+    AssetName: p1_common_board_view
+    Type: 1
+  - Name: Tutorial2
+    Id: 46
+    Description: Tutorial2
+    AssetName: p2_placement
+    Type: 1
+  - Name: Tutorial3
+    Id: 47
+    Description: Tutorial3
+    AssetName: p3_first_move
+    Type: 1
+  - Name: Tutorial4
+    Id: 48
+    Description: Tutorial4
+    AssetName: p4_move
+    Type: 1
+  - Name: Tutorial5
+    Id: 49
+    Description: Tutorial5
+    AssetName: p5_safe_position
+    Type: 1
+  - Name: Tutorial6
+    Id: 50
+    Description: Tutorial6
+    AssetName: p6_win
+    Type: 1

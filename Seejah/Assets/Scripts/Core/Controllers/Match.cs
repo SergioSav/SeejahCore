@@ -27,11 +27,12 @@ namespace Assets.Scripts.Core.Controllers
         private readonly Func<TeamType, IBrain, IPlayerModel> _playerFactory;
         private readonly FieldModel _fieldModel;
         private readonly RandomProvider _random;
-
+        private readonly GameplayUIModel _gameplayUIModel;
         private int _placementChipCount;
+        private IDisposable _matchStartObserver;
 
         public Match(UserModel userModel, ITimeService timeService, GameRules gameRules, GameModel gameModel, IGameSettings gameSettings,
-            MatchModel matchModel, FieldModel fieldModel, RandomProvider random, 
+            MatchModel matchModel, FieldModel fieldModel, RandomProvider random, GameplayUIModel gameplayUIModel,
             Func<TeamType, IBrain, IPlayerModel> playerFactory)
         {
             _userModel = userModel;
@@ -42,6 +43,7 @@ namespace Assets.Scripts.Core.Controllers
             _matchModel = matchModel;
             _fieldModel = fieldModel;
             _random = random;
+            _gameplayUIModel = gameplayUIModel;
             _playerFactory = playerFactory;
         }
 
@@ -119,8 +121,7 @@ namespace Assets.Scripts.Core.Controllers
                         .Then(_matchModel.SetReady);
                     break;
                 case MatchStateType.Ready:
-                    _timeService.Wait(1)
-                        .Then(_matchModel.StartPlacement);
+                    _matchStartObserver = AddForDispose(_gameplayUIModel.CurrentState.Subscribe(state => HandleMatchStart(state)));
                     break;
                 case MatchStateType.PhasePlacement:
                     PlacementPhaseHandle();
@@ -135,6 +136,16 @@ namespace Assets.Scripts.Core.Controllers
                 case MatchStateType.BattleEnd:
                     ProcessBattleEnd();
                     break;
+            }
+        }
+
+        private void HandleMatchStart(GameplayUIState state)
+        {
+            if (state == GameplayUIState.Normal)
+            {
+                _timeService.Wait(1)
+                        .Then(_matchModel.StartPlacement);
+                _matchStartObserver.Dispose();
             }
         }
 

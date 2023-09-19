@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core.Commands;
 using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.HUD;
+using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
 using Assets.Scripts.Core.Views;
@@ -16,6 +17,7 @@ namespace Assets.Scripts.Core.SceneInstallers
         {
             builder.Register<FieldModel>(Lifetime.Singleton);
             builder.Register<MatchModel>(Lifetime.Singleton);
+            builder.Register<GameplayUIModel>(Lifetime.Singleton);
 
             builder.Register<IPlayerModel, PlayerModel>(Lifetime.Transient);
             builder.RegisterFactory<TeamType, IBrain, IPlayerModel>(container =>
@@ -38,6 +40,12 @@ namespace Assets.Scripts.Core.SceneInstallers
                 return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
             },
             Lifetime.Singleton);
+            builder.RegisterFactory<PageInfoDotPresenter, Transform, PageInfoDotPresenter>(container =>
+            {
+                return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
+            },
+            Lifetime.Singleton);
+
 
             builder.Register<ISelectCellCommand, SelectCellCommand>(Lifetime.Singleton);
 
@@ -45,6 +53,7 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.RegisterComponentInHierarchy<GameplayUIPresenter>();
             builder.RegisterComponentInHierarchy<TeamSelectWindowPresenter>();
             builder.RegisterComponentInHierarchy<EndGameWindowPresenter>();
+            builder.RegisterComponentInHierarchy<TutorialWindowPresenter>();
 
             builder.RegisterEntryPoint<Match>(Lifetime.Singleton);
         }

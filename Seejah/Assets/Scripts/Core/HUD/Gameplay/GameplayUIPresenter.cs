@@ -3,7 +3,9 @@ using Assets.Scripts.Core.Presenters;
 using DG.Tweening;
 using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace Assets.Scripts.Core.HUD
@@ -12,16 +14,19 @@ namespace Assets.Scripts.Core.HUD
     {
         [SerializeField] private TextMeshProUGUI textCurrentTeam;
         [SerializeField] private TextMeshProUGUI textInfoBanner;
+        [SerializeField] private Button buttonHelp;
         [SerializeField] private Transform infoBanner;
         [SerializeField] private CanvasGroup infoBannerCanvas;
 
         private MatchModel _matchModel;
+        private GameplayUIModel _gameplayUIModel;
         private Sequence _bannerSequence;
 
         [Inject]
-        public void Construct(MatchModel matchModel)
+        public void Construct(MatchModel matchModel, GameplayUIModel gameplayUIModel)
         {
             _matchModel = matchModel;
+            _gameplayUIModel = gameplayUIModel;
         }
 
         private void Start()
@@ -29,7 +34,13 @@ namespace Assets.Scripts.Core.HUD
             textCurrentTeam.text = "Game started!";
             AddForDispose(_matchModel.CurrentState.Subscribe(OnMatchStateChange));
             AddForDispose(_matchModel.WaitNextTurn.Subscribe(_ => OnWaitNextTurn()));
+            AddForDispose(buttonHelp.OnPointerClickAsObservable().Subscribe(_ => OnHelpClick()));
             InitBannerAnimator();
+        }
+
+        private void OnHelpClick()
+        {
+            _gameplayUIModel.ShowTutorialWindow();
         }
 
         private void InitBannerAnimator()
@@ -57,6 +68,7 @@ namespace Assets.Scripts.Core.HUD
                 case MatchStateType.Loading:
                     break;
                 case MatchStateType.Ready:
+                    _gameplayUIModel.ShowTutorialWindow(); // TODO: need add once condition
                     ShowBanner("Match started! Place chips");
                     break;
                 case MatchStateType.PhasePlacement:
