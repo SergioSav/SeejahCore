@@ -17,8 +17,11 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private Image imageIcon;
         [SerializeField] private Image selectionArea;
         [SerializeField] private GameObject selectionFrame;
+        [SerializeField] private GameObject lockBlock;
+        [SerializeField] private TextMeshProUGUI textPrice;
 
         private CustomizationData _data;
+        private bool _isLocked;
         private Action<int> _onSelect;
         private ISpriteSupplier _spriteSupplier;
         private bool _isSelected;
@@ -29,9 +32,10 @@ namespace Assets.Scripts.Core.HUD
             _spriteSupplier = spriteSupplier;
         }
 
-        public void Setup(CustomizationData data, Action<int> onSelect)
+        public void Setup(CustomizationData data, bool isLocked, Action<int> onSelect)
         {
             _data = data;
+            _isLocked = isLocked;
             _onSelect = onSelect;
         }
 
@@ -40,6 +44,7 @@ namespace Assets.Scripts.Core.HUD
             textTitle.text = _data.Name;
             imageIcon.sprite = _spriteSupplier.GetSprite(_data.ImageId);
             UpdateSelectionFrame();
+            UpdateLockState();
 
             AddForDispose(selectionArea.OnPointerClickAsObservable()
                 .Subscribe(_ => _onSelect?.Invoke(_data.Id)));
@@ -51,9 +56,23 @@ namespace Assets.Scripts.Core.HUD
             UpdateSelectionFrame();
         }
 
+        public void SetUnlocked()
+        {
+            _isLocked = false;
+            UpdateLockState();
+        }
+
+        public int DataId => _data.Id;
+
         private void UpdateSelectionFrame()
         {
             selectionFrame.SetActive(_isSelected);
+        }
+
+        private void UpdateLockState()
+        {
+            lockBlock.SetActive(_isLocked);
+            textPrice.text = _data.Price.Value.ToString();
         }
     }
 }

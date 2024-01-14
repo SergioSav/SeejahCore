@@ -17,6 +17,7 @@ namespace Assets.Scripts.Core.HUD
     {
         private const int _SLIDER_MOVE_X = 300;
 
+        [SerializeField] private GoldPanelPresenter goldPanel;
         [SerializeField] private CustomizationItemPresenter itemPrototype;
         [SerializeField] private Transform itemsParent;
         [SerializeField] private Button confirmButton;
@@ -26,16 +27,19 @@ namespace Assets.Scripts.Core.HUD
         private UserModel _userModel;
         private CustomizationModel _customizationModel;
         private ConfigsStorage _configStorage;
+        private ConfirmUnlockWindowPresenter _unlockWindowPresenter;
         private Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> _itemFactory;
         private readonly List<CustomizationItemPresenter> _items = new List<CustomizationItemPresenter>();
 
         [Inject]
         public void Construct(UserModel userModel, CustomizationModel customizationModel, ConfigsStorage configStorage,
+                ConfirmUnlockWindowPresenter unlockWindowPresenter,
                 Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> itemFactory)
         {
             _userModel = userModel;
             _customizationModel = customizationModel;
             _configStorage = configStorage;
+            _unlockWindowPresenter = unlockWindowPresenter;
             _itemFactory = itemFactory;
         }
 
@@ -57,8 +61,10 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(leftArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnLeftClick()));
             AddForDispose(rightArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnRightClick()));
 
-            if (_userModel.SelectedChipId != 0)
-                OnItemSelect(_userModel.SelectedChipId);
+            var chipId = _userModel.SelectedChipId != 0 ? _userModel.SelectedChipId : _items.First().DataId;
+            SelectChip(chipId);
+
+            goldPanel.Setup(_userModel);
         }
 
         private void OnRightClick()
@@ -88,13 +94,30 @@ namespace Assets.Scripts.Core.HUD
             {
                 var data = chipDataList[i];
                 var item = _itemFactory.Invoke(itemPrototype, itemsParent);
-                item.Setup(data, OnItemClick);
+                item.Setup(data, _userModel.IsItemLocked(data.Id), OnItemClick);
                 item.transform.position = Vector3.right * i;
                 _items.Add(item);
             }
         }
 
         private void OnItemClick(int id)
+        {
+            if (_userModel.IsItemLocked(id))
+            {
+                _unlockWindowPresenter.ShowConfirm(_customizationModel.FullDataList.FirstOrDefault(m => m.Id == id), OnConfirmUnlock);
+                return;
+            }
+            SelectChip(id);
+        }
+
+        private void OnConfirmUnlock(int id)
+        {
+            _userModel.UnlockCustomizationItem(id);
+            _items.FirstOrDefault(i => i.DataId == id).SetUnlocked();
+            OnItemClick(id);
+        }
+
+        private void SelectChip(int id)
         {
             _customizationModel.SelectChip(id);
         }

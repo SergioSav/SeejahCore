@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Core.Data.Services
 {
@@ -15,6 +16,14 @@ namespace Assets.Scripts.Core.Data.Services
         public int SelectedChipColorId;
         public int SelectedBoardId;
         public int SelectedFloorId;
+        public List<int> UnlockedCustomizationItems;
         public GameSettingsSaveState GameSettingsSave;
+        public int CurrentGold;
+
+        public UserSaveState()
+        {
+            GameSettingsSave = new GameSettingsSaveState();
+        }
+
     }
 }

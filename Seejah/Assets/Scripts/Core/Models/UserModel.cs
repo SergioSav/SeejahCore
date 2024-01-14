@@ -1,11 +1,17 @@
 ﻿using Assets.Scripts.Core.Data.Services;
+using Assets.Scripts.Core.Framework;
+using Assets.Scripts.Core.SceneInstallers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UniRx;
 
 namespace Assets.Scripts.Core.Models
 {
-    public class UserModel
+    public class UserModel : DisposableContainer
     {
         private readonly ISaveService _saveService;
-
+        private readonly CustomizationModel _customizationModel;
         public string Name;
         public int Id;
 
@@ -21,10 +27,16 @@ namespace Assets.Scripts.Core.Models
         public int SelectedChipColorId { get; private set; }
         public int SelectedBoardId { get; private set; }
         public int SelectedFloorId { get; private set; }
+        public List<int> UnlockedCustomizationItems { get; private set; }
 
-        public UserModel(ISaveService saveService)
+        public ReactiveProperty<int> CurrentGold;
+
+        public UserModel(ISaveService saveService, CustomizationModel customizationModel)
         {
             _saveService = saveService;
+            _customizationModel = customizationModel;
+
+            CurrentGold = AddForDispose(new ReactiveProperty<int>());
 
             TryLoadSaveState();
         }
@@ -48,6 +60,8 @@ namespace Assets.Scripts.Core.Models
             SelectedChipColorId = state.SelectedChipColorId;
             SelectedBoardId = state.SelectedBoardId;
             SelectedFloorId = state.SelectedFloorId;
+            UnlockedCustomizationItems = state.UnlockedCustomizationItems;
+            CurrentGold.Value = state.CurrentGold;
         }
 
         private void TryGenerateNewUser()
@@ -55,9 +69,13 @@ namespace Assets.Scripts.Core.Models
             Name = "unknown";
             Id = 999;
             SelectedChipId = 1;
-            SelectedChipColorId = 1;
-            SelectedBoardId = 1;
-            SelectedFloorId = 1;
+            SelectedChipColorId = 6;
+            SelectedBoardId = 11;
+            SelectedFloorId = 19;
+            UnlockedCustomizationItems = _customizationModel.FullDataList.Where(m => m.Price.Value <= 0).Select(m => m.Id).ToList();
+            CurrentGold.Value = 0;
+
+            TrySaveState();
         }
 
         private void TrySaveState()
@@ -73,7 +91,9 @@ namespace Assets.Scripts.Core.Models
                 SelectedChipId = SelectedChipId,
                 SelectedChipColorId = SelectedChipColorId,
                 SelectedBoardId = SelectedBoardId,
-                SelectedFloorId = SelectedFloorId
+                SelectedFloorId = SelectedFloorId,
+                UnlockedCustomizationItems = UnlockedCustomizationItems,
+                CurrentGold = CurrentGold.Value
             };
             _saveService.Save(state);
         }
@@ -123,6 +143,27 @@ namespace Assets.Scripts.Core.Models
         {
             SelectedFloorId = id;
             TrySaveState();
+        }
+
+        public void UnlockCustomizationItem(int id)
+        {
+            UnlockedCustomizationItems.Add(id);
+            TrySaveState();
+        }
+
+        public bool IsItemLocked(int id)
+        {
+            return !UnlockedCustomizationItems.Contains(id);
+        }
+
+        public void AddGold(int amount)
+        {
+            CurrentGold.Value += amount;
+        }
+
+        public void ReduceGold(int amount)
+        {
+            CurrentGold.Value -= amount;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Core.HUD;
+using Assets.Scripts.Core.HUD.Elements;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.RegisterComponentInHierarchy<BoardSelectMenuPresenter>();
             builder.RegisterComponentInHierarchy<FloorSelectMenuPresenter>();
             builder.RegisterComponentInHierarchy<SettingsMenuPresenter>();
+            builder.RegisterComponentInHierarchy<ConfirmUnlockWindowPresenter>();
         }
     }
 }
