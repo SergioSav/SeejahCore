@@ -3,6 +3,7 @@ using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Utils;
 using DG.Tweening;
+using System.Linq;
 using UnityEngine;
 using VContainer;
 
@@ -24,10 +25,13 @@ public class ChipView : MonoBehaviour
     public TeamType Team { get; private set; }
 
     [Inject]
-    public void Construct(MatchModel matchModel, RandomProvider random, IConfigSupplier configSupplier)
+    public void Construct(MatchModel matchModel, RandomProvider random, IConfigSupplier configSupplier, ConfigsStorage configsStorage)
     {
         _random = random;
-        var colorConfig = configSupplier.GetConfig<ColorConfigScriptableObject>(matchModel.Options.ChipColorId);
+        var colorId = configsStorage.CustomizationDataList
+                    .FirstOrDefault(data => data.Id == matchModel.Options.ChipColorId)
+                    .PrefabId;
+        var colorConfig = configSupplier.GetConfig<ColorConfigScriptableObject>(colorId);
         _colorTeam1 = colorConfig.Team1Color;
         _colorTeam2 = colorConfig.Team2Color;
     }
@@ -62,6 +66,10 @@ public class ChipView : MonoBehaviour
 
     public void UpdatePos(Vector3 pos)
     {
+        _random.GetRandom(-5, 5, out var randomAngle);
+        var eulerAngles = chip.transform.localRotation.eulerAngles + Vector3.up * randomAngle;
+        chip.transform.localRotation = Quaternion.Euler(eulerAngles);
+
         transform.DOMove(pos, 0.2f)
             .SetLink(gameObject);
     }
@@ -75,10 +83,6 @@ public class ChipView : MonoBehaviour
     public void PlaceOnBoard(Vector3 pos)
     {
         transform.localScale /= PlacementPhaseScale;
-
-        _random.GetRandom(0, 179, out var randomAngle);
-        var eulerAngles = chip.transform.localRotation.eulerAngles + Vector3.up * randomAngle;
-        chip.transform.localRotation = Quaternion.Euler(eulerAngles);
 
         UpdatePos(pos);
     }

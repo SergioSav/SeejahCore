@@ -4,6 +4,7 @@ using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Views;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using VContainer;
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Core.Presenters
         private Func<ChipView, Transform, ChipView> _chipViewFactory;
         private IPrefabPrototypeSupplier _prototypeSupplier;
         private IMaterialSupplier _materialSupplier;
+        private ConfigsStorage _configStorage;
         private Dictionary<CellModel, CellView> _cellViews;
         private Dictionary<CellModel, ChipView> _chipViews;
 
@@ -36,13 +38,14 @@ namespace Assets.Scripts.Core.Presenters
         private Queue<ChipView> _secondTeamChips;
         private List<ChipView> _selectionChips;
         private ChipView _selectedChip;
+        private int _chipPrefabId;
 
         [Inject]
         public void Construct(FieldModel fieldModel, MatchModel matchModel, GameRules gameRules,
                 Func<CellView, Transform, CellView> cellViewFactory,
                 Func<ChipView, Transform, ChipView> chipViewFactory,
                 IPrefabPrototypeSupplier prototypeSupplier,
-                IMaterialSupplier materialSupplier
+                IMaterialSupplier materialSupplier, ConfigsStorage configsStorage
                 )
         {
             _fieldModel = fieldModel;
@@ -52,6 +55,7 @@ namespace Assets.Scripts.Core.Presenters
             _chipViewFactory = chipViewFactory;
             _prototypeSupplier = prototypeSupplier;
             _materialSupplier = materialSupplier;
+            _configStorage = configsStorage;
 
             _cellViews = new Dictionary<CellModel, CellView>();
             _chipViews = new Dictionary<CellModel, ChipView>();
@@ -59,8 +63,11 @@ namespace Assets.Scripts.Core.Presenters
 
         private void Start()
         {
-            floorRenderer.material = _materialSupplier.GetMaterial(_matchModel.Options.FloorId);
+            var floorPrefabId = _configStorage.CustomizationDataList.FirstOrDefault(d => d.Id == _matchModel.Options.FloorId).PrefabId;
+            floorRenderer.material = _materialSupplier.GetMaterial(floorPrefabId);
             board.SetActive(false);
+
+            _chipPrefabId = _configStorage.CustomizationDataList.FirstOrDefault(d => d.Id == _matchModel.Options.ChipId).PrefabId;
 
             GenerateChipsForSelect();
 
@@ -76,7 +83,7 @@ namespace Assets.Scripts.Core.Presenters
         private void GenerateChipsForSelect()
         {
             _selectionChips = new List<ChipView>();
-            var prototype = _prototypeSupplier.GetPrototype<ChipView>(_matchModel.Options.ChipId);
+            var prototype = _prototypeSupplier.GetPrototype<ChipView>(_chipPrefabId);
             CreateChipForSelect(prototype, chipSelectPlace1, TeamType.FirstTeam);
             CreateChipForSelect(prototype, chipSelectPlace2, TeamType.SecondTeam);
         }
@@ -100,7 +107,8 @@ namespace Assets.Scripts.Core.Presenters
         {
             DestroySelectionChips();
             board.SetActive(true);
-            boardRenderer.material = _materialSupplier.GetMaterial(_matchModel.Options.BoardId);
+            var boardPrefabId = _configStorage.CustomizationDataList.FirstOrDefault(d => d.Id == _matchModel.Options.BoardId).PrefabId;
+            boardRenderer.material = _materialSupplier.GetMaterial(boardPrefabId);
 
             GenerateChips();
         }
@@ -116,7 +124,7 @@ namespace Assets.Scripts.Core.Presenters
             var resultList = new Queue<ChipView>();
             for (int i = 0; i < _fieldModel.ChipCountForOnePlayer; i++)
             {
-                var prototype = _prototypeSupplier.GetPrototype<ChipView>(_matchModel.Options.ChipId);
+                var prototype = _prototypeSupplier.GetPrototype<ChipView>(_chipPrefabId);
                 var chip = _chipViewFactory.Invoke(prototype, transform);
                 chip.Setup(team);
                 chip.PlaceOutBoard(GetChipPosForPlacement(team, i));

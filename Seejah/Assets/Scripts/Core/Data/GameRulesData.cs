@@ -11,5 +11,8 @@ namespace Assets.Scripts.Core.Data
         public int ChipStartCount;
         public int ChipMoveDistance;
         public int MinimalChipCountInGame;
+        public DropData WinDrop;
+        public int WinRatingChange;
+        public int LoseRatingChange;
     }
 }

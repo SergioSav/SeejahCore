@@ -33,5 +33,9 @@ namespace Assets.Scripts.Core.Rules
         public int MinimalChipCountInGame => _data.MinimalChipCountInGame;
 
         public List<(int, int)> MoveVariants => _moveVariants;
+
+        public DropData WinDrop => _data.WinDrop;
+        public int WinRatingChange => _data.WinRatingChange;
+        public int LoseRatingChange => _data.LoseRatingChange;
     }
 }

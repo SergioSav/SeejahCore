@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Core.Data.Services;
+﻿using Assets.Scripts.Core.Data;
+using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.SceneInstallers;
 using System;
@@ -164,6 +165,12 @@ namespace Assets.Scripts.Core.Models
         public void ReduceGold(int amount)
         {
             CurrentGold.Value -= amount;
+        }
+
+        public void ApplyDrop(DropData drop)
+        {
+            if (drop.Currency == CurrencyType.Gold)
+                AddGold(drop.Value);
         }
     }
 }

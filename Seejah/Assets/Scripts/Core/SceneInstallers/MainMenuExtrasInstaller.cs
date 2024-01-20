@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Core.HUD;
-using Assets.Scripts.Core.HUD.Elements;
+using Assets.Scripts.Core.Utils;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -15,6 +15,8 @@ namespace Assets.Scripts.Core.SceneInstallers
                 return (prefab, parentTransform) => container.Instantiate(prefab, parentTransform);
             },
             Lifetime.Singleton);
+
+            builder.Register<ShopService>(Lifetime.Singleton);
 
             builder.RegisterComponentInHierarchy<MainMenuPresenter>();
             builder.RegisterComponentInHierarchy<CustomizationMenuPresenter>();

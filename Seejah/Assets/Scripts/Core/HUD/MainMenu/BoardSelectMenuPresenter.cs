@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Core.Data.Services;
+﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.SceneInstallers;
+using Assets.Scripts.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,19 +27,19 @@ namespace Assets.Scripts.Core.HUD
 
         private UserModel _userModel;
         private CustomizationModel _customizationModel;
+        private ShopService _shopService;
         private Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> _itemFactory;
-        private ConfigsStorage _configStorage;
         private ConfirmUnlockWindowPresenter _unlockWindowPresenter;
         private readonly List<CustomizationItemPresenter> _items = new List<CustomizationItemPresenter>();
 
         [Inject]
-        public void Construct(UserModel userModel, CustomizationModel customizationModel, ConfigsStorage configStorage,
+        public void Construct(UserModel userModel, CustomizationModel customizationModel, ShopService shopService,
                 ConfirmUnlockWindowPresenter unlockWindowPresenter,
                 Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> itemFactory)
         {
             _userModel = userModel;
             _customizationModel = customizationModel;
-            _configStorage = configStorage;
+            _shopService = shopService;
             _unlockWindowPresenter = unlockWindowPresenter;
             _itemFactory = itemFactory;
         }
@@ -61,10 +62,13 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(leftArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnLeftClick()));
             AddForDispose(rightArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnRightClick()));
 
+            goldPanel.Setup(_userModel);
+        }
+
+        private void OnEnable()
+        {
             var boardId = _userModel.SelectedBoardId != 0 ? _userModel.SelectedBoardId : _items.First().DataId;
             SelectBoard(boardId);
-
-            goldPanel.Setup(_userModel);
         }
 
         private void OnRightClick()
@@ -81,10 +85,7 @@ namespace Assets.Scripts.Core.HUD
         {
             _customizationModel.EndConcreteCustomization();
 
-            var boardId = _configStorage.CustomizationDataList
-                    .FirstOrDefault(data => data.Id == _customizationModel.SelectedBoardId.Value)
-                    .PrefabId;
-            _userModel.ProcessBoardSelection(boardId);
+            _userModel.ProcessBoardSelection(_customizationModel.SelectedBoardId.Value);
         }
 
         private void CreateItems()
@@ -104,17 +105,20 @@ namespace Assets.Scripts.Core.HUD
         {
             if (_userModel.IsItemLocked(id))
             {
-                _unlockWindowPresenter.ShowConfirm(_customizationModel.FullDataList.FirstOrDefault(m => m.Id == id), OnConfirmUnlock);
+                var item = _customizationModel.FullDataList.FirstOrDefault(m => m.Id == id);
+                if (_shopService.CanBuyFor(item.Price))
+                    _unlockWindowPresenter.ShowConfirm(item, OnConfirmUnlock);
                 return;
             }
             SelectBoard(id);
         }
 
-        private void OnConfirmUnlock(int id)
+        private void OnConfirmUnlock(CustomizationData data)
         {
-            _userModel.UnlockCustomizationItem(id);
-            _items.FirstOrDefault(i => i.DataId == id).SetUnlocked();
-            OnItemClick(id);
+            _shopService.ProcessBuyFor(data.Price);
+            _userModel.UnlockCustomizationItem(data.Id);
+            _items.FirstOrDefault(i => i.DataId == data.Id).SetUnlocked();
+            OnItemClick(data.Id);
         }
 
         private void SelectBoard(int id)

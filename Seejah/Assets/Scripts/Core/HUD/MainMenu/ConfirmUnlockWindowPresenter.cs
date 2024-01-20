@@ -16,7 +16,7 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private Button buttonCancel;
 
         private CustomizationData _data;
-        private Action<int> _onConfirm;
+        private Action<CustomizationData> _onConfirm;
         private Action _onClose;
 
         //[Inject]
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Core.HUD
 
         public int DataId => _data.Id;
 
-        public void ShowConfirm(CustomizationData data, Action<int> onConfirm, Action onClose = null)
+        public void ShowConfirm(CustomizationData data, Action<CustomizationData> onConfirm, Action onClose = null)
         {
             _data = data;
             _onConfirm = onConfirm;
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnConfirm()
         {
-            _onConfirm?.Invoke(_data.Id);
+            _onConfirm?.Invoke(_data);
             CloseWindow();
         }
 

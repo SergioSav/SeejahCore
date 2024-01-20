@@ -19,3 +19,8 @@ MonoBehaviour:
     ChipStartCount: 12
     ChipMoveDistance: 1
     MinimalChipCountInGame: 2
+    WinDrop:
+      Currency: 1
+      Value: 15
+    WinRatingChange: 5
+    LoseRatingChange: -1
