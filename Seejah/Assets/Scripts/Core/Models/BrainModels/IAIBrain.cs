@@ -2,6 +2,7 @@
 {
     public interface IAIBrain : IBrain
     {
+        void TuneDifficulty(int winStreak, int loseStreak);
         void Reset();
         void SwitchToBattle();
         void SwitchToPlacement();

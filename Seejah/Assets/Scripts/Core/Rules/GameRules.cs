@@ -37,5 +37,9 @@ namespace Assets.Scripts.Core.Rules
         public DropData WinDrop => _data.WinDrop;
         public int WinRatingChange => _data.WinRatingChange;
         public int LoseRatingChange => _data.LoseRatingChange;
+
+        public int LoseStreakLimit => _data.LoseStreakLimit;
+        public int WinStreakLimit => _data.WinStreakLimit;
+        public int UltimateWinStreakLimit => _data.UltimateWinStreakLimit;
     }
 }

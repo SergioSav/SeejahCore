@@ -5,5 +5,6 @@
         CellModel CellForMove();
         CellModel CellForSelect();
         void Reset();
+        void SetupDifficulty(AIBrainDifficulty difficulty);
     }
 }

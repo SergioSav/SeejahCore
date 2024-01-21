@@ -14,5 +14,8 @@ namespace Assets.Scripts.Core.Data
         public DropData WinDrop;
         public int WinRatingChange;
         public int LoseRatingChange;
+        public int LoseStreakLimit;
+        public int WinStreakLimit;
+        public int UltimateWinStreakLimit;
     }
 }

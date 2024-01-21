@@ -21,6 +21,9 @@ MonoBehaviour:
     MinimalChipCountInGame: 2
     WinDrop:
       Currency: 1
-      Value: 15
+      Value: 300
     WinRatingChange: 5
     LoseRatingChange: -1
+    LoseStreakLimit: 3
+    WinStreakLimit: 3
+    UltimateWinStreakLimit: 5

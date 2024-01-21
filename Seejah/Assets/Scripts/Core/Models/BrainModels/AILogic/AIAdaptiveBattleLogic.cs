@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Assets.Scripts.Core.Models.AILogic
 {
-    public class AIUltimateBattleLogic : DisposableContainer, ILogic
+    public class AIAdaptiveBattleLogic : DisposableContainer, ILogic
     {
         private readonly GameRules _gameRules;
         private readonly FieldModel _fieldModel;
@@ -14,10 +14,11 @@ namespace Assets.Scripts.Core.Models.AILogic
         private TeamType _currentTeam;
         private CellModel _selectedCell;
         private CellModel _cellForMove;
+        private AIBrainDifficulty _difficulty;
 
-        public AIUltimateBattleLogic(GameRules gameRules, FieldModel fieldModel, RandomProvider random, TeamType teamType)
+        public AIAdaptiveBattleLogic(GameRules gameRules, FieldModel fieldModel, RandomProvider random, TeamType teamType)
         {
-            UnityEngine.Debug.Log("- = ULTIMATE = -");
+            UnityEngine.Debug.Log("- = ADAPTIVE = -");
             _gameRules = gameRules;
             _fieldModel = fieldModel;
             _random = random;
@@ -32,7 +33,8 @@ namespace Assets.Scripts.Core.Models.AILogic
 
         public void SetupDifficulty(AIBrainDifficulty difficulty)
         {
-            // NOP
+            _difficulty = difficulty;
+            UnityEngine.Debug.Log($"- = {_difficulty} = -");
         }
 
         public CellModel CellForSelect()
@@ -61,43 +63,92 @@ namespace Assets.Scripts.Core.Models.AILogic
                 .Where(v => v.PossibleMoveFromCells.Count > 0);
             LogVariants("PossibleMove", variantsWithPossibleMoveFromCells);
 
-            var variantsWithPossibleAttack = variantsWithPossibleMoveFromCells
-                .Where(v => v.PossibleAttackCount > 0)
-                .OrderByDescending(v => v.PossibleAttackCount);
-            LogVariants("PossibleAttack", variantsWithPossibleAttack);
-            var variant = variantsWithPossibleAttack.FirstOrDefault();
+            AIMoveLogicData variantWithPossibleAttack = GetVariantWithPossibleAttack(variantsWithPossibleMoveFromCells);
 
-            if (variant != default)
+            if (variantWithPossibleAttack != default)
             {
-                DefineCells(variant);
+                DefineCells(variantWithPossibleAttack);
             }
             else
             {
-                var variantsWithoutThreat = variantsWithPossibleMoveFromCells
-                    .Where(v => v.PossibleThreatCount == 0)
-                    .ToList();
-                if (_random.GetRandom(variantsWithoutThreat, out variant))
+                var variantWithoutThreats = GetVariantWithoutThreat(variantsWithPossibleMoveFromCells);
+                if (variantWithoutThreats != default)
                 {
-                    DefineCells(variant);
+                    DefineCells(variantWithoutThreats);
                 }
                 else
                 {
-                    var variantsWithThreat = variantsWithPossibleMoveFromCells
-                        .OrderBy(v => v.PossibleThreatCount);
-                    LogVariants("PossibleThreat", variantsWithThreat);
-                    variant = variantsWithThreat.FirstOrDefault();
-
-                    if (variant != default)
+                    var variantsWithThreat = GetVariantWithThreat(variantsWithPossibleMoveFromCells);
+                    if (variantsWithThreat != default)
                     {
-                        DefineCells(variant);
+                        DefineCells(variantsWithThreat);
                     }
                     else
                     {
-                        variant = variantsWithPossibleMoveFromCells.Random(_random);
+                        var variant = variantsWithPossibleMoveFromCells.Random(_random);
                         DefineCells(variant);
                     }
                 }
             }
+        }
+
+        private AIMoveLogicData GetVariantWithPossibleAttack(IEnumerable<AIMoveLogicData> variantsWithPossibleMoveFromCells)
+        {
+            AIMoveLogicData variantWithPossibleAttack;
+            var variants = variantsWithPossibleMoveFromCells
+                .Where(v => v.PossibleAttackCount > 0);
+            if (_difficulty >= AIBrainDifficulty.Ultimate)
+            {
+                variants.OrderByDescending(v => v.PossibleAttackCount)
+                    .OrderBy(v => v.PossibleThreatCount);
+                LogVariants("PossibleAttack ULT ordered desc", variants);
+                variantWithPossibleAttack = variants.FirstOrDefault();
+            }
+            else if (_difficulty >= AIBrainDifficulty.Hard)
+            {
+                variants.OrderByDescending(v => v.PossibleAttackCount);
+                LogVariants("PossibleAttack hard ordered desc", variants);
+                _random.GetRandom(variants, out variantWithPossibleAttack);
+            }
+            else
+            {
+                LogVariants("PossibleAttack for random", variants);
+                _random.GetRandom(variants, out variantWithPossibleAttack);
+            }
+            return variantWithPossibleAttack;
+        }
+
+        private AIMoveLogicData GetVariantWithoutThreat(IEnumerable<AIMoveLogicData> variantsWithPossibleMoveFromCells)
+        {
+            IEnumerable<AIMoveLogicData> variants;
+            if (_difficulty >= AIBrainDifficulty.Medium)
+            {
+                variants = variantsWithPossibleMoveFromCells
+                    .Where(v => v.PossibleThreatCount == 0);
+            }
+            else
+            {
+                variants = variantsWithPossibleMoveFromCells
+                    .OrderBy(v => v.PossibleThreatCount);
+            }
+
+            _random.GetRandom(variants, out AIMoveLogicData variantWithoutThreat);
+            return variantWithoutThreat;
+        }
+
+        private AIMoveLogicData GetVariantWithThreat(IEnumerable<AIMoveLogicData> variantsWithPossibleMoveFromCells)
+        {
+            AIMoveLogicData variant;
+            var variants = variantsWithPossibleMoveFromCells
+                .OrderBy(v => v.PossibleThreatCount);
+            LogVariants("PossibleThreat", variants);
+
+            if (_difficulty >= AIBrainDifficulty.Hard)
+                variant = variants.FirstOrDefault();
+            else
+                _random.GetRandom(variants, out variant);
+
+            return variant;
         }
 
         private void LogVariants(string logName, IEnumerable<AIMoveLogicData> list)

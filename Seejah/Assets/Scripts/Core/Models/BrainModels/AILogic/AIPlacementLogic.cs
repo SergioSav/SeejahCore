@@ -33,5 +33,10 @@ namespace Assets.Scripts.Core.Models.AILogic
         public void Reset()
         {
         }
+
+        public void SetupDifficulty(AIBrainDifficulty difficulty)
+        {
+            // NOP
+        }
     }
 }

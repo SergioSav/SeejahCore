@@ -59,9 +59,8 @@ namespace Assets.Scripts.Core.Controllers
 
             var player1 = _playerFactory.Invoke(_userModel.TeamType, new HumanBrainModel());
 
-            IAIBrain AIBrain = new AIBrainModel(_gameRules, _fieldModel, _random, _userModel.OpponentTeamType);
-            if (_gameSettings.NeedUseUltimateAI)
-                AIBrain = new AIUltimateBrainModel(_gameRules, _fieldModel, _random, _userModel.OpponentTeamType);
+            var AIBrain = new AIAdaptiveBrainModel(_gameRules, _fieldModel, _random, _userModel.OpponentTeamType);
+            AIBrain.TuneDifficulty(_userModel.WinStreak, _userModel.LoseStreak);
             var player2 = _playerFactory.Invoke(_userModel.OpponentTeamType, AIBrain);
 
             _matchModel.AddPlayers(new List<IPlayerModel> { player1, player2 });

@@ -52,5 +52,10 @@ namespace Assets.Scripts.Core.Models
             resultCell = _logic.CellForMove();
             return resultCell != default;
         }
+
+        public void TuneDifficulty(int winStreak, int loseStreak)
+        {
+            // NOP
+        }
     }
 }

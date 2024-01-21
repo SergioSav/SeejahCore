@@ -69,5 +69,10 @@ namespace Assets.Scripts.Core.Models.AILogic
                 _cellForMove = resultCell.Item1;
             }
         }
+
+        public void SetupDifficulty(AIBrainDifficulty difficulty)
+        {
+            // NOP
+        }
     }
 }
