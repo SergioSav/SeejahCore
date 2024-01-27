@@ -1,8 +1,8 @@
 ﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.Data.Services;
-using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
+using Assets.Scripts.Core.Utils.AudioService;
 using VContainer;
 using VContainer.Unity;
 
@@ -31,6 +31,8 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.Register<UserModel>(Lifetime.Singleton);
 
             builder.Register<GameSettings>(Lifetime.Singleton).AsImplementedInterfaces();
+
+            builder.RegisterComponentOnNewGameObject<AudioService>(Lifetime.Singleton);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
+using Assets.Scripts.Core.Utils.AudioService;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
@@ -18,13 +19,15 @@ namespace Assets.Scripts.Core.HUD
 
         private GameModel _gameModel;
         private UserModel _userModel;
+        private AudioService _audioService;
         private TeamType _selectedTeam;
 
         [Inject]
-        public void Construct(GameModel gameModel, UserModel userModel)
+        public void Construct(GameModel gameModel, UserModel userModel, AudioService audioService)
         {
             _gameModel = gameModel;
             _userModel = userModel;
+            _audioService = audioService;
         }
 
         private void OnStateChange(GameState state)
@@ -52,6 +55,7 @@ namespace Assets.Scripts.Core.HUD
 
         private void CloseWindow()
         {
+            _audioService.PlayUISound(SoundType.Click);
             _userModel.SetTeam(_selectedTeam);
             _gameModel.StartMatch();
         }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
+using Assets.Scripts.Core.Utils.AudioService;
 using DG.Tweening;
 using TMPro;
 using UniRx;
@@ -15,31 +16,47 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private TextMeshProUGUI textCurrentTeam;
         [SerializeField] private TextMeshProUGUI textInfoBanner;
         [SerializeField] private Button buttonHelp;
+        [SerializeField] private Toggle toggleMusic;
+        [SerializeField] private Toggle toggleSound;
         [SerializeField] private Transform infoBanner;
         [SerializeField] private CanvasGroup infoBannerCanvas;
 
         private MatchModel _matchModel;
         private GameplayUIModel _gameplayUIModel;
+        private AudioService _audioService;
         private Sequence _bannerSequence;
 
         [Inject]
-        public void Construct(MatchModel matchModel, GameplayUIModel gameplayUIModel)
+        public void Construct(MatchModel matchModel, GameplayUIModel gameplayUIModel, AudioService audioService)
         {
             _matchModel = matchModel;
             _gameplayUIModel = gameplayUIModel;
+            _audioService = audioService;
         }
 
         private void Start()
         {
             textCurrentTeam.text = "Game started!";
+
             AddForDispose(_matchModel.CurrentState.Subscribe(OnMatchStateChange));
             AddForDispose(_matchModel.WaitNextTurn.Subscribe(_ => OnWaitNextTurn()));
             AddForDispose(buttonHelp.OnPointerClickAsObservable().Subscribe(_ => OnHelpClick()));
+            AddForDispose(toggleMusic
+                .OnValueChangedAsObservable()
+                .Subscribe(isOff => _audioService.SwitchMusic(!isOff)));
+            AddForDispose(toggleSound
+                .OnValueChangedAsObservable()
+                .Subscribe(isOff => _audioService.SwitchSound(!isOff)));
+
             InitBannerAnimator();
+
+            toggleMusic.isOn = !_audioService.MusicOn.Value;
+            toggleSound.isOn = !_audioService.SoundOn.Value;
         }
 
         private void OnHelpClick()
         {
+            _audioService.PlayUISound(SoundType.Click);
             _gameplayUIModel.ShowTutorialWindow();
         }
 

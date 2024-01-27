@@ -7,5 +7,7 @@ namespace Assets.Scripts.Core.Data
     {
         public bool NeedUseUltimateAI;
         public bool IsRandomPlacement;
+        public bool SoundOn;
+        public bool MusicOn;
     }
 }

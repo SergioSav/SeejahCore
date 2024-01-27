@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Presenters;
+using Assets.Scripts.Core.Utils.AudioService;
 using System;
 using TMPro;
 using UniRx;
@@ -24,12 +25,14 @@ namespace Assets.Scripts.Core.HUD
         private bool _isLocked;
         private Action<int> _onSelect;
         private ISpriteSupplier _spriteSupplier;
+        private AudioService _audioService;
         private bool _isSelected;
 
         [Inject]
-        public void Construct(ISpriteSupplier spriteSupplier)
+        public void Construct(ISpriteSupplier spriteSupplier, AudioService audioService)
         {
             _spriteSupplier = spriteSupplier;
+            _audioService = audioService;
         }
 
         public void Setup(CustomizationData data, bool isLocked, Action<int> onSelect)
@@ -47,7 +50,7 @@ namespace Assets.Scripts.Core.HUD
             UpdateLockState();
 
             AddForDispose(selectionArea.OnPointerClickAsObservable()
-                .Subscribe(_ => _onSelect?.Invoke(_data.Id)));
+                .Subscribe(_ => OnSelect()));
         }
 
         public void SetSelected(int id)
@@ -63,6 +66,13 @@ namespace Assets.Scripts.Core.HUD
         }
 
         public int DataId => _data.Id;
+
+
+        private void OnSelect()
+        {
+            _audioService.PlayUISound(SoundType.Click);
+            _onSelect?.Invoke(_data.Id);
+        }
 
         private void UpdateSelectionFrame()
         {

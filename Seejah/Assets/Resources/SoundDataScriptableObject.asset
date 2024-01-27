@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906c5b5e2ff34cc45954931f2be53642, type: 3}
+  m_Name: SoundDataScriptableObject
+  m_EditorClassIdentifier: 
+  SoundDataList:
+  - Title: MainMusic
+    Id: 1
+    Type: 1
+    SoundList:
+    - {fileID: 8300000, guid: cced4f86312794742ab699b32b57e2e9, type: 3}
+  - Title: WinSound
+    Id: 2
+    Type: 2
+    SoundList:
+    - {fileID: 8300000, guid: fc0bee344f597d5488d5f9c6e1cd5071, type: 3}
+  - Title: LoseSound
+    Id: 3
+    Type: 3
+    SoundList:
+    - {fileID: 8300000, guid: 70b9f7d7db64be94ab954688e28962a7, type: 3}
+  - Title: Click
+    Id: 4
+    Type: 4
+    SoundList:
+    - {fileID: 8300000, guid: 0b14dfb8699686b4bb3047e5b15fdf5a, type: 3}

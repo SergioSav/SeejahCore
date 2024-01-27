@@ -174,7 +174,7 @@ namespace Assets.Scripts.Core.Controllers
 
         private void PlacementPhaseHandle()
         {
-            if (_gameSettings.IsRandomPlacementPhase)
+            if (_gameSettings.IsRandomPlacement)
                 RandomPlacement();
             else
                 _matchModel.ActivePlayer.MakeTurn();

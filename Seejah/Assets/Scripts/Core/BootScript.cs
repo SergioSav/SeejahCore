@@ -11,8 +11,7 @@ namespace Assets.Scripts.Core
 {
     public class BootScript : MonoBehaviour
     {
-        [SerializeField]
-        private GamePresenter gamePresenter;
+        [SerializeField] private GamePresenter gamePresenter;
 
         private void Start()
         {

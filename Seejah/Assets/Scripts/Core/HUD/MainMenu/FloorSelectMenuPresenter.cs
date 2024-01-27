@@ -3,6 +3,7 @@ using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.SceneInstallers;
 using Assets.Scripts.Core.Utils;
+using Assets.Scripts.Core.Utils.AudioService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,17 +31,19 @@ namespace Assets.Scripts.Core.HUD
         private ShopService _shopService;
         private Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> _itemFactory;
         private ConfirmUnlockWindowPresenter _unlockWindowPresenter;
+        private AudioService _audioService;
         private readonly List<CustomizationItemPresenter> _items = new List<CustomizationItemPresenter>();
 
         [Inject]
         public void Construct(UserModel userModel, CustomizationModel customizationModel, ShopService shopService,
-                ConfirmUnlockWindowPresenter unlockWindowPresenter,
+                ConfirmUnlockWindowPresenter unlockWindowPresenter, AudioService audioService,
                 Func<CustomizationItemPresenter, Transform, CustomizationItemPresenter> itemFactory)
         {
             _userModel = userModel;
             _customizationModel = customizationModel;
             _shopService = shopService;
             _unlockWindowPresenter = unlockWindowPresenter;
+            _audioService = audioService;
             _itemFactory = itemFactory;
         }
 
@@ -73,16 +76,20 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnRightClick()
         {
+            _audioService.PlayUISound(SoundType.Click);
             itemsParent.transform.localPosition += Vector3.left * _SLIDER_MOVE_X;
         }
 
         private void OnLeftClick()
         {
+            _audioService.PlayUISound(SoundType.Click);
             itemsParent.transform.localPosition += Vector3.right * _SLIDER_MOVE_X;
         }
 
         private void OnMenuClose()
         {
+            _audioService.PlayUISound(SoundType.Click);
+
             _customizationModel.EndConcreteCustomization();
 
             _userModel.ProcessFloorSelection(_customizationModel.SelectedFloorId.Value);

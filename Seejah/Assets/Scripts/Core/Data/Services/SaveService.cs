@@ -4,6 +4,7 @@ namespace Assets.Scripts.Core.Data.Services
 {
     public interface ISaveService
     {
+        GameSettingsSaveState GetSettingsSave();
         UserSaveState Load();
         void Save(UserSaveState newSave);
         void Save(GameSettingsSaveState settingsSave);
@@ -49,6 +50,13 @@ namespace Assets.Scripts.Core.Data.Services
 
             _currentSaveState.GameSettingsSave = settingsSave;
             InternalSave(_currentSaveState);
+        }
+
+        public GameSettingsSaveState GetSettingsSave()
+        {
+            if (_currentSaveState == null)
+                return new GameSettingsSaveState();
+            return _currentSaveState.GameSettingsSave;
         }
 
         private void InternalSave(UserSaveState newSave)

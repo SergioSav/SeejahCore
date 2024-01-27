@@ -3,6 +3,7 @@ using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.SceneInstallers;
+using Assets.Scripts.Core.Utils.AudioService;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -35,12 +36,13 @@ namespace Assets.Scripts.Core.HUD
         private List<TutorialData> _tutorialInfoList;
         private int _currentIndex;
         private List<PageInfoDotPresenter> _infoDots;
+        private AudioService _audioService;
 
         [Inject]
         public void Construct(UserModel userModel, ConfigsStorage configStorage, 
                 MatchModel matchModel, GameplayUIModel gameplayUIModel,
                 Func<PageInfoDotPresenter, Transform, PageInfoDotPresenter> infoDotFactory, 
-                ISpriteSupplier spriteSupplier)
+                ISpriteSupplier spriteSupplier, AudioService audioService)
         {
             _userModel = userModel;
             _configStorage = configStorage;
@@ -48,6 +50,7 @@ namespace Assets.Scripts.Core.HUD
             _spriteSupplier = spriteSupplier;
             _matchModel = matchModel;
             _gameplayUIModel = gameplayUIModel;
+            _audioService = audioService;
 
             _tutorialInfoList = configStorage.TutorialDataList;
             _currentIndex = 0;
@@ -76,26 +79,33 @@ namespace Assets.Scripts.Core.HUD
         private void OnNextClick()
         {
             if (_currentIndex >= _tutorialInfoList.Count - 1)
+            {
                 CloseWindow();
+            }
             else
+            {
+                _audioService.PlayUISound(SoundType.Click);
                 OnRightClick();
+            }
         }
 
         private void OnRightClick()
         {
+            _audioService.PlayUISound(SoundType.Click);
             _currentIndex = Math.Min(_currentIndex + 1, _tutorialInfoList.Count - 1);
             HandleInfoState();
         }
 
         private void OnLeftClick()
         {
+            _audioService.PlayUISound(SoundType.Click);
             _currentIndex = Math.Max(_currentIndex - 1, 0);
             HandleInfoState();
         }
 
         private void CloseWindow()
         {
-            Debug.Log("close");
+            _audioService.PlayUISound(SoundType.Click);
             _gameplayUIModel.ReturnNormalState();
         }
 
