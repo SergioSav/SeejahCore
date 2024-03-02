@@ -14,7 +14,6 @@ namespace Assets.Scripts.Core.HUD
 {
     public class CustomizationItemPresenter : MonoBehPresenter
     {
-        [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private Image imageIcon;
         [SerializeField] private Image selectionArea;
         [SerializeField] private GameObject selectionFrame;
@@ -44,7 +43,6 @@ namespace Assets.Scripts.Core.HUD
 
         public void Start()
         {
-            textTitle.text = _data.Name;
             imageIcon.sprite = _spriteSupplier.GetSprite(_data.ImageId);
             UpdateSelectionFrame();
             UpdateLockState();

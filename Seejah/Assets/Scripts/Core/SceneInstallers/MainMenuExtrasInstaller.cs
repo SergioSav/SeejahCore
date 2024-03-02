@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core.HUD;
 using Assets.Scripts.Core.Utils;
-using Assets.Scripts.Core.Utils.AudioService;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -18,6 +17,8 @@ namespace Assets.Scripts.Core.SceneInstallers
             Lifetime.Singleton);
 
             builder.Register<ShopService>(Lifetime.Singleton);
+
+            builder.Register<LanguageService>(Lifetime.Singleton);
 
             builder.RegisterComponentInHierarchy<MainMenuPresenter>();
             builder.RegisterComponentInHierarchy<CustomizationMenuPresenter>();

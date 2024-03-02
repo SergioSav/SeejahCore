@@ -1,0 +1,231 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: L10N_table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 05568cea10c142249bc2732be8705055, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 18751068663808
+    m_Localized: en
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751114801152
+    m_Localized: english
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995456
+    m_Localized: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995457
+    m_Localized: appearance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751123189760
+    m_Localized: settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476835090432
+    m_Localized: Sidjah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644864
+    m_Localized: appearance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644865
+    m_Localized: chip view
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839168
+    m_Localized: chip color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839169
+    m_Localized: board
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839170
+    m_Localized: background
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839171
+    m_Localized: select
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839172
+    m_Localized: chip view
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839173
+    m_Localized: chip color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839174
+    m_Localized: board
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839175
+    m_Localized: background
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839176
+    m_Localized: Unlock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839177
+    m_Localized: Are you sure want unlock it?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839178
+    m_Localized: cancel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839179
+    m_Localized: confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839180
+    m_Localized: game settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839181
+    m_Localized: music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839182
+    m_Localized: sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839183
+    m_Localized: random placement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839184
+    m_Localized: language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839185
+    m_Localized: save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839186
+    m_Localized: chip selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839187
+    m_Localized: choose your color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839188
+    m_Localized: how to play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839189
+    m_Localized: Sidjah is an ancient logic board game for two players, widespread
+      in northeast Africa and Saudi Arabia. Two people are playing. Each player has
+      12 chips. The goal of the game is to capture at least 11 enemy chips.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839190
+    m_Localized: 'The game is played in two phases. The first phase: placement. Players
+      alternately place two chips on any two cells of the field, except the central
+      one.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839191
+    m_Localized: 'After the placement, the second phase begins: the battle. The player
+      who started the placement also makes the first move to the central cell. The
+      chip moves in any direction (including diagonally) for one cell, if it is free.
+      You can''t skip a move.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839192
+    m_Localized: After a move if the opponent's chip falls between two chips of an
+      active player, then it is considered captured and removed from the field. Moreover,
+      all chips in all directions (vertically, horizontally and diagonally) are considered
+      captured at once.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839193
+    m_Localized: Chips that are initially sandwiched between the opponent's chips
+      are not captured, as well as their own chip placed by the player between two
+      opponent's chips.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839194
+    m_Localized: When the opponent has less than two chips left on the field, victory
+      is yours.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839195
+    m_Localized: next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839196
+    m_Localized: congratulation!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839197
+    m_Localized: you win
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839198
+    m_Localized: confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839199
+    m_Localized: game is over
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839200
+    m_Localized: unfortunately, you lost, you'll be lucky another time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839201
+    m_Localized: return to main menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839202
+    m_Localized: game is started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839203
+    m_Localized: now your turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839204
+    m_Localized: opponent turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839205
+    m_Localized: now your turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839206
+    m_Localized: game finished
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839207
+    m_Localized: Placement done! Let's play!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280575996588032
+    m_Localized: The game has started! Let's place the chips
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

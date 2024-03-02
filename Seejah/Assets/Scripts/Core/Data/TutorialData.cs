@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.Localization;
 
 namespace Assets.Scripts.Core.Data
 {
@@ -8,6 +9,6 @@ namespace Assets.Scripts.Core.Data
         public string Title;
         public int Id;
         public int ImageId;
-        public string Message;
+        public LocalizedString Message;
     }
 }

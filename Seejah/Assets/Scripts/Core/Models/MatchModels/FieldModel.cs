@@ -192,5 +192,23 @@ namespace Assets.Scripts.Core.Models
                 _timeService.Wait(i).Then(() => _attackChip.SetValueAndForceNotify(threesome));
             }
         }
+
+        public bool HasTurnFor(TeamType currentTeam)
+        {
+            var allEmptyCells = _cells.Values.Where(c => c.Chip == null);
+
+            foreach (var cell in allEmptyCells)
+            {
+                foreach (var shifts in _gameRules.MoveVariants)
+                {
+                    if (GetCellInPosition(cell.RowColPair.Row + shifts.Item1, cell.RowColPair.Col + shifts.Item2, out var neighbourCell))
+                    {
+                        if (neighbourCell.Chip != null && neighbourCell.Chip.Team == currentTeam)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

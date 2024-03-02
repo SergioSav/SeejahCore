@@ -118,7 +118,7 @@ namespace Assets.Scripts.Core.HUD
             for (int i = 0; i < _infoDots.Count; i++)
                 _infoDots[i].SwitchActive(i == _currentIndex);
 
-            textTutorial.text = _tutorialInfoList[_currentIndex].Message;
+            textTutorial.text = _tutorialInfoList[_currentIndex].Message.GetLocalizedString();
             imageTutorial.sprite = _spriteSupplier.GetSprite(_tutorialInfoList[_currentIndex].ImageId);
         }
 

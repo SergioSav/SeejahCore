@@ -2,7 +2,6 @@
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.SceneInstallers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -29,6 +28,7 @@ namespace Assets.Scripts.Core.Models
         public int SelectedBoardId { get; private set; }
         public int SelectedFloorId { get; private set; }
         public List<int> UnlockedCustomizationItems { get; private set; }
+        public bool WasTutorialShown { get; private set; }
 
         public ReactiveProperty<int> CurrentGold;
 
@@ -63,6 +63,7 @@ namespace Assets.Scripts.Core.Models
             SelectedFloorId = state.SelectedFloorId;
             UnlockedCustomizationItems = state.UnlockedCustomizationItems;
             CurrentGold.Value = state.CurrentGold;
+            WasTutorialShown = state.WasTutorialShown;
         }
 
         private void TryGenerateNewUser()
@@ -75,6 +76,7 @@ namespace Assets.Scripts.Core.Models
             SelectedFloorId = 19;
             UnlockedCustomizationItems = _customizationModel.FullDataList.Where(m => m.Price.Value <= 0).Select(m => m.Id).ToList();
             CurrentGold.Value = 0;
+            WasTutorialShown = false;
 
             TrySaveState();
         }
@@ -94,7 +96,8 @@ namespace Assets.Scripts.Core.Models
                 SelectedBoardId = SelectedBoardId,
                 SelectedFloorId = SelectedFloorId,
                 UnlockedCustomizationItems = UnlockedCustomizationItems,
-                CurrentGold = CurrentGold.Value
+                CurrentGold = CurrentGold.Value,
+                WasTutorialShown = WasTutorialShown
             };
             _saveService.Save(state);
         }
@@ -102,6 +105,12 @@ namespace Assets.Scripts.Core.Models
         public void SetTeam(TeamType teamType)
         {
             _teamType = teamType;
+        }
+
+        public void ProcessTutorialShow()
+        {
+            WasTutorialShown = true;
+            TrySaveState();
         }
 
         public void ProcessWin()

@@ -126,8 +126,7 @@ namespace Assets.Scripts.Core.Controllers
                     PlacementPhaseHandle();
                     break;
                 case MatchStateType.PlacementDone:
-                    _timeService.Wait(1)
-                        .Then(_matchModel.StartBattle);
+                    PlacementEndHandle();
                     break;
                 case MatchStateType.PhaseBattle:
                     BattlePhaseHandle();
@@ -144,7 +143,7 @@ namespace Assets.Scripts.Core.Controllers
             {
                 _timeService.Wait(1)
                         .Then(_matchModel.StartPlacement);
-                _matchStartObserver.Dispose();
+                _matchStartObserver?.Dispose();
             }
         }
 
@@ -180,6 +179,12 @@ namespace Assets.Scripts.Core.Controllers
                 _matchModel.ActivePlayer.MakeTurn();
         }
 
+        private void PlacementEndHandle()
+        {
+            _timeService.Wait(1)
+                    .Then(_matchModel.StartBattle);
+        }
+
         private void RandomPlacement()
         {
             var currentPlayer = _matchModel.ActivePlayer;
@@ -202,7 +207,10 @@ namespace Assets.Scripts.Core.Controllers
 
         private void BattlePhaseHandle()
         {
-            _matchModel.ActivePlayer.MakeTurn();
+            if (_fieldModel.HasTurnFor(_matchModel.ActivePlayer.TeamType))
+                _matchModel.ActivePlayer.MakeTurn();
+            else
+                HandleEndTurn();
         }
 
         private void HandleChipAttack(List<AttackThreesome> attackingCells)

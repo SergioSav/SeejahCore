@@ -120,6 +120,16 @@ namespace Assets.Scripts.Core.Models
             SwitchStateTo(MatchStateType.PhaseBattle);
         }
 
+        public bool TryShowTutorial()
+        {
+            if (!_userModel.WasTutorialShown)
+            {
+                _userModel.ProcessTutorialShow();
+                return true;
+            }
+            return false;
+        }
+
         public void HandleEndTurn()
         {
             if (_currentState.Value == MatchStateType.PhasePlacement && _players.All(p => p.ReadyForBattle))

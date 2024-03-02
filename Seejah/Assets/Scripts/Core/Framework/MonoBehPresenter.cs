@@ -26,7 +26,7 @@ namespace Assets.Scripts.Core.Presenters
 
         public void Dispose()
         {
-            _disposables.Dispose();
+            _disposables?.Dispose();
         }
     }
 }

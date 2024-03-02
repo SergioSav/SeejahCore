@@ -5,6 +5,7 @@ using Assets.Scripts.Core.Rules;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 using VContainer;
 
@@ -16,6 +17,12 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private TextMeshProUGUI textButtonApply;
         [SerializeField] private Button buttonApply;
         [SerializeField] private DropItemPresenter dropItem;
+        [SerializeField] private LocalizedString winTitle;
+        [SerializeField] private LocalizedString winDescription;
+        [SerializeField] private LocalizedString winButton;
+        [SerializeField] private LocalizedString loseTitle;
+        [SerializeField] private LocalizedString loseDescription;
+        [SerializeField] private LocalizedString loseButton;
 
         private GameModel _gameModel;
         private GameRules _gameRules;
@@ -36,9 +43,9 @@ namespace Assets.Scripts.Core.HUD
             if (state == GameState.Reward)
             {
                 _isWin = _gameModel.LastWinner.TeamType == _userModel.TeamType;
-                textGameResult.text = "You " + (_isWin ? "WIN!" : "lose...");
-                textButtonApply.text = _isWin ? "Confirm" : "Return to menu";
-                Title = _isWin ? "Congratulation!" : "Match is over";
+                textGameResult.text = _isWin ? winDescription.GetLocalizedString() : loseDescription.GetLocalizedString();
+                textButtonApply.text = _isWin ? winButton.GetLocalizedString() : loseButton.GetLocalizedString();
+                Title = _isWin ? winTitle.GetLocalizedString() : loseTitle.GetLocalizedString();
                 dropItem.Setup(_gameRules.WinDrop);
                 dropItem.gameObject.SetActive(_isWin);
             }

@@ -1,0 +1,223 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: L10N_table Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: L10N_table
+  m_TableCollectionNameGuidString: 05568cea10c142249bc2732be8705055
+  m_Entries:
+  - m_Id: 18751068663808
+    m_Key: locale_code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751114801152
+    m_Key: lang_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476835090432
+    m_Key: game_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995456
+    m_Key: main_menu_start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995457
+    m_Key: main_menu_customize
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751123189760
+    m_Key: main_menu_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644864
+    m_Key: customization_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644865
+    m_Key: customization_chip_view
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839168
+    m_Key: customization_chip_color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839169
+    m_Key: customization_board
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839170
+    m_Key: customization_floor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839171
+    m_Key: customization_select_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839172
+    m_Key: customization_chip_view_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839173
+    m_Key: customization_chip_color_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839174
+    m_Key: customization_board_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839175
+    m_Key: customization_floor_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839176
+    m_Key: confirm_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839177
+    m_Key: confirm_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839178
+    m_Key: confirm_cancel_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839179
+    m_Key: confirm_apply_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839180
+    m_Key: settings_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839181
+    m_Key: settings_music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839182
+    m_Key: settings_sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839183
+    m_Key: settings_random_placement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839184
+    m_Key: settings_language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839185
+    m_Key: settings_save_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839186
+    m_Key: chip_selection_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839187
+    m_Key: chip_selection_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839188
+    m_Key: tutor_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839189
+    m_Key: tutor_1_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839190
+    m_Key: tutor_2_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839191
+    m_Key: tutor_3_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839192
+    m_Key: tutor_4_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839193
+    m_Key: tutor_5_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839194
+    m_Key: tutor_6_slide
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839195
+    m_Key: tutor_next_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839196
+    m_Key: win_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839197
+    m_Key: win_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839198
+    m_Key: win_confirm_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839199
+    m_Key: lose_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839200
+    m_Key: lose_description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839201
+    m_Key: lose_confirm_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839202
+    m_Key: top_banner_game_started
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839203
+    m_Key: top_banner_player_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839204
+    m_Key: top_banner_opponent_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839205
+    m_Key: mid_screen_banner_player_turn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839206
+    m_Key: mid_screen_banner_end_game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839207
+    m_Key: mid_screen_banner_placement_done
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280575996588032
+    m_Key: mid_screen_banner_placement_start
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    id: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1706469249186

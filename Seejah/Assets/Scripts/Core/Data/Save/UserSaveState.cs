@@ -19,11 +19,11 @@ namespace Assets.Scripts.Core.Data.Services
         public List<int> UnlockedCustomizationItems;
         public GameSettingsSaveState GameSettingsSave;
         public int CurrentGold;
+        public bool WasTutorialShown;
 
         public UserSaveState()
         {
             GameSettingsSave = new GameSettingsSaveState();
         }
-
     }
 }

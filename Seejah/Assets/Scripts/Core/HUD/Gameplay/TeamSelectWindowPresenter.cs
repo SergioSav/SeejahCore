@@ -37,7 +37,6 @@ namespace Assets.Scripts.Core.HUD
 
         private void Start()
         {
-            Title = "Chip selection";
             CloseAction = CloseWindow;
 
             _selectedTeam = TeamType.FirstTeam;

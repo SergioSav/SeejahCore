@@ -819,6 +819,71 @@ MonoBehaviour:
   toggleSound: {fileID: 6045036284493419478}
   infoBanner: {fileID: 879960598995345208}
   infoBannerCanvas: {fileID: 2985131754437696947}
+  bannerMidPlayerTurn:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839205
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerMidEndGame:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839206
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerMidPlacementStart:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7280575996588032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerMidPlacementDone:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839207
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerTopPlayerTurn:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839203
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerTopOpponentTurn:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839204
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  bannerTopGameStarted:
+    m_TableReference:
+      m_TableCollectionName: GUID:05568cea10c142249bc2732be8705055
+    m_TableEntryReference:
+      m_KeyId: 7254476872839202
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 1
 --- !u!1 &4322444008774194458
 GameObject:
   m_ObjectHideFlags: 0
