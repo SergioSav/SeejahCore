@@ -501,6 +501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoardSelectMenuView
       objectReference: {fileID: 0}
+    - target: {fileID: 3038004307110816993, guid: bb92d6a73c23bbb49b78da41498b32e9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3038004307110817022, guid: bb92d6a73c23bbb49b78da41498b32e9, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1057,6 +1061,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloorSelectMenuView
       objectReference: {fileID: 0}
+    - target: {fileID: 3038004307110816993, guid: 0f02dbb1caf188743bfe81f5467ed1b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3038004307110817022, guid: 0f02dbb1caf188743bfe81f5467ed1b5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1234,6 +1242,10 @@ PrefabInstance:
     - target: {fileID: 3038004307110816993, guid: 2822270f7a85f3d429e9d7cbadda217d, type: 3}
       propertyPath: m_Name
       value: ChipColorSelectMenuView
+      objectReference: {fileID: 0}
+    - target: {fileID: 3038004307110816993, guid: 2822270f7a85f3d429e9d7cbadda217d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3038004307110817022, guid: 2822270f7a85f3d429e9d7cbadda217d, type: 3}
       propertyPath: m_Pivot.x
@@ -1697,6 +1709,10 @@ PrefabInstance:
     - target: {fileID: 6694947931278593856, guid: 3f587a72e7d80364fa1ccdbd97a2b851, type: 3}
       propertyPath: m_Name
       value: SettingsMenuView
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694947931278593856, guid: 3f587a72e7d80364fa1ccdbd97a2b851, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6821334302115330471, guid: 3f587a72e7d80364fa1ccdbd97a2b851, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2174,28 +2190,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 3707185203408839974, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
+    - target: {fileID: 3707185203408839975, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4285980413
       objectReference: {fileID: 0}
     - target: {fileID: 3707185204103405143, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
       propertyPath: m_Name
@@ -2284,6 +2284,22 @@ PrefabInstance:
     - target: {fileID: 3707185204103405144, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707185205309007003, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9283e1dc6fc481743b1d4af99e9b09ce, type: 3}
+    - target: {fileID: 3707185205309007003, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707185205309007003, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707185205309007003, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6747878104059549200, guid: 4e297408214ab60489fec18790fe41d5, type: 3}
       propertyPath: m_AnchorMax.y
