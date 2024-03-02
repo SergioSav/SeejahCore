@@ -22,10 +22,6 @@ MonoBehaviour:
     m_Localized: tr
     m_Metadata:
       m_Items: []
-  - m_Id: 18751114801152
-    m_Localized: "t\xFCrk"
-    m_Metadata:
-      m_Items: []
   - m_Id: 18751118995456
     m_Localized: "ba\u015Flama"
     m_Metadata:
@@ -46,5 +42,189 @@ MonoBehaviour:
     m_Localized: "d\u0131\u015F g\xF6r\xFCn\xFC\u015F"
     m_Metadata:
       m_Items: []
+  - m_Id: 7254476868644865
+    m_Localized: "\xE7ip t\xFCr\xFC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839168
+    m_Localized: "\xE7ip rengi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839169
+    m_Localized: "tahtas\u0131"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839170
+    m_Localized: "arka pl\xE2n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839171
+    m_Localized: "se\xE7mek"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839172
+    m_Localized: "\xE7ip t\xFCr\xFC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839173
+    m_Localized: "\xE7ip rengi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839174
+    m_Localized: "tahtas\u0131"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839175
+    m_Localized: "arka pl\xE2n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839176
+    m_Localized: "Kilit a\xE7ma"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839177
+    m_Localized: "Bunun kilidini a\xE7mak istedi\u011Finizden emin misiniz?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839178
+    m_Localized: iptal etmek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839179
+    m_Localized: "do\u011Frulamak"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839180
+    m_Localized: ayarlar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839181
+    m_Localized: "m\xFCzik"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839182
+    m_Localized: sesler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839183
+    m_Localized: "rastgele d\xFCzenleme"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839184
+    m_Localized: lisan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839185
+    m_Localized: kaydetmek
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839186
+    m_Localized: "\xE7ip se\xE7imi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839187
+    m_Localized: "renginizi se\xE7in"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839188
+    m_Localized: "nas\u0131l oynan\u0131r"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839189
+    m_Localized: "Sijah, kuzeydo\u011Fu Afrika ve Suudi Arabistan'da da\u011F\u0131t\u0131lan
+      iki kat\u0131l\u0131mc\u0131 i\xE7in eski bir mant\u0131ksal masa oyunudur.
+      \u0130ki ki\u015Fi oynuyor. Her oyuncunun 12 fi\u015Fi vard\u0131r. Oyunun
+      amac\u0131: Rakibin en az 11 ta\u015F\u0131n\u0131 ele ge\xE7irmek."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839190
+    m_Localized: "Oyun iki a\u015Famada ger\xE7ekle\u015Fir. \u0130lk a\u015Fama:
+      yerle\u015Fme. Oyuncular, merkez hari\xE7, sahan\u0131n herhangi iki karesine
+      d\xF6n\xFC\u015F\xFCml\xFC olarak iki ta\u015F koymak."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839191
+    m_Localized: "Yerle\u015Fimden sonra ikinci a\u015Fama ba\u015Flar: sava\u015F.
+      Dizili\u015Fe ba\u015Flayan oyuncu, merkez kareye ilk hamlesini de yapar. \xC7ip,
+      bo\u015Fsa bir kare i\xE7in herhangi bir y\xF6nde (\xE7apraz olarak dahil)
+      gider. Hareketi ka\xE7\u0131ramazs\u0131n\u0131z."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839192
+    m_Localized: "Bir d\xF6n\xFC\u015Ften sonra, rakibin ta\u015F\u0131 y\xFCr\xFCyen
+      oyuncunun iki ta\u015F\u0131 aras\u0131na d\xFC\u015Ferse, yakalanm\u0131\u015F
+      say\u0131l\u0131r ve sahadan \xE7\u0131kar\u0131l\u0131r. Dahas\u0131, t\xFCm
+      tahtalardaki t\xFCm \xE7ipler (dikey, yatay ve \xE7apraz olarak) ayn\u0131
+      anda yakalanm\u0131\u015F olarak kabul edilir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839193
+    m_Localized: "Ba\u015Flang\u0131\xE7ta rakibin ta\u015Flar\u0131 aras\u0131na
+      s\u0131k\u0131\u015Ft\u0131r\u0131lan ta\u015Flar, oyuncunun rakibin iki ta\u015F\u0131
+      aras\u0131na koydu\u011Fu kendi ta\u015Flar\u0131 gibi ele ge\xE7irilmemi\u015Ftir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839194
+    m_Localized: "Rakibin sahada ikiden az fi\u015Fi kald\u0131\u011F\u0131nda zafer
+      say\u0131l\u0131r."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839195
+    m_Localized: "sonras\u0131nda"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839196
+    m_Localized: tebrikler!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839197
+    m_Localized: "siz kazand\u0131n\u0131z"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839198
+    m_Localized: iyi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839199
+    m_Localized: oyun bitti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839200
+    m_Localized: "ne yaz\u0131k ki kaybettiniz, ba\u015Fka bir zaman \u015Fansl\u0131s\u0131n\u0131z"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839201
+    m_Localized: "men\xFCye d\xF6n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839202
+    m_Localized: "oyun ba\u015Flad\u0131"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839203
+    m_Localized: "s\u0131ran\u0131z"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839204
+    m_Localized: rakibin hamlesi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839205
+    m_Localized: "s\u0131ran\u0131z"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839206
+    m_Localized: oyun bitti
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839207
+    m_Localized: "Ayarlama tamamland\u0131! \u015Eimdi oynayal\u0131m!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280575996588032
+    m_Localized: "Oyun ba\u015Flad\u0131! Cipsleri koymak"
+    m_Metadata:
+      m_Items: []
   references:
-    version: 1
+    version: 2
+    RefIds: []

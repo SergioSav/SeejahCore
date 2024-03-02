@@ -19,10 +19,6 @@ MonoBehaviour:
     m_Key: locale_code
     m_Metadata:
       m_Items: []
-  - m_Id: 18751114801152
-    m_Key: lang_name
-    m_Metadata:
-      m_Items: []
   - m_Id: 7254476835090432
     m_Key: game_title
     m_Metadata:
@@ -214,10 +210,11 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    id: 0
+    rid: 0
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
         m_CustomEpoch: 1706469249186
