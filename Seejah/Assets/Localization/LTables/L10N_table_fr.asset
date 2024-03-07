@@ -26,6 +26,205 @@ MonoBehaviour:
     m_Localized: Sidjah
     m_Metadata:
       m_Items: []
+  - m_Id: 18751118995456
+    m_Localized: commencer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995457
+    m_Localized: apparence
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751123189760
+    m_Localized: "param\xE8tres"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644864
+    m_Localized: apparence
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644865
+    m_Localized: type de jetons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839168
+    m_Localized: couleur  de jetons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839169
+    m_Localized: "\xE9chiquier"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839170
+    m_Localized: toile de fond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839171
+    m_Localized: choisir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839172
+    m_Localized: type de jetons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839173
+    m_Localized: couleur  de jetons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839174
+    m_Localized: "\xE9chiquier"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839175
+    m_Localized: toile de fond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839176
+    m_Localized: "D\xE9verrouillage"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839177
+    m_Localized: "\xCAtes-vous s\xFBr de vouloir d\xE9bloquer cela?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839178
+    m_Localized: annuler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839179
+    m_Localized: confirmer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839180
+    m_Localized: "param\xE8tres"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839181
+    m_Localized: musique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839182
+    m_Localized: sons
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839183
+    m_Localized: "disposition al\xE9atoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839184
+    m_Localized: langue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839185
+    m_Localized: conserver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839186
+    m_Localized: "s\xE9lection de jetons"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839187
+    m_Localized: choisissez votre couleur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839188
+    m_Localized: "r\xE8gle du jeu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839189
+    m_Localized: "Sidjah est un ancien jeu de soci\xE9t\xE9 logique pour deux joueurs,
+      courant en Afrique du Nord-Est et en Arabie Saoudite. Deux personnes jouent.
+      Chaque joueur dispose de 12 jetons. Le but du jeu est de capturer au moins
+      11 pi\xE8ces ennemies."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839190
+    m_Localized: "Le jeu se d\xE9roule en deux phases. Premi\xE8re phase: le placement.
+      Les joueurs placent alternativement deux jetons sur deux cases du champ, \xE0
+      l'exception de la case centrale."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839191
+    m_Localized: "Apr\xE8s le placement en place commence la deuxi\xE8me phase: la
+      bataille. Le joueur qui a commenc\xE9 l'arrangement fait le premier mouvement
+      dans la cage centrale. La puce va dans n'importe quelle direction (y compris
+      en diagonale) sur une case, si elle est libre. Vous ne pouvez pas sauter un
+      tour."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839192
+    m_Localized: "Si, apr\xE8s un tour, la puce de l'adversaire est tomb\xE9e entre
+      les deux puces du joueur qui marche, il est consid\xE9r\xE9 comme captur\xE9
+      et retir\xE9 du champ. Et captur\xE9 sont consid\xE9r\xE9s comme tous les jetons
+      dans toutes les directions (verticalement, horizontalement et en diagonale)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839193
+    m_Localized: "Les jetons initialement pris en sandwich entre les jetons de l'adversaire
+      ne sont pas captur\xE9s, tout comme leur propre jeton plac\xE9 par le joueur
+      entre les deux jetons de l'adversaire."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839194
+    m_Localized: "Quand il y a moins de deux jetons sur le terrain de l'adversaire,
+      la victoire est compt\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839195
+    m_Localized: plus loin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839196
+    m_Localized: "f\xE9licitations!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839197
+    m_Localized: "vous avez gagn\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839198
+    m_Localized: bien
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839199
+    m_Localized: "jeu termin\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839200
+    m_Localized: "h\xE9las, vous avez perdu, vous aurez de la chance une autre fois"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839201
+    m_Localized: retourner au menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839202
+    m_Localized: "le jeu a commenc\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839203
+    m_Localized: "votre d\xE9m\xE9nagement"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839204
+    m_Localized: "d\xE9m\xE9nagement ennemi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839205
+    m_Localized: "votre d\xE9m\xE9nagement"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839206
+    m_Localized: "le jeu est termin\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839207
+    m_Localized: "Le placement est termin\xE9\_! Jouons!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280575996588032
+    m_Localized: "Le jeu a commenc\xE9 ! Placez vos jetons"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -9,6 +9,6 @@ namespace Assets.Scripts.Core.Data
         public bool IsRandomPlacement;
         public bool SoundOn;
         public bool MusicOn;
-        public int CurrentLanguageId;
+        public string CurrentLanguageId;
     }
 }

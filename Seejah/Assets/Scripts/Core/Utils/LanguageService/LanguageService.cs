@@ -1,23 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Core.Data;
+using Assets.Scripts.Core.Data.Services;
+using System;
+using System.Collections.Generic;
 using UnityEngine.Localization.Settings;
 
 namespace Assets.Scripts.Core.Utils
 {
     public class LanguageService
     {
-        public Dictionary<string, string> GetInfoForSelection()
-        {
-            var result = new Dictionary<string, string>();
-            var availableLocales = LocalizationSettings.AvailableLocales;
-            foreach (var lang in availableLocales.Locales)
-                result[lang.Identifier.CultureInfo.Name] = lang.Identifier.CultureInfo.NativeName;
+        private Dictionary<string, string> _availableLocaleDict;
 
-            return result;
+        private readonly ISaveService _saveService;
+        private GameSettingsSaveState _gameSettingsSave;
+
+        public string CurrentLocale { get; private set; }
+
+        public LanguageService(ISaveService saveService)
+        {
+            _saveService = saveService;
+
+            _gameSettingsSave = _saveService.GetSettingsSave();
+            var localeId = !String.IsNullOrEmpty(_gameSettingsSave.CurrentLanguageId) ? _gameSettingsSave.CurrentLanguageId : "ru";
+            SelectLocalization(localeId);
+            PrepareLocales();
         }
 
-        public void SelectLocalization(string languageId)
+        public void SwitchLocaleTo(string langId)
+        {
+            SelectLocalization(langId);
+
+            _gameSettingsSave.CurrentLanguageId = langId;
+            _saveService.Save(_gameSettingsSave);
+        }
+
+        public Dictionary<string, string> GetInfoForSelection() => _availableLocaleDict;
+
+        private void SelectLocalization(string languageId)
         {
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(languageId);
+            CurrentLocale = languageId;
+        }
+
+        private void PrepareLocales()
+        {
+            _availableLocaleDict = new Dictionary<string, string>();
+            var availableLocales = LocalizationSettings.AvailableLocales;
+            foreach (var lang in availableLocales.Locales)
+                _availableLocaleDict[lang.Identifier.CultureInfo.Name] = lang.Identifier.CultureInfo.NativeName;
         }
     }
 }

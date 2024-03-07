@@ -4,7 +4,6 @@ using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Utils;
 using Assets.Scripts.Core.Utils.AudioService;
-using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,9 +47,8 @@ namespace Assets.Scripts.Core.HUD
             Title = "Game Settings";
             CloseAction = OnClose;
 
-            var t = _languageService.GetInfoForSelection();
-            comboBoxLanguage.Setup(t, OnLanguageClick);
-            comboBoxLanguage.SelectVariant("ru");
+            comboBoxLanguage.Setup(_languageService.GetInfoForSelection(), OnLanguageClick);
+            comboBoxLanguage.SelectVariant(_languageService.CurrentLocale);
 
 
             AddForDispose(_gameModel.CurrentGameState.Subscribe(OnStateChange));
@@ -78,7 +76,7 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnLanguageClick(string languageId)
         {
-            _languageService.SelectLocalization(languageId);
+            _languageService.SwitchLocaleTo(languageId);
         }
 
         private void OnClose()

@@ -8,6 +8,9 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.310DEAA3" = ""
+	"OpenInspectorPreview.310DEAA3" = "0"
+	"currentGroup.310DEAA3" = "all"
 }
 providers = {
 	st = {

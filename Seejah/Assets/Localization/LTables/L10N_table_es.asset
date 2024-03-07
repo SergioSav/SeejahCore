@@ -26,6 +26,203 @@ MonoBehaviour:
     m_Localized: Sidjah
     m_Metadata:
       m_Items: []
+  - m_Id: 18751118995456
+    m_Localized: comenzar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751118995457
+    m_Localized: apariencia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18751123189760
+    m_Localized: ajustes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644864
+    m_Localized: apariencia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476868644865
+    m_Localized: tipo de chips
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839168
+    m_Localized: color de chip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839169
+    m_Localized: tablero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839170
+    m_Localized: fondo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839171
+    m_Localized: elegir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839172
+    m_Localized: tipo de chips
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839173
+    m_Localized: color de chip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839174
+    m_Localized: tablero
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839175
+    m_Localized: fondo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839176
+    m_Localized: Desbloquear
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839177
+    m_Localized: "\xBFEst\xE1s seguro de que quieres desbloquearlo?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839178
+    m_Localized: cancelar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839179
+    m_Localized: confirmar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839180
+    m_Localized: ajustes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839181
+    m_Localized: "m\xFAsica"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839182
+    m_Localized: sonidos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839183
+    m_Localized: "colocaci\xF3n aleatoria"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839184
+    m_Localized: idioma
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839185
+    m_Localized: preservar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839186
+    m_Localized: "selecci\xF3n de chips"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839187
+    m_Localized: elige tu color
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839188
+    m_Localized: "c\xF3mo jugar"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839189
+    m_Localized: "Sija es un antiguo juego de mesa de l\xF3gica para dos participantes,
+      com\xFAn en el noreste de \xC1frica y en Arabia Saudita. Juegan dos. Cada jugador
+      tiene 12 fichas. Objetivo del juego: capturar al menos 11 fichas del oponente."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839190
+    m_Localized: "El juego se desarrolla en dos fases. Primera fase: colocaci\xF3n.
+      Los jugadores ponen alternativamente dos fichas en cualquiera de las dos casillas
+      del campo, excepto la central."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839191
+    m_Localized: "Despu\xE9s de la colocaci\xF3n, comienza la segunda fase: la batalla.
+      El jugador que comienza la alineaci\xF3n hace el primer movimiento en la casilla
+      central. El chip va en cualquier direcci\xF3n (incluso en diagonal) en una
+      casilla, si est\xE1 libre. No se puede perder el turno."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839192
+    m_Localized: "Si despu\xE9s de un turno, una ficha del oponente cae entre dos
+      fichas del jugador que camina, se considera capturado y se retira del campo.
+      Adem\xE1s, todos los chips en todas las direcciones (vertical, horizontal y
+      diagonal) se consideran capturados a la vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839193
+    m_Localized: Las fichas que inicialmente se intercalan entre las piezas del oponente
+      no se capturan, al igual que una ficha colocada por un jugador entre dos piezas
+      enemigas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839194
+    m_Localized: Cuando al oponente le quedan menos de dos fichas en el campo, se
+      cuenta una victoria.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839195
+    m_Localized: "m\xE1s lejos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839196
+    m_Localized: "\xA1felicidades!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839197
+    m_Localized: has ganado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839198
+    m_Localized: bueno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839199
+    m_Localized: juego terminado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839200
+    m_Localized: "ay, perdiste, m\xE1s suerte la pr\xF3xima vez."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839201
+    m_Localized: "volver al men\xFA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839202
+    m_Localized: el juego ha comenzado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839203
+    m_Localized: tu turno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839204
+    m_Localized: movimiento del enemigo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839205
+    m_Localized: tu turno
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839206
+    m_Localized: juego terminado
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7254476872839207
+    m_Localized: "\xA1La colocaci\xF3n est\xE1 completa! \xA1Ahora jugamos!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280575996588032
+    m_Localized: "\xA1El juego ha comenzado! Poner las fichas"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

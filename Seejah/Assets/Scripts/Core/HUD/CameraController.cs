@@ -9,14 +9,14 @@ namespace Assets.Scripts.Core.HUD
 
         private void Start()
         {
-            _camera = GetComponent<Camera>();
+            _camera = Camera.main;
             _startFOV = _camera.fieldOfView;
         }
 
         private void Update()
         {
-            float coef = (float)Screen.height / Screen.width;
-            _camera.fieldOfView = _startFOV * Mathf.Min(coef, 1f);
+            var coef = (float)Screen.height / Screen.width;
+            _camera.fieldOfView = _startFOV * Mathf.Max(coef, 1f);
         }
     }
 }

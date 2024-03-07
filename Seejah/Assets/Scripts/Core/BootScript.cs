@@ -3,7 +3,9 @@ using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
 using Assets.Scripts.Core.Utils;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using VContainer;
 using VContainer.Unity;
 
@@ -15,10 +17,17 @@ namespace Assets.Scripts.Core
 
         private void Start()
         {
+            StartCoroutine(PostInit());
+            
+            DontDestroyOnLoad(this);
+        }
+
+        IEnumerator PostInit()
+        {
+            yield return LocalizationSettings.InitializationOperation;
+
             var coreScope = gameObject.AddComponent<CoreLifetimeScope>();
             coreScope.CreateChild(InstallDependencies);
-
-            DontDestroyOnLoad(this);
         }
 
         private void InstallDependencies(IContainerBuilder builder)
