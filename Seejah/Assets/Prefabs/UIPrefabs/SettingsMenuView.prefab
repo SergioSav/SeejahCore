@@ -1335,6 +1335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textTitle: {fileID: 1017917795265328304}
   buttonClose: {fileID: 3498260305624625013}
+  interactiveArea: {fileID: 7816398923578445593}
   buttonSave: {fileID: 9084167844838407057}
   toggleSoundOn: {fileID: 1828816308348295150}
   toggleMusicOn: {fileID: 898122235879840695}
@@ -1975,10 +1976,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2609879905582892648, guid: b55a83210501a6943a68951e3a843d58, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6694947931278593856, guid: b55a83210501a6943a68951e3a843d58, type: 3}
       propertyPath: m_Name
       value: BaseWindowView
@@ -2086,6 +2083,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8293338177605052023, guid: b55a83210501a6943a68951e3a843d58, type: 3}
   m_PrefabInstance: {fileID: 2242131501728286998}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7816398923578445593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8314994909913925135, guid: b55a83210501a6943a68951e3a843d58, type: 3}
+  m_PrefabInstance: {fileID: 2242131501728286998}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8755320264675974174 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7393929669871932680, guid: b55a83210501a6943a68951e3a843d58, type: 3}

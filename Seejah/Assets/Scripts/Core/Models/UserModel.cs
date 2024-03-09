@@ -31,6 +31,7 @@ namespace Assets.Scripts.Core.Models
         public bool WasTutorialShown { get; private set; }
 
         public ReactiveProperty<int> CurrentGold;
+        private PlayerSaveState _playerSaveState;
 
         public UserModel(ISaveService saveService, CustomizationModel customizationModel)
         {
@@ -44,26 +45,27 @@ namespace Assets.Scripts.Core.Models
 
         private void TryLoadSaveState()
         {
-            var state = _saveService.Load();
-            if (state == null)
+            _saveService.Load();
+            _playerSaveState = _saveService.GetPlayerSaveState();
+            if (_playerSaveState.Id < 0)
             {
                 TryGenerateNewUser();
                 return;
             }
 
-            Name = state.Name;
-            Id = state.Id;
-            WinCount = state.WinCount;
-            WinStreak = state.WinStreak;
-            LoseCount = state.LoseCount;
-            LoseStreak = state.LoseStreak;
-            SelectedChipId = state.SelectedChipId;
-            SelectedChipColorId = state.SelectedChipColorId;
-            SelectedBoardId = state.SelectedBoardId;
-            SelectedFloorId = state.SelectedFloorId;
-            UnlockedCustomizationItems = state.UnlockedCustomizationItems;
-            CurrentGold.Value = state.CurrentGold;
-            WasTutorialShown = state.WasTutorialShown;
+            Name = _playerSaveState.Name;
+            Id = _playerSaveState.Id;
+            WinCount = _playerSaveState.WinCount;
+            WinStreak = _playerSaveState.WinStreak;
+            LoseCount = _playerSaveState.LoseCount;
+            LoseStreak = _playerSaveState.LoseStreak;
+            SelectedChipId = _playerSaveState.SelectedChipId;
+            SelectedChipColorId = _playerSaveState.SelectedChipColorId;
+            SelectedBoardId = _playerSaveState.SelectedBoardId;
+            SelectedFloorId = _playerSaveState.SelectedFloorId;
+            UnlockedCustomizationItems = _playerSaveState.UnlockedCustomizationItems;
+            CurrentGold.Value = _playerSaveState.CurrentGold;
+            WasTutorialShown = _playerSaveState.WasTutorialShown;
         }
 
         private void TryGenerateNewUser()
@@ -83,23 +85,21 @@ namespace Assets.Scripts.Core.Models
 
         private void TrySaveState()
         {
-            var state = new UserSaveState
-            {
-                Name = Name,
-                Id = Id,
-                WinCount = WinCount,
-                WinStreak = WinStreak,
-                LoseCount = LoseCount,
-                LoseStreak = LoseStreak,
-                SelectedChipId = SelectedChipId,
-                SelectedChipColorId = SelectedChipColorId,
-                SelectedBoardId = SelectedBoardId,
-                SelectedFloorId = SelectedFloorId,
-                UnlockedCustomizationItems = UnlockedCustomizationItems,
-                CurrentGold = CurrentGold.Value,
-                WasTutorialShown = WasTutorialShown
-            };
-            _saveService.Save(state);
+            _playerSaveState.Name = Name;
+            _playerSaveState.Id = Id;
+            _playerSaveState.WinCount = WinCount;
+            _playerSaveState.WinStreak = WinStreak;
+            _playerSaveState.LoseCount = LoseCount;
+            _playerSaveState.LoseStreak = LoseStreak;
+            _playerSaveState.SelectedChipId = SelectedChipId;
+            _playerSaveState.SelectedChipColorId = SelectedChipColorId;
+            _playerSaveState.SelectedBoardId = SelectedBoardId;
+            _playerSaveState.SelectedFloorId = SelectedFloorId;
+            _playerSaveState.UnlockedCustomizationItems = UnlockedCustomizationItems;
+            _playerSaveState.CurrentGold = CurrentGold.Value;
+            _playerSaveState.WasTutorialShown = WasTutorialShown;
+
+            _saveService.Save(_playerSaveState);
         }
 
         public void SetTeam(TeamType teamType)

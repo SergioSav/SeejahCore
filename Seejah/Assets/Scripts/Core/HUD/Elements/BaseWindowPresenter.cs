@@ -2,6 +2,7 @@
 using System;
 using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ namespace Assets.Scripts.Core.HUD.Elements
     {
         [SerializeField] private TextMeshProUGUI textTitle;
         [SerializeField] private Button buttonClose;
+        [SerializeField] private Image interactiveArea;
 
         protected string Title
         {
@@ -23,6 +25,9 @@ namespace Assets.Scripts.Core.HUD.Elements
             {
                 AddForDispose(buttonClose
                     .OnClickAsObservable()
+                    .Subscribe(_ => value.Invoke()));
+                AddForDispose(interactiveArea
+                    .OnPointerClickAsObservable()
                     .Subscribe(_ => value.Invoke()));
             }
         }

@@ -5,8 +5,9 @@ namespace Assets.Scripts.Core.Data.Services
     public interface ISaveService
     {
         GameSettingsSaveState GetSettingsSave();
+        PlayerSaveState GetPlayerSaveState();
         UserSaveState Load();
-        void Save(UserSaveState newSave);
+        void Save(PlayerSaveState playerState);
         void Save(GameSettingsSaveState settingsSave);
     }
 
@@ -29,35 +30,28 @@ namespace Assets.Scripts.Core.Data.Services
 
             var savedString = PlayerPrefs.GetString(SAVE_NAME);
             if (savedString != null)
-            {
                 _currentSaveState = _dataSerializer.DeserializeTo<UserSaveState>(savedString);
-            }
+
+            _currentSaveState ??= new UserSaveState();
+
             return _currentSaveState;
         }
 
-        public void Save(UserSaveState newSave)
+        public void Save(PlayerSaveState newSave)
         {
-            if (_currentSaveState == newSave)
-                return;
-
-            InternalSave(newSave);
+            _currentSaveState.PlayerSaveState = newSave;
+            InternalSave(_currentSaveState);
         }
 
         public void Save(GameSettingsSaveState settingsSave)
         {
-            if (_currentSaveState == null)
-                return;
-
             _currentSaveState.GameSettingsSave = settingsSave;
             InternalSave(_currentSaveState);
         }
 
-        public GameSettingsSaveState GetSettingsSave()
-        {
-            if (_currentSaveState == null)
-                return new GameSettingsSaveState();
-            return _currentSaveState.GameSettingsSave;
-        }
+        public GameSettingsSaveState GetSettingsSave() => _currentSaveState.GameSettingsSave;
+
+        public PlayerSaveState GetPlayerSaveState() => _currentSaveState.PlayerSaveState;
 
         private void InternalSave(UserSaveState newSave)
         {
