@@ -1,54 +1,41 @@
 ﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.HUD.Elements;
+using Assets.Scripts.Core.HUD.Gameplay.Tutorial;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.SceneInstallers;
 using Assets.Scripts.Core.Utils.AudioService;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace Assets.Scripts.Core.HUD
 {
     public class TutorialWindowPresenter : BaseWindowPresenter
     {
-        [SerializeField] private Image imageTutorial;
-        [SerializeField] private TextMeshProUGUI textTutorial;
-        [SerializeField] private Button nextButton;
-        [SerializeField] private Button leftArrowButton;
-        [SerializeField] private Button rightArrowButton;
         [SerializeField] private PageInfoDotPresenter infoDotPrototype;
-        [SerializeField] private Transform infoDotPlace;
+        [SerializeField] private TutorialWindowVerticalContent verticalContent;
+        [SerializeField] private TutorialWindowHorizontalContent horizontalContent;
 
-        private UserModel _userModel;
-        private CustomizationModel _customizationModel;
-        private ConfigsStorage _configStorage;
+        private ITutorialWindowContent _currentContent;
 
         private Func<PageInfoDotPresenter, Transform, PageInfoDotPresenter> _infoDotFactory;
         private ISpriteSupplier _spriteSupplier;
-        private MatchModel _matchModel;
         private GameplayUIModel _gameplayUIModel;
         private List<TutorialData> _tutorialInfoList;
         private int _currentIndex;
         private List<PageInfoDotPresenter> _infoDots;
         private AudioService _audioService;
+        private bool _isContentHorizontal;
 
         [Inject]
-        public void Construct(UserModel userModel, ConfigsStorage configStorage, 
-                MatchModel matchModel, GameplayUIModel gameplayUIModel,
-                Func<PageInfoDotPresenter, Transform, PageInfoDotPresenter> infoDotFactory, 
-                ISpriteSupplier spriteSupplier, AudioService audioService)
+        public void Construct(ConfigsStorage configStorage, GameplayUIModel gameplayUIModel,
+                              Func<PageInfoDotPresenter, Transform, PageInfoDotPresenter> infoDotFactory,
+                              ISpriteSupplier spriteSupplier, AudioService audioService)
         {
-            _userModel = userModel;
-            _configStorage = configStorage;
             _infoDotFactory = infoDotFactory;
             _spriteSupplier = spriteSupplier;
-            _matchModel = matchModel;
             _gameplayUIModel = gameplayUIModel;
             _audioService = audioService;
 
@@ -62,18 +49,55 @@ namespace Assets.Scripts.Core.HUD
             gameObject.SetActive(state == GameplayUIState.TutorialWindow);
         }
 
-        private void Start()
+        private void Update()
         {
-            Title = "How to play";
-            CloseAction = CloseWindow;
+            if (IsLandscape)
+            {
+                if (!_isContentHorizontal)
+                    SwitchToHorizontal();
+            }
+            else
+            {
+                if (_isContentHorizontal)
+                    SwitchToVertical();
+            }
+        }
 
+        private void SwitchToVertical()
+        {
+            _isContentHorizontal = false;
+            _currentContent?.UpdateVisibility(false);
+            _currentContent = verticalContent;
+            _currentContent.UpdateVisibility(true);
+            UpdateContent();
+        }
+
+        private void SwitchToHorizontal()
+        {
+            _isContentHorizontal = true;
+            _currentContent?.UpdateVisibility(false);
+            _currentContent = horizontalContent;
+            _currentContent.UpdateVisibility(true);
+            UpdateContent();
+        }
+
+        private void UpdateContent()
+        {
+            ClearInfoDots();
             CreateInfoDots();
             HandleInfoState();
+        }
+
+        private void Start()
+        {
+            verticalContent.Setup(OnRightClick, OnLeftClick, OnNextClick, CloseWindow);
+            verticalContent.UpdateVisibility(false);
+            horizontalContent.Setup(OnRightClick, OnLeftClick, OnNextClick, CloseWindow);
+            horizontalContent.UpdateVisibility(false);
+
+            SwitchToHorizontal();
 
             AddForDispose(_gameplayUIModel.CurrentState.Subscribe(OnMatchStateChange));
-            AddForDispose(nextButton.OnPointerClickAsObservable().Subscribe(_ => OnNextClick()));
-            AddForDispose(leftArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnLeftClick()));
-            AddForDispose(rightArrowButton.OnPointerClickAsObservable().Subscribe(_ => OnRightClick()));
         }
 
         private void OnNextClick()
@@ -111,24 +135,31 @@ namespace Assets.Scripts.Core.HUD
 
         private void HandleInfoState()
         {
-            leftArrowButton.enabled = _currentIndex > 0;
-            rightArrowButton.enabled = _currentIndex < _tutorialInfoList.Count - 1;
-            nextButton.enabled = _currentIndex < _tutorialInfoList.Count - 1;
+            _currentContent.LeftArrow.enabled = _currentIndex > 0;
+            _currentContent.RightArrow.enabled = _currentIndex < _tutorialInfoList.Count - 1;
+            _currentContent.NextButton.enabled = _currentIndex < _tutorialInfoList.Count - 1;
 
             for (int i = 0; i < _infoDots.Count; i++)
                 _infoDots[i].SwitchActive(i == _currentIndex);
 
-            textTutorial.text = _tutorialInfoList[_currentIndex].Message.GetLocalizedString();
-            imageTutorial.sprite = _spriteSupplier.GetSprite(_tutorialInfoList[_currentIndex].ImageId);
+            _currentContent.SetText(_tutorialInfoList[_currentIndex].Message.GetLocalizedString());
+            _currentContent.SetImage(_spriteSupplier.GetSprite(_tutorialInfoList[_currentIndex].ImageId));
         }
 
         private void CreateInfoDots()
         {
             for (int i = 0; i < _tutorialInfoList.Count; i++)
             {
-                var item = _infoDotFactory.Invoke(infoDotPrototype, infoDotPlace);
+                var item = _infoDotFactory.Invoke(infoDotPrototype, _currentContent.DotsPlace);
                 _infoDots.Add(item);
             }
+        }
+
+        private void ClearInfoDots()
+        {
+            foreach (var dot in _infoDots)
+                Destroy(dot.gameObject);
+            _infoDots.Clear();
         }
     }
 }

@@ -31,5 +31,7 @@ namespace Assets.Scripts.Core.HUD.Elements
                     .Subscribe(_ => value.Invoke()));
             }
         }
+
+        protected bool IsLandscape => Screen.height / Screen.width < 1;
     }
 }
