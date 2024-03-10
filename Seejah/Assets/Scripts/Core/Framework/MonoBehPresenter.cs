@@ -8,18 +8,9 @@ namespace Assets.Scripts.Core.Presenters
     {
         private CompositeDisposable _disposables;
 
-        private void Awake()
-        {
-            _disposables = new CompositeDisposable();
-        }
-
-        //private void OnDisable() // TODO: need manual dispose
-        //{
-        //    Dispose();
-        //}
-
         public T AddForDispose<T>(T disposableObject) where T: IDisposable
         {
+            _disposables ??= new CompositeDisposable();
             _disposables.Add(disposableObject);
             return disposableObject;
         }
