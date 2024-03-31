@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Utils.AudioService;
+using Assets.Scripts.Core.Utils;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;

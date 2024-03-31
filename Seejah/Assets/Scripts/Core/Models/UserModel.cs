@@ -29,6 +29,7 @@ namespace Assets.Scripts.Core.Models
         public int SelectedFloorId { get; private set; }
         public List<int> UnlockedCustomizationItems { get; private set; }
         public bool WasTutorialShown { get; private set; }
+        public int RatingScore { get; private set; }
 
         public ReactiveProperty<int> CurrentGold;
         private PlayerSaveState _playerSaveState;
@@ -59,6 +60,7 @@ namespace Assets.Scripts.Core.Models
             WinStreak = _playerSaveState.WinStreak;
             LoseCount = _playerSaveState.LoseCount;
             LoseStreak = _playerSaveState.LoseStreak;
+            RatingScore = _playerSaveState.RatingScore;
             SelectedChipId = _playerSaveState.SelectedChipId;
             SelectedChipColorId = _playerSaveState.SelectedChipColorId;
             SelectedBoardId = _playerSaveState.SelectedBoardId;
@@ -72,6 +74,7 @@ namespace Assets.Scripts.Core.Models
         {
             Name = "unknown";
             Id = 999;
+            RatingScore = 1000;
             SelectedChipId = 1;
             SelectedChipColorId = 6;
             SelectedBoardId = 11;
@@ -91,6 +94,7 @@ namespace Assets.Scripts.Core.Models
             _playerSaveState.WinStreak = WinStreak;
             _playerSaveState.LoseCount = LoseCount;
             _playerSaveState.LoseStreak = LoseStreak;
+            _playerSaveState.RatingScore = RatingScore;
             _playerSaveState.SelectedChipId = SelectedChipId;
             _playerSaveState.SelectedChipColorId = SelectedChipColorId;
             _playerSaveState.SelectedBoardId = SelectedBoardId;
@@ -164,6 +168,11 @@ namespace Assets.Scripts.Core.Models
         public bool IsItemLocked(int id)
         {
             return !UnlockedCustomizationItems.Contains(id);
+        }
+
+        public void ChangeRatingScore(int diff)
+        {
+            RatingScore += diff;
         }
 
         public void AddGold(int amount)

@@ -1,0 +1,11 @@
+win 5 coins
+ads +1
+rating +3
+lose rating -1
+
+tier1
+30 coins
+tier2 
+80
+tier3
+120

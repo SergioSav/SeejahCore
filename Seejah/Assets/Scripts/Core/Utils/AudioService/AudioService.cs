@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using VContainer;
 
-namespace Assets.Scripts.Core.Utils.AudioService
+namespace Assets.Scripts.Core.Utils
 {
     public class AudioService : MonoBehaviour
     {

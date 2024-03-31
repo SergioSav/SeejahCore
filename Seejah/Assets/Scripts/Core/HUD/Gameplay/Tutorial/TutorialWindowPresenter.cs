@@ -3,7 +3,7 @@ using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.HUD.Gameplay.Tutorial;
 using Assets.Scripts.Core.Models;
-using Assets.Scripts.Core.Utils.AudioService;
+using Assets.Scripts.Core.Utils;
 using System;
 using System.Collections.Generic;
 using UniRx;

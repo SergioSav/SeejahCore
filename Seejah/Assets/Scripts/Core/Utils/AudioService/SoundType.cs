@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts.Core.Utils.AudioService
+namespace Assets.Scripts.Core.Utils
 {
     [Serializable]
     public enum SoundType

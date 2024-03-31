@@ -21,7 +21,11 @@ MonoBehaviour:
     MinimalChipCountInGame: 2
     WinDrop:
       Currency: 1
-      Value: 300
+      Value: 5
+    AdsReward:
+      Currency: 1
+      Value: 1
+    FullscreenAdsWinLimit: 5
     WinRatingChange: 5
     LoseRatingChange: -1
     LoseStreakLimit: 3

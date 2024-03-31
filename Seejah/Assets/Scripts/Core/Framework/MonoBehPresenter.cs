@@ -15,7 +15,7 @@ namespace Assets.Scripts.Core.Presenters
             return disposableObject;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _disposables?.Dispose();
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Core.Utils.AudioService
+namespace Assets.Scripts.Core.Utils
 {
     public class AudioClipSource
     {

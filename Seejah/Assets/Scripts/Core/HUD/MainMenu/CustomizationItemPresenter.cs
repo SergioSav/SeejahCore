@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Presenters;
-using Assets.Scripts.Core.Utils.AudioService;
+using Assets.Scripts.Core.Utils;
 using System;
 using TMPro;
 using UniRx;

@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Presenters;
-using Assets.Scripts.Core.Utils.AudioService;
+using Assets.Scripts.Core.Utils;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -15,6 +15,7 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private Button buttonStart;
         [SerializeField] private Button buttonCustomize;
         [SerializeField] private Button buttonSettings;
+        [SerializeField] private Button buttonRating;
 
         private GameModel _gameModel;
         private AudioService _audioService;
@@ -39,6 +40,10 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(buttonCustomize
                 .OnClickAsObservable()
                 .Subscribe(_ => _gameModel.StartCusomization()));
+
+            AddForDispose(buttonRating
+                .OnClickAsObservable()
+                .Subscribe(_ => _gameModel.ShowRating()));
 
             _audioService.PlayMusic();
         }

@@ -64,5 +64,15 @@ namespace Assets.Scripts.Core.Models
         {
             _currentWinner = winner;
         }
+
+        public void ShowRating()
+        {
+            ChangeGameStateTo(GameState.Rating);
+        }
+
+        public void CloseRating()
+        {
+            ChangeGameStateTo(GameState.MainMenu);
+        }
     }
 }

@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: main_menu_settings
     m_Metadata:
       m_Items: []
+  - m_Id: 20285499260891136
+    m_Key: main_menu_rating
+    m_Metadata:
+      m_Items: []
   - m_Id: 7254476868644864
     m_Key: customization_title
     m_Metadata:
@@ -205,6 +209,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 7280575996588032
     m_Key: mid_screen_banner_placement_start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445568
+    m_Key: rating_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445569
+    m_Key: rating_column_place
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445570
+    m_Key: rating_column_name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445571
+    m_Key: rating_column_score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445572
+    m_Key: rating_confirm_button
     m_Metadata:
       m_Items: []
   m_Metadata:

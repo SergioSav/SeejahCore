@@ -35,6 +35,8 @@ namespace Assets.Scripts.Core.Rules
         public List<(int, int)> MoveVariants => _moveVariants;
 
         public DropData WinDrop => _data.WinDrop;
+        public DropData AdsReward => _data.AdsReward;
+        public int FullscreenAdsWinLimit => _data.FullscreenAdsWinLimit;
         public int WinRatingChange => _data.WinRatingChange;
         public int LoseRatingChange => _data.LoseRatingChange;
 

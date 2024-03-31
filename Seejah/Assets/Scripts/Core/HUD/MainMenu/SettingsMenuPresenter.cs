@@ -3,7 +3,6 @@ using Assets.Scripts.Core.Data;
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Utils;
-using Assets.Scripts.Core.Utils.AudioService;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;

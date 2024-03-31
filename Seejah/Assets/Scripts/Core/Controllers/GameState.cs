@@ -10,6 +10,7 @@
         Match = 5,
         Reward = 6,
         Settings = 7,
-        Customization = 8
+        Customization = 8,
+        Rating = 9
     }
 }

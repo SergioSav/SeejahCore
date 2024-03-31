@@ -28,6 +28,7 @@ namespace Assets.Scripts.Core.SceneInstallers
             builder.RegisterComponentInHierarchy<FloorSelectMenuPresenter>();
             builder.RegisterComponentInHierarchy<SettingsMenuPresenter>();
             builder.RegisterComponentInHierarchy<ConfirmUnlockWindowPresenter>();
+            builder.RegisterComponentInHierarchy<RatingWindowPresenter>();
         }
     }
 }

@@ -11,6 +11,11 @@ scopes = {
 	"last_search.310DEAA3" = ""
 	"OpenInspectorPreview.310DEAA3" = "0"
 	"currentGroup.310DEAA3" = "all"
+	"picker_window_position_offset.45F317DD" = "105;409;320;550"
+	"picker_search_text.45F317DD" = "ratin "
+	"last_search.45F317DD" = "ratin "
+	"OpenInspectorPreview.45F317DD" = "0"
+	"currentGroup.45F317DD" = "all"
 }
 providers = {
 	st = {

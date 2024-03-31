@@ -39,6 +39,7 @@ namespace Assets.Scripts.Core
             builder.Register<ISceneLoader, SceneLoader>(Lifetime.Singleton);
             builder.RegisterComponent(gamePresenter);
 
+
             builder.Register<GameModel>(Lifetime.Singleton);
             builder.RegisterEntryPoint<Game>(Lifetime.Singleton);
         }

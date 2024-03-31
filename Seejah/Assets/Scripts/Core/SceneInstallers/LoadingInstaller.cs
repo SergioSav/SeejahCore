@@ -2,7 +2,7 @@
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
-using Assets.Scripts.Core.Utils.AudioService;
+using Assets.Scripts.Core.Utils;
 using VContainer;
 using VContainer.Unity;
 
@@ -22,6 +22,8 @@ namespace Assets.Scripts.Core.SceneInstallers
 
             builder.Register(c => c.Resolve<ConfigsStorage>().GameRulesData, Lifetime.Singleton);
             builder.Register<GameRules>(Lifetime.Singleton);
+
+            builder.Register<PlatformService>(Lifetime.Singleton);
 
             builder.Register(c => c.Resolve<ConfigsStorage>().CustomizationDataList, Lifetime.Singleton);
             builder.Register<CustomizationModel>(Lifetime.Singleton);

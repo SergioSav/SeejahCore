@@ -223,6 +223,30 @@ MonoBehaviour:
     m_Localized: The game has started! Let's place the chips
     m_Metadata:
       m_Items: []
+  - m_Id: 20285499260891136
+    m_Localized: rating
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445568
+    m_Localized: rating
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445569
+    m_Localized: rank
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445570
+    m_Localized: name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445571
+    m_Localized: score
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445572
+    m_Localized: close
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

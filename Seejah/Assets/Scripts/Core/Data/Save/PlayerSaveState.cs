@@ -12,6 +12,7 @@ namespace Assets.Scripts.Core.Data.Services
         public int WinStreak;
         public int LoseCount;
         public int LoseStreak;
+        public int RatingScore;
         public int SelectedChipId;
         public int SelectedChipColorId;
         public int SelectedBoardId;
@@ -19,5 +20,6 @@ namespace Assets.Scripts.Core.Data.Services
         public int CurrentGold;
         public bool WasTutorialShown;
         public List<int> UnlockedCustomizationItems;
+
     }
 }

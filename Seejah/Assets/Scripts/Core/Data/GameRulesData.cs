@@ -12,6 +12,8 @@ namespace Assets.Scripts.Core.Data
         public int ChipMoveDistance;
         public int MinimalChipCountInGame;
         public DropData WinDrop;
+        public DropData AdsReward;
+        public int FullscreenAdsWinLimit;
         public int WinRatingChange;
         public int LoseRatingChange;
         public int LoseStreakLimit;
