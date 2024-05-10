@@ -27,17 +27,19 @@ namespace Assets.Scripts.Core.HUD
         private int _currentIndex;
         private List<PageInfoDotPresenter> _infoDots;
         private AudioService _audioService;
+        private IPlatformService _platformService;
         private bool _isContentHorizontal;
 
         [Inject]
         public void Construct(ConfigsStorage configStorage, GameplayUIModel gameplayUIModel,
                               Func<PageInfoDotPresenter, Transform, PageInfoDotPresenter> infoDotFactory,
-                              ISpriteSupplier spriteSupplier, AudioService audioService)
+                              ISpriteSupplier spriteSupplier, AudioService audioService, IPlatformService platformService)
         {
             _infoDotFactory = infoDotFactory;
             _spriteSupplier = spriteSupplier;
             _gameplayUIModel = gameplayUIModel;
             _audioService = audioService;
+            _platformService = platformService;
 
             _tutorialInfoList = configStorage.TutorialDataList;
             _currentIndex = 0;
@@ -46,7 +48,10 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnMatchStateChange(GameplayUIState state)
         {
-            gameObject.SetActive(state == GameplayUIState.TutorialWindow);
+            var needShow = state == GameplayUIState.TutorialWindow;
+            if (needShow)
+                _platformService.SendMetric(MetricsConst.TutorialShow);
+            gameObject.SetActive(needShow);
         }
 
         private void Update()

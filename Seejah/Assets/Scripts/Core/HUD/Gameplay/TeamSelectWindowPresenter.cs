@@ -2,6 +2,7 @@
 using Assets.Scripts.Core.HUD.Elements;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Utils;
+using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
@@ -20,14 +21,16 @@ namespace Assets.Scripts.Core.HUD
         private GameModel _gameModel;
         private UserModel _userModel;
         private AudioService _audioService;
+        private IPlatformService _platformService;
         private TeamType _selectedTeam;
 
         [Inject]
-        public void Construct(GameModel gameModel, UserModel userModel, AudioService audioService)
+        public void Construct(GameModel gameModel, UserModel userModel, AudioService audioService, IPlatformService platformService)
         {
             _gameModel = gameModel;
             _userModel = userModel;
             _audioService = audioService;
+            _platformService = platformService;
         }
 
         private void OnStateChange(GameState state)
@@ -48,6 +51,9 @@ namespace Assets.Scripts.Core.HUD
 
         private void OnSelectTeam(TeamType team)
         {
+            var firstTeamMetricsParams = new Dictionary<string, string>() { { MetricsConst.MatchTeam, team.ToString() } };
+            _platformService.SendMetric(MetricsConst.MatchTeamSelection, firstTeamMetricsParams);
+
             _selectedTeam = team;
             CloseWindow();
         }

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
+using Assets.Scripts.Core.Utils;
 using Assets.Scripts.Core.Views;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Core.Presenters
         private IPrefabPrototypeSupplier _prototypeSupplier;
         private IMaterialSupplier _materialSupplier;
         private ConfigsStorage _configStorage;
+        private AudioService _audioService;
         private Dictionary<CellModel, CellView> _cellViews;
         private Dictionary<CellModel, ChipView> _chipViews;
 
@@ -33,6 +35,9 @@ namespace Assets.Scripts.Core.Presenters
         [SerializeField] private Transform chipSelectPlace1;
         [SerializeField] private Transform chipSelectPlace2;
         [SerializeField] private GameObject chipSelectContainer;
+        [SerializeField] private GameObject lightForGame;
+        [SerializeField] private GameObject lightForSelection;
+        [SerializeField] private GameObject selectionCamera;
 
         private Queue<ChipView> _firstTeamChips;
         private Queue<ChipView> _secondTeamChips;
@@ -45,7 +50,7 @@ namespace Assets.Scripts.Core.Presenters
                 Func<CellView, Transform, CellView> cellViewFactory,
                 Func<ChipView, Transform, ChipView> chipViewFactory,
                 IPrefabPrototypeSupplier prototypeSupplier,
-                IMaterialSupplier materialSupplier, ConfigsStorage configsStorage
+                IMaterialSupplier materialSupplier, ConfigsStorage configsStorage, AudioService audioService
                 )
         {
             _fieldModel = fieldModel;
@@ -56,6 +61,7 @@ namespace Assets.Scripts.Core.Presenters
             _prototypeSupplier = prototypeSupplier;
             _materialSupplier = materialSupplier;
             _configStorage = configsStorage;
+            _audioService = audioService;
 
             _cellViews = new Dictionary<CellModel, CellView>();
             _chipViews = new Dictionary<CellModel, ChipView>();
@@ -69,6 +75,7 @@ namespace Assets.Scripts.Core.Presenters
 
             _chipPrefabId = _configStorage.CustomizationDataList.FirstOrDefault(d => d.Id == _matchModel.Options.ChipId).PrefabId;
 
+            SwitchSelectionMode(true);
             GenerateChipsForSelect();
 
             AddForDispose(_fieldModel.UpdateCells.Subscribe(OnCellsUpdate));
@@ -79,7 +86,14 @@ namespace Assets.Scripts.Core.Presenters
 
             AddForDispose(_fieldModel.StartMatch.Subscribe(_ => OnStartMatch()));
         }
-        
+
+        private void SwitchSelectionMode(bool isActive)
+        {
+            lightForGame.SetActive(!isActive);
+            lightForSelection.SetActive(isActive);
+            selectionCamera.SetActive(isActive);
+        }
+
         private void GenerateChipsForSelect()
         {
             _selectionChips = new List<ChipView>();
@@ -105,6 +119,7 @@ namespace Assets.Scripts.Core.Presenters
 
         private void OnStartMatch()
         {
+            SwitchSelectionMode(false);
             DestroySelectionChips();
             board.SetActive(true);
             var boardPrefabId = _configStorage.CustomizationDataList.FirstOrDefault(d => d.Id == _matchModel.Options.BoardId).PrefabId;
@@ -192,6 +207,7 @@ namespace Assets.Scripts.Core.Presenters
             chipView.UpdatePos(pos);
             _chipViews[_fieldModel.SelectedCell] = null;
             _chipViews[newCell] = chipView;
+            _audioService.PlayUISound(SoundType.ChipMove);
         }
 
         private void OnCellSelect(CellModel cell)

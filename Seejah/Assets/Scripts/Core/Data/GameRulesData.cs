@@ -19,5 +19,6 @@ namespace Assets.Scripts.Core.Data
         public int LoseStreakLimit;
         public int WinStreakLimit;
         public int UltimateWinStreakLimit;
+        public string InfoLink;
     }
 }

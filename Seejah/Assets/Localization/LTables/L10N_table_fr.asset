@@ -225,6 +225,34 @@ MonoBehaviour:
     m_Localized: "Le jeu a commenc\xE9 ! Placez vos jetons"
     m_Metadata:
       m_Items: []
+  - m_Id: 20285499260891136
+    m_Localized: classement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33346978658742272
+    m_Localized: sur le jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445568
+    m_Localized: classement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445569
+    m_Localized: lieu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445570
+    m_Localized: nom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445571
+    m_Localized: scores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445572
+    m_Localized: fermer
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

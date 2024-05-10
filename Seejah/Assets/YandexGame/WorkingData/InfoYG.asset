@@ -18,13 +18,13 @@ MonoBehaviour:
   playerInfoSimulation:
     authorized: 1
     isMobile: 0
-    language: ru
+    language: en
     name: Player this
     uniqueID: 000
     photo: https://justplaygames.ru/public/icon_player.png
-  AdWhenLoadingScene: 0
+  AdWhenLoadingScene: 1
   showFirstAd: 1
-  rewardedAfterClosing: 1
+  rewardedAfterClosing: 0
   adDisplayCalls: 0
   fullscreenAdInterval: 60
   durationOfAdSimulation: 0.5
@@ -39,9 +39,9 @@ MonoBehaviour:
     objectName: YandexGame
     methodName: _SaveProgress
   leaderboardEnable: 1
-  saveScoreAnonymousPlayers: 0
+  saveScoreAnonymousPlayers: 1
   leaderboardSimulation:
-  - technoName: LBoardTest_
+  - technoName: advanced
     entries: 'Test LeaderBoard
 
       Name: advanced
@@ -216,35 +216,6 @@ MonoBehaviour:
     de: 0
     hi: 0
   fonts:
-    defaultFont: []
-    ru: []
-    en: []
-    tr: []
-    az: []
-    be: []
-    he: []
-    hy: []
-    ka: []
-    et: []
-    fr: []
-    kk: []
-    ky: []
-    lt: []
-    lv: []
-    ro: []
-    tg: []
-    tk: []
-    uk: []
-    uz: []
-    es: []
-    pt: []
-    ar: []
-    id: []
-    ja: []
-    it: []
-    de: []
-    hi: []
-  fontsTMP:
     defaultFont: []
     ru: []
     en: []

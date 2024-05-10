@@ -21,6 +21,8 @@ public class ChipView : MonoBehaviour
     private Color _colorTeam1;
     private Color _colorTeam2;
     private Material _defaultMaterial;
+    private Material[] _selectedMaterials;
+    private Material[] _defaultMaterials;
 
     public TeamType Team { get; private set; }
 
@@ -34,6 +36,7 @@ public class ChipView : MonoBehaviour
         var colorConfig = configSupplier.GetConfig<ColorConfigScriptableObject>(colorId);
         _colorTeam1 = colorConfig.Team1Color;
         _colorTeam2 = colorConfig.Team2Color;
+
     }
 
     public void Setup(TeamType team)
@@ -41,12 +44,15 @@ public class ChipView : MonoBehaviour
         Team = team;
         UpdateView();
         _defaultMaterial = chipMaterial.material;
+        _selectedMaterials = new Material[] { _defaultMaterial, chipSelection };
+        _defaultMaterials = new Material[] { _defaultMaterial };
     }
 
     public void SetSelected(bool isSelected)
     {
         chipSelection.color = chipMaterial.material.color;
-        chipMaterial.material = isSelected ? chipSelection : _defaultMaterial;
+        ///chipMaterial.material = isSelected ? chipSelection : _defaultMaterial;
+        chipMaterial.materials = isSelected ? _selectedMaterials : _defaultMaterials;
     }
 
     private void UpdateView()

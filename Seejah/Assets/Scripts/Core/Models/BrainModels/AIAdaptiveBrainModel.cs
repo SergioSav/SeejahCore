@@ -11,6 +11,7 @@ namespace Assets.Scripts.Core.Models
         private readonly ILogic _battleLogic;
         private readonly GameRules _gameRules;
         private ILogic _logic;
+        private AIBrainDifficulty _logicDifficulty;
 
         public AIAdaptiveBrainModel(GameRules gameRules, FieldModel fieldModel, RandomProvider random, TeamType teamType)
         {
@@ -22,6 +23,8 @@ namespace Assets.Scripts.Core.Models
         }
 
         public bool IsHuman => false;
+
+        public AIBrainDifficulty Difficulty => _logicDifficulty;
 
         public void Reset()
         {
@@ -57,14 +60,14 @@ namespace Assets.Scripts.Core.Models
 
         public void TuneDifficulty(int winStreak, int loseStreak)
         {
-            var difficulty = AIBrainDifficulty.Medium;
+            _logicDifficulty = AIBrainDifficulty.Medium;
             if (loseStreak > _gameRules.LoseStreakLimit)
-                difficulty = AIBrainDifficulty.Easy;
+                _logicDifficulty = AIBrainDifficulty.Easy;
             else if (winStreak >= _gameRules.UltimateWinStreakLimit)
-                difficulty = AIBrainDifficulty.Ultimate;
+                _logicDifficulty = AIBrainDifficulty.Ultimate;
             else if (winStreak >= _gameRules.WinStreakLimit)
-                difficulty = AIBrainDifficulty.Hard;
-            _battleLogic.SetupDifficulty(difficulty);
+                _logicDifficulty = AIBrainDifficulty.Hard;
+            _battleLogic.SetupDifficulty(_logicDifficulty);
         }
     }
 }

@@ -43,5 +43,7 @@ namespace Assets.Scripts.Core.Rules
         public int LoseStreakLimit => _data.LoseStreakLimit;
         public int WinStreakLimit => _data.WinStreakLimit;
         public int UltimateWinStreakLimit => _data.UltimateWinStreakLimit;
+
+        public string InfoLink => _data.InfoLink;
     }
 }

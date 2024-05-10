@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Core.Utils;
 
 namespace Assets.Scripts.Core.Data.Services
 {
@@ -13,14 +13,14 @@ namespace Assets.Scripts.Core.Data.Services
 
     public class SaveService : ISaveService
     {
-        private const string SAVE_NAME = "USS";
-
         private UserSaveState _currentSaveState;
         private IDataSerializer _dataSerializer;
+        private readonly IPlatformService _platformService;
 
-        public SaveService(IDataSerializer dataSerializer)
+        public SaveService(IDataSerializer dataSerializer, IPlatformService platformService)
         {
             _dataSerializer = dataSerializer;
+            _platformService = platformService;
         }
 
         public UserSaveState Load()
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Core.Data.Services
             if (_currentSaveState != null)
                 return _currentSaveState;
 
-            var savedString = PlayerPrefs.GetString(SAVE_NAME);
+            var savedString = _platformService.LoadData();
             if (savedString != null)
                 _currentSaveState = _dataSerializer.DeserializeTo<UserSaveState>(savedString);
 
@@ -57,8 +57,8 @@ namespace Assets.Scripts.Core.Data.Services
         {
             _currentSaveState = newSave;
             var saveString = _dataSerializer.SerializeFrom(_currentSaveState);
-            PlayerPrefs.SetString(SAVE_NAME, saveString);
-            PlayerPrefs.Save();
+
+            _platformService.SaveData(saveString);
         }
     }
 }

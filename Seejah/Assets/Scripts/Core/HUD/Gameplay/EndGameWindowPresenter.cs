@@ -32,11 +32,11 @@ namespace Assets.Scripts.Core.HUD
         private GameModel _gameModel;
         private GameRules _gameRules;
         private UserModel _userModel;
-        private PlatformService _platformService;
+        private IPlatformService _platformService;
         private bool _isWin;
 
         [Inject]
-        public void Construct(GameModel gameModel, GameRules gameRules, UserModel userModel, PlatformService platformService)
+        public void Construct(GameModel gameModel, GameRules gameRules, UserModel userModel, IPlatformService platformService)
         {
             _gameModel = gameModel;
             _gameRules = gameRules;
@@ -88,6 +88,7 @@ namespace Assets.Scripts.Core.HUD
         {
             ChangeRating();
             _userModel.ApplyDrop(_gameRules.WinDrop.Merge(_gameRules.AdsReward));
+            AfterWinProcess();
             _gameModel.EndMatch();
         }
 
@@ -95,7 +96,10 @@ namespace Assets.Scripts.Core.HUD
         {
             ChangeRating();
             if (_isWin)
+            {
                 _userModel.ApplyDrop(_gameRules.WinDrop);
+                AfterWinProcess();
+            }
             _gameModel.EndMatch();
         }
 
@@ -103,6 +107,17 @@ namespace Assets.Scripts.Core.HUD
         {
             _userModel.ChangeRatingScore(_isWin ? _gameRules.WinRatingChange : _gameRules.LoseRatingChange);
             _platformService.ApplyRatingScore(_userModel.RatingScore);
+        }
+
+        private void AfterWinProcess()
+        {
+            var adsResult = _platformService.TryShowFullscreenAds();
+            if (!adsResult)
+            {
+                var promptResult = _platformService.TryPromptShow();
+                if (!promptResult)
+                    _platformService.TryShowReview();
+            }
         }
     }
 }

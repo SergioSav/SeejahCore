@@ -2,6 +2,8 @@
 using Assets.Scripts.Core.Data.Services;
 using Assets.Scripts.Core.Framework;
 using Assets.Scripts.Core.SceneInstallers;
+using Assets.Scripts.Core.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -12,6 +14,7 @@ namespace Assets.Scripts.Core.Models
     {
         private readonly ISaveService _saveService;
         private readonly CustomizationModel _customizationModel;
+        private readonly IPlatformService _platformService;
         public string Name;
         public int Id;
 
@@ -34,14 +37,23 @@ namespace Assets.Scripts.Core.Models
         public ReactiveProperty<int> CurrentGold;
         private PlayerSaveState _playerSaveState;
 
-        public UserModel(ISaveService saveService, CustomizationModel customizationModel)
+        public UserModel(ISaveService saveService, CustomizationModel customizationModel, IPlatformService platformService)
         {
             _saveService = saveService;
             _customizationModel = customizationModel;
+            _platformService = platformService;
 
             CurrentGold = AddForDispose(new ReactiveProperty<int>());
 
             TryLoadSaveState();
+
+            SendMetrics();
+        }
+
+        private void SendMetrics()
+        {
+            var param = GetMetricsInfo();
+            _platformService.SendMetric(MetricsConst.UserInfo, param);
         }
 
         private void TryLoadSaveState()
@@ -104,6 +116,21 @@ namespace Assets.Scripts.Core.Models
             _playerSaveState.WasTutorialShown = WasTutorialShown;
 
             _saveService.Save(_playerSaveState);
+        }
+
+        private Dictionary<string, string> GetMetricsInfo()
+        {
+            return new Dictionary<string, string>
+            {
+                { MetricsConst.UserWinCount, WinCount.ToString() },
+                { MetricsConst.UserLoseCount, LoseCount.ToString() },
+                { MetricsConst.UserRating, RatingScore.ToString() },
+                { MetricsConst.UserCoins, CurrentGold.ToString() },
+                { MetricsConst.UserAppearanceBoardId, SelectedBoardId.ToString() },
+                { MetricsConst.UserAppearanceChipId, SelectedChipId.ToString() },
+                { MetricsConst.UserAppearanceColorId, SelectedChipColorId.ToString() },
+                { MetricsConst.UserAppearanceFloorId, SelectedFloorId.ToString() },
+            };
         }
 
         public void SetTeam(TeamType teamType)

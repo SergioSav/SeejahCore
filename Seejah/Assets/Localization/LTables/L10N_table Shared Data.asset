@@ -111,6 +111,10 @@ MonoBehaviour:
     m_Key: settings_random_placement
     m_Metadata:
       m_Items: []
+  - m_Id: 33346978658742272
+    m_Key: settings_game_info
+    m_Metadata:
+      m_Items: []
   - m_Id: 7254476872839184
     m_Key: settings_language
     m_Metadata:

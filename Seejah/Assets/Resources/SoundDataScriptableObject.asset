@@ -32,4 +32,22 @@ MonoBehaviour:
     Id: 4
     Type: 4
     SoundList:
-    - {fileID: 8300000, guid: 0b14dfb8699686b4bb3047e5b15fdf5a, type: 3}
+    - {fileID: 8300000, guid: 2b983afd7225e004da7d084d646d3274, type: 3}
+  - Title: ToggleSwitch
+    Id: 5
+    Type: 5
+    SoundList:
+    - {fileID: 8300000, guid: c201dfcf7a5c17947a128615b54e7fc2, type: 3}
+  - Title: ChipMove
+    Id: 6
+    Type: 6
+    SoundList:
+    - {fileID: 8300000, guid: ee145caf463cbdc4c8fbc64ca253f500, type: 3}
+    - {fileID: 8300000, guid: 08446335b06cd1c47a357c5d189e428f, type: 3}
+    - {fileID: 8300000, guid: b304440dd8ac18147a958dfbc145ce26, type: 3}
+    - {fileID: 8300000, guid: 9e1c554aba0e1664c9922da705ea1728, type: 3}
+    - {fileID: 8300000, guid: 9d9f2c34f6441524da6cd09e3fe66157, type: 3}
+    - {fileID: 8300000, guid: 04f2cad75a81eaf4b88af8e3047d1dfa, type: 3}
+    - {fileID: 8300000, guid: aa56bdf1a052d6f4780880fe64b9797c, type: 3}
+    - {fileID: 8300000, guid: fed388be2bbf06f4c8c416dbbbd59ed8, type: 3}
+    - {fileID: 8300000, guid: 528c3c71af3899045a01b0e755dcec93, type: 3}

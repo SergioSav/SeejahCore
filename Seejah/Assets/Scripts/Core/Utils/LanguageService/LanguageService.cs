@@ -11,16 +11,18 @@ namespace Assets.Scripts.Core.Utils
         private Dictionary<string, string> _availableLocaleDict;
 
         private readonly ISaveService _saveService;
+        private readonly IPlatformService _platformService;
         private GameSettingsSaveState _gameSettingsSave;
 
         public string CurrentLocale { get; private set; }
 
-        public LanguageService(ISaveService saveService)
+        public LanguageService(ISaveService saveService, IPlatformService platformService)
         {
             _saveService = saveService;
+            _platformService = platformService;
 
             _gameSettingsSave = _saveService.GetSettingsSave();
-            var localeId = !String.IsNullOrEmpty(_gameSettingsSave.CurrentLanguageId) ? _gameSettingsSave.CurrentLanguageId : "ru";
+            var localeId = !string.IsNullOrEmpty(_gameSettingsSave.CurrentLanguageId) ? _gameSettingsSave.CurrentLanguageId : _platformService.GetLanguageId();
             SelectLocalization(localeId);
             PrepareLocales();
         }

@@ -67,15 +67,29 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(buttonHelp.OnPointerClickAsObservable().Subscribe(_ => OnHelpClick()));
             AddForDispose(toggleMusic
                 .OnValueChangedAsObservable()
-                .Subscribe(isOff => _audioService.SwitchMusic(!isOff)));
+                .Skip(1)
+                .Subscribe(isOff => OnMusicToggle(isOff)));
             AddForDispose(toggleSound
                 .OnValueChangedAsObservable()
-                .Subscribe(isOff => _audioService.SwitchSound(!isOff)));
+                .Skip(1)
+                .Subscribe(isOff => OnSoundToggle(isOff)));
 
             InitBannerAnimator();
 
             toggleMusic.isOn = !_audioService.MusicOn.Value;
             toggleSound.isOn = !_audioService.SoundOn.Value;
+        }
+
+        private void OnMusicToggle(bool isOff)
+        {
+            _audioService.SwitchMusic(!isOff);
+            _audioService.PlayUISound(SoundType.ToggleSwitch);
+        }
+
+        private void OnSoundToggle(bool isOff)
+        {
+            _audioService.SwitchSound(!isOff);
+            _audioService.PlayUISound(SoundType.ToggleSwitch);
         }
 
         private void OnHelpClick()

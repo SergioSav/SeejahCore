@@ -225,6 +225,34 @@ MonoBehaviour:
     m_Localized: "Oyun ba\u015Flad\u0131! Cipsleri koymak"
     m_Metadata:
       m_Items: []
+  - m_Id: 20285499260891136
+    m_Localized: derecelendirme
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33346978658742272
+    m_Localized: "oyun hakk\u0131nda"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445568
+    m_Localized: derecelendirme
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445569
+    m_Localized: yer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445570
+    m_Localized: "\u0130sim"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445571
+    m_Localized: puanlama
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445572
+    m_Localized: "kapatmakt\u0131r"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

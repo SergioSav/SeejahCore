@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ColorConfigBlackWhite
   m_EditorClassIdentifier: 
   Team1Color: {r: 1, g: 1, b: 1, a: 0}
-  Team2Color: {r: 0, g: 0, b: 0, a: 0}
+  Team2Color: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}

@@ -1,0 +1,30 @@
+match_team_selection
+-- team
+match_team_first
+-- team
+
+match_placement_phase
+match_battle_phase
+match_win
+-- turn_count
+match_lose
+-- turn_count
+match_ai_preset
+
+tutorial_show
+
+user
+-- rating
+-- coins
+-- win_count
+-- lose_count
+-- appearance_chip_id
+-- appearance_board_id
+-- appearance_color_id
+-- appearance_floor_id
+
+settings
+-- music on/off
+-- sound on/off
+-- random placement on/off
+-- lang

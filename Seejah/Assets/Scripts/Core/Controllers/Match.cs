@@ -6,6 +6,7 @@ using Assets.Scripts.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UniRx;
 using VContainer.Unity;
 
@@ -18,6 +19,7 @@ namespace Assets.Scripts.Core.Controllers
 
     public class Match : DisposableContainer, IMatch
     {
+        private readonly IPlatformService _platformService;
         private readonly UserModel _userModel;
         private readonly ITimeService _timeService;
         private readonly GameRules _gameRules;
@@ -30,11 +32,21 @@ namespace Assets.Scripts.Core.Controllers
         private readonly GameplayUIModel _gameplayUIModel;
         private int _placementChipCount;
         private IDisposable _matchStartObserver;
+        private int _battleTurnCount;
 
-        public Match(UserModel userModel, ITimeService timeService, GameRules gameRules, GameModel gameModel, IGameSettings gameSettings,
-            MatchModel matchModel, FieldModel fieldModel, RandomProvider random, GameplayUIModel gameplayUIModel,
-            Func<TeamType, IBrain, IPlayerModel> playerFactory)
+        public Match(IPlatformService platformService,
+                     UserModel userModel,
+                     ITimeService timeService,
+                     GameRules gameRules,
+                     GameModel gameModel,
+                     IGameSettings gameSettings,
+                     MatchModel matchModel,
+                     FieldModel fieldModel,
+                     RandomProvider random,
+                     GameplayUIModel gameplayUIModel,
+                     Func<TeamType, IBrain, IPlayerModel> playerFactory)
         {
+            _platformService = platformService;
             _userModel = userModel;
             _timeService = timeService;
             _gameRules = gameRules;
@@ -72,6 +84,11 @@ namespace Assets.Scripts.Core.Controllers
             AddForDispose(_matchModel.WaitNextTurn.Subscribe(_ => OnWaitNextTurn()));
 
             _matchModel.SetLoading();
+
+            var firstTeamMetricsParams = new Dictionary<string, string>() { { MetricsConst.MatchTeam, _matchModel.ActivePlayer.TeamType.ToString() } };
+            _platformService.SendMetric(MetricsConst.MatchTeamFirst, firstTeamMetricsParams);
+            var AIPresetMetricsParams = new Dictionary<string, string>() { { MetricsConst.MatchAIPreset,  AIBrain.Difficulty.ToString() } };
+            _platformService.SendMetric(MetricsConst.MatchAIPreset, AIPresetMetricsParams);
         }
 
         public void SelectCell(RowColPair rcp)
@@ -123,12 +140,15 @@ namespace Assets.Scripts.Core.Controllers
                     _matchStartObserver = AddForDispose(_gameplayUIModel.CurrentState.Subscribe(state => HandleMatchStart(state)));
                     break;
                 case MatchStateType.PhasePlacement:
+                    _matchStartObserver?.Dispose();
+                    _platformService.SendMetric(MetricsConst.MatchPlacementPhase);
                     PlacementPhaseHandle();
                     break;
                 case MatchStateType.PlacementDone:
                     PlacementEndHandle();
                     break;
                 case MatchStateType.PhaseBattle:
+                    _platformService.SendMetric(MetricsConst.MatchBattlePhase);
                     BattlePhaseHandle();
                     break;
                 case MatchStateType.BattleEnd:
@@ -161,6 +181,10 @@ namespace Assets.Scripts.Core.Controllers
                         _userModel.ProcessLose();
                     _gameModel.ChangeGameStateTo(GameState.Reward);
                 }); // TODO:
+
+            var metricType = winner.TeamType == _userModel.TeamType ? MetricsConst.MatchWin : MetricsConst.MatchLose;
+            var metricsParams = new Dictionary<string, string>() { { MetricsConst.TurnsCount, _battleTurnCount.ToString() } };
+            _platformService.SendMetric(metricType, metricsParams);
         }
 
         private void OnWaitNextTurn()
@@ -248,6 +272,7 @@ namespace Assets.Scripts.Core.Controllers
             }
             else if (_matchModel.CurrentState.Value == MatchStateType.PhaseBattle)
             {
+                _battleTurnCount++;
                 _matchModel.ActivePlayer.EndTurn();
                 _timeService.Wait(timeout)
                     .Then(() =>

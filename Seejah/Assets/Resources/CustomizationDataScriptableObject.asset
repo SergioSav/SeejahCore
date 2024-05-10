@@ -48,7 +48,7 @@ MonoBehaviour:
     PrefabId: 4
     Price:
       Currency: 1
-      Value: 150
+      Value: 30
   - Name: Tall Cylinder chips
     Id: 5
     Type: 1
@@ -57,7 +57,7 @@ MonoBehaviour:
     PrefabId: 5
     Price:
       Currency: 1
-      Value: 330
+      Value: 80
   - Name: BlackWhite
     Id: 6
     Type: 2
@@ -128,8 +128,8 @@ MonoBehaviour:
     ImageId: 22
     PrefabId: 34
     Price:
-      Currency: 0
-      Value: 0
+      Currency: 1
+      Value: 30
   - Name: BoardRM
     Id: 14
     Type: 3
@@ -137,8 +137,8 @@ MonoBehaviour:
     ImageId: 23
     PrefabId: 35
     Price:
-      Currency: 0
-      Value: 0
+      Currency: 1
+      Value: 30
   - Name: BoardG2M
     Id: 15
     Type: 3
@@ -146,8 +146,8 @@ MonoBehaviour:
     ImageId: 24
     PrefabId: 36
     Price:
-      Currency: 0
-      Value: 0
+      Currency: 1
+      Value: 80
   - Name: BoardWM
     Id: 16
     Type: 3
@@ -156,7 +156,7 @@ MonoBehaviour:
     PrefabId: 37
     Price:
       Currency: 1
-      Value: 180
+      Value: 80
   - Name: BoardTM
     Id: 17
     Type: 3
@@ -165,7 +165,7 @@ MonoBehaviour:
     PrefabId: 38
     Price:
       Currency: 1
-      Value: 300
+      Value: 120
   - Name: BoardYBM
     Id: 18
     Type: 3
@@ -174,7 +174,7 @@ MonoBehaviour:
     PrefabId: 39
     Price:
       Currency: 1
-      Value: 450
+      Value: 120
   - Name: FloorSand
     Id: 19
     Type: 4
@@ -200,8 +200,8 @@ MonoBehaviour:
     ImageId: 18
     PrefabId: 30
     Price:
-      Currency: 0
-      Value: 0
+      Currency: 1
+      Value: 30
   - Name: FloorTile
     Id: 22
     Type: 4
@@ -210,4 +210,4 @@ MonoBehaviour:
     PrefabId: 31
     Price:
       Currency: 1
-      Value: 600
+      Value: 120

@@ -9,6 +9,8 @@ namespace Assets.Scripts.Core.Utils
         BGMusic,
         Win,
         Lose,
-        Click
+        Click,
+        ToggleSwitch,
+        ChipMove
     }
 }

@@ -18,7 +18,7 @@ namespace Assets.Scripts.Core.HUD
 
         public void Setup(int ratingChangeValue)
         {
-            var signStr = ratingChangeValue > 0 ? "+" : "-";
+            var signStr = ratingChangeValue > 0 ? "+" : "";
             textAmount.text = $"{signStr}{ratingChangeValue}";
             imageRatingUp.gameObject.SetActive(ratingChangeValue > 0);
             imageRatingDown.gameObject.SetActive(ratingChangeValue <= 0);

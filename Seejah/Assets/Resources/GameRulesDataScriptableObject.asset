@@ -31,3 +31,4 @@ MonoBehaviour:
     LoseStreakLimit: 3
     WinStreakLimit: 3
     UltimateWinStreakLimit: 5
+    InfoLink: https://docs.google.com/document/d/1DewHQ05vFe0wEKaHU6fiDFS62Gsl4p6JAwuFH22etbU/edit?usp=drive_link

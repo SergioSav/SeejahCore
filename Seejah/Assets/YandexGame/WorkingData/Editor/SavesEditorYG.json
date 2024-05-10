@@ -1,13 +1,7 @@
 {
-    "idSave": 4,
+    "idSave": 154,
     "isFirstSession": false,
-    "language": "ru",
+    "language": "en",
     "promptDone": true,
-    "money": 1,
-    "newPlayerName": "Hello!",
-    "openLevels": [
-        false,
-        true,
-        false
-    ]
+    "SaveString": "{\"GameSettingsSave\":{\"NeedUseUltimateAI\":false,\"IsRandomPlacement\":true,\"SoundOn\":true,\"MusicOn\":true,\"CurrentLanguageId\":\"en\"},\"PlayerSaveState\":{\"Id\":999,\"Name\":\"unknown\",\"WinCount\":0,\"WinStreak\":0,\"LoseCount\":0,\"LoseStreak\":0,\"RatingScore\":1000,\"SelectedChipId\":3,\"SelectedChipColorId\":6,\"SelectedBoardId\":11,\"SelectedFloorId\":19,\"CurrentGold\":0,\"WasTutorialShown\":true,\"UnlockedCustomizationItems\":[1,2,3,6,7,8,9,10,11,12,13,14,15,19,20,21]}}"
 }

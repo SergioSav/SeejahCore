@@ -223,6 +223,34 @@ MonoBehaviour:
     m_Localized: "\xA1El juego ha comenzado! Poner las fichas"
     m_Metadata:
       m_Items: []
+  - m_Id: 20285499260891136
+    m_Localized: rating
+    m_Metadata:
+      m_Items: []
+  - m_Id: 33346978658742272
+    m_Localized: sobre el juego
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445568
+    m_Localized: rating
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445569
+    m_Localized: lugar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445570
+    m_Localized: nombre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445571
+    m_Localized: puntos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20285499294445572
+    m_Localized: cerrar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
