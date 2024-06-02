@@ -248,7 +248,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 33346978658742272
-    m_Localized: about game
+    m_Localized: "\xA9 2024 Crystal Stash Games"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44857088987983872
+    m_Localized: Background image:<br>Evdokia Marchenko
     m_Metadata:
       m_Items: []
   references:

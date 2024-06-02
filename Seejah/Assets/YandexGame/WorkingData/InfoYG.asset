@@ -180,9 +180,9 @@ MonoBehaviour:
     thisPlayer:
       rank: 2
       score: 10
-  LocalizationEnable: 1
+  LocalizationEnable: 0
   callingLanguageCheck: 1
-  translateMethod: 0
+  translateMethod: 2
   domainAutoLocalization: com
   CSVFileTranslate:
     format: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
     hy: 0
     ka: 0
     et: 0
-    fr: 0
+    fr: 1
     kk: 0
     ky: 0
     lt: 0
@@ -207,15 +207,44 @@ MonoBehaviour:
     tk: 0
     uk: 0
     uz: 0
-    es: 0
+    es: 1
     pt: 0
-    ar: 0
+    ar: 1
     id: 0
     ja: 0
     it: 0
     de: 0
     hi: 0
   fonts:
+    defaultFont: []
+    ru: []
+    en: []
+    tr: []
+    az: []
+    be: []
+    he: []
+    hy: []
+    ka: []
+    et: []
+    fr: []
+    kk: []
+    ky: []
+    lt: []
+    lv: []
+    ro: []
+    tg: []
+    tk: []
+    uk: []
+    uz: []
+    es: []
+    pt: []
+    ar: []
+    id: []
+    ja: []
+    it: []
+    de: []
+    hi: []
+  fontsTMP:
     defaultFont: []
     ru: []
     en: []
@@ -291,8 +320,8 @@ MonoBehaviour:
     imageURI: https://justplaygames.ru/public/Paymant3.png
     priceValue: 30
     consumed: 1
-  metricaEnable: 0
-  metricaCounterID: 0
+  metricaEnable: 1
+  metricaCounterID: 97440656
   debug: 1
   archivingBuild: 1
   logoImageFormat: 1

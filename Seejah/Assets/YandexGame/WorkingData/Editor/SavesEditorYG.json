@@ -1,7 +1,7 @@
 {
-    "idSave": 154,
+    "idSave": 750,
     "isFirstSession": false,
     "language": "en",
     "promptDone": true,
-    "SaveString": "{\"GameSettingsSave\":{\"NeedUseUltimateAI\":false,\"IsRandomPlacement\":true,\"SoundOn\":true,\"MusicOn\":true,\"CurrentLanguageId\":\"en\"},\"PlayerSaveState\":{\"Id\":999,\"Name\":\"unknown\",\"WinCount\":0,\"WinStreak\":0,\"LoseCount\":0,\"LoseStreak\":0,\"RatingScore\":1000,\"SelectedChipId\":3,\"SelectedChipColorId\":6,\"SelectedBoardId\":11,\"SelectedFloorId\":19,\"CurrentGold\":0,\"WasTutorialShown\":true,\"UnlockedCustomizationItems\":[1,2,3,6,7,8,9,10,11,12,13,14,15,19,20,21]}}"
+    "SaveString": "{\"GameSettingsSave\":{\"NeedUseUltimateAI\":false,\"IsRandomPlacement\":true,\"SoundOn\":true,\"MusicOn\":true,\"CurrentLanguageId\":\"fr\"},\"PlayerSaveState\":{\"Id\":999,\"Name\":\"unknown\",\"WinCount\":12,\"WinStreak\":1,\"LoseCount\":12,\"LoseStreak\":0,\"RatingScore\":1035,\"SelectedChipId\":3,\"SelectedChipColorId\":7,\"SelectedBoardId\":15,\"SelectedFloorId\":19,\"CurrentGold\":48,\"WasTutorialShown\":true,\"UnlockedCustomizationItems\":[1,2,3,6,7,8,9,10,11,12,13,14,15,19,20,21]}}"
 }

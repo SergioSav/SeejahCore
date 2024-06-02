@@ -115,6 +115,10 @@ MonoBehaviour:
     m_Key: settings_game_info
     m_Metadata:
       m_Items: []
+  - m_Id: 44857088987983872
+    m_Key: settings_credits
+    m_Metadata:
+      m_Items: []
   - m_Id: 7254476872839184
     m_Key: settings_language
     m_Metadata:
@@ -236,7 +240,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 8199893895400390658
   m_KeyGenerator:
     rid: 0
   references:
@@ -246,3 +251,7 @@ MonoBehaviour:
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
         m_CustomEpoch: 1706469249186
+    - rid: 8199893895400390658
+      type: {class: PreloadAssetTableMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_PreloadBehaviour: 1

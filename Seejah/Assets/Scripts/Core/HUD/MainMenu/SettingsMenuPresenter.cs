@@ -5,9 +5,7 @@ using Assets.Scripts.Core.Models;
 using Assets.Scripts.Core.Rules;
 using Assets.Scripts.Core.Utils;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -21,7 +19,6 @@ namespace Assets.Scripts.Core.HUD
         [SerializeField] private Toggle toggleMusicOn;
         [SerializeField] private Toggle toggleRandomPlacement;
         [SerializeField] private BaseComboBoxPresenter comboBoxLanguage;
-        [SerializeField] private TextMeshProUGUI textGameInfoLink;
 
         private GameRules _gameRules;
         private GameModel _gameModel;
@@ -86,15 +83,6 @@ namespace Assets.Scripts.Core.HUD
             AddForDispose(toggleRandomPlacement
                 .OnValueChangedAsObservable()
                 .Subscribe(isOn => OnRandomToggleSwitch(isOn)));
-
-            AddForDispose(textGameInfoLink
-                .OnPointerClickAsObservable()
-                .Subscribe(_ => OnGameInfoLinkClick()));
-        }
-
-        private void OnGameInfoLinkClick()
-        {
-            Application.OpenURL(_gameRules.InfoLink);
         }
 
         private void OnMusicToggleSwitch(bool isOn)

@@ -4,9 +4,10 @@
     {
         public static DropData Merge(this DropData dataLeft, DropData dataRight)
         {
+            var result = dataLeft;
             if (dataRight.Currency == dataLeft.Currency)
-                dataLeft.Value += dataRight.Value;
-            return dataLeft;
+                result.Value += dataRight.Value;
+            return result;
         }
     }
 }

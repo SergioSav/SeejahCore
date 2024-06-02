@@ -3,7 +3,7 @@
 namespace Assets.Scripts.Core.Data
 {
     [Serializable]
-    public class DropData
+    public struct DropData
     {
         public CurrencyType Currency;
         public int Value;

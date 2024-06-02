@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Core.Controllers;
 using Assets.Scripts.Core.Framework;
-using System;
 using UniRx;
 
 namespace Assets.Scripts.Core.Models
