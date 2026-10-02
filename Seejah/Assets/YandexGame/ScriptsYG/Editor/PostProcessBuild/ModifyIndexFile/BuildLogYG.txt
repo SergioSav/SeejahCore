@@ -1,2 +1,2 @@
-Build path: D:/repository/SeejahCore/Builds/02062024_4
-Build number: 25
+Build path: D:/repository/SeejahCore/Builds/02062024_rc
+Build number: 26
