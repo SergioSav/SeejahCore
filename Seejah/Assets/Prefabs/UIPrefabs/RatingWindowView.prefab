@@ -699,7 +699,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8402724208909058110}
   - component: {fileID: 4377273788250620549}
-  - component: {fileID: 1658138796331860077}
   m_Layer: 5
   m_Name: RatingWindowView
   m_TagString: Untagged
@@ -743,34 +742,6 @@ MonoBehaviour:
   buttonClose: {fileID: 7394487556073096651}
   interactiveArea: {fileID: 4209532080988743079}
   buttonConfirm: {fileID: 5929436028286987865}
---- !u!114 &1658138796331860077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8402724208909058109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 423e13a42d313f948a13bcedae13febe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameLB: LBoardTest
-  maxQuantityPlayers: 5
-  quantityTop: 1
-  quantityAround: 4
-  updateLBMethod: 0
-  entriesText: {fileID: 0}
-  advanced: 1
-  rootSpawnPlayersData: {fileID: 6287848066245576386}
-  playerDataPrefab: {fileID: 8122051968885033605, guid: bc47ce6f1affe174c80446e211cd8324, type: 3}
-  playerPhoto: 0
-  isHiddenPlayerPhoto: {fileID: 0}
-  timeTypeConvert: 0
-  decimalSize: 1
-  onUpdateData:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &1351651127184413080
 PrefabInstance:
   m_ObjectHideFlags: 0
